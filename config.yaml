@@ -1,0 +1,158 @@
+# CLIMORA Global Configuration — Phase 0 Pune Data Ingestion Foundation
+
+project:
+  name: "CLIMORA"
+  study_area: "Pune"
+  version: "0.1.0"
+
+paths:
+  aoi_path: "data/aoi/pune.geojson"
+  data_root: "data"
+  raw_dir: "data/raw"
+  manifests_dir: "data/manifests"
+
+temporal:
+  year: 2025
+  start_date: "2025-01-01"
+  end_date: "2025-12-31"
+
+sources:
+  landsat:
+    enabled: true
+    collection: "landsat-c2-l2"
+    platforms: ["landsat-8", "landsat-9"]
+    stac_api_url: "https://planetarycomputer.microsoft.com/api/stac/v1"
+    cloud_cover_max: 20.0
+    required_assets:
+      - "SR_B2"
+      - "SR_B3"
+      - "SR_B4"
+      - "SR_B5"
+      - "SR_B6"
+      - "SR_B7"
+      - "ST_B10"
+      - "QA_PIXEL"
+      - "QA_RADSAT"
+    download_limit: 1
+
+  sentinel2:
+    enabled: true
+    collection: "sentinel-2-c1-l2a"
+    stac_api_url: "https://earth-search.aws.element84.com/v1"
+    cloud_cover_max: 20.0
+    required_bands:
+      - "blue"       # B02
+      - "green"      # B03
+      - "red"        # B04
+      - "rededge1"   # B05
+      - "rededge2"   # B06
+      - "rededge3"   # B07
+      - "nir"        # B08
+      - "nir08"      # B8A
+      - "swir16"     # B11
+      - "swir22"     # B12
+      - "scl"        # Scene Classification Layer
+    download_bands:
+      - "B02"
+      - "B03"
+      - "B04"
+      - "B05"
+      - "B06"
+      - "B07"
+      - "B08"
+      - "B8A"
+      - "B11"
+      - "B12"
+      - "SCL"
+    download_limit: 1
+
+  modis:
+    enabled: true
+    product: "MOD11A2"
+    version: "061"
+    tile: "h25v07"
+    stac_api_url: "https://planetarycomputer.microsoft.com/api/stac/v1"
+    collection: "modis-11A2-061"
+    resolution: "1km"
+    temporal_cadence: "8-day"
+    required_assets:
+      - "LST_Day_1km"
+      - "LST_Night_1km"
+      - "QC_Day"
+      - "QC_Night"
+    download_limit: 4
+
+  nasa_power:
+    enabled: true
+    api_url: "https://power.larc.nasa.gov/api/temporal/daily/point"
+    community: "ag"
+    variables:
+      - "T2M"
+      - "T2M_MAX"
+      - "T2M_MIN"
+      - "RH2M"
+      - "WS10M"
+      - "PRECTOTCORR"
+      - "ALLSKY_SFC_SW_DWN"
+
+  osm:
+    enabled: true
+    api_url: "https://overpass-api.de/api/interpreter"
+    categories:
+      buildings: "building"
+      roads: "highway"
+      green:
+        - "leisure=park"
+        - "leisure=garden"
+        - "landuse=forest"
+        - "natural=wood"
+        - "natural=grassland"
+      water:
+        - "natural=water"
+        - "waterway"
+      public_infrastructure:
+        - "amenity=hospital"
+        - "amenity=school"
+        - "amenity=university"
+        - "amenity=community_centre"
+
+  dem:
+    enabled: true
+    preferred: "GLO-30"
+    fallback: "GLO-90"
+    stac_api_url: "https://planetarycomputer.microsoft.com/api/stac/v1"
+    collection: "cop-dem-glo-30"
+    target_tile: "Copernicus_DSM_COG_10_N18_00_E073_00_DEM"
+
+selection:
+  strategy: "seasonal_representative"
+  target_per_season: 1
+  max_cloud_cover: 20.0
+  seasons:
+    winter:
+      name: "Winter / Post-Monsoon Dry"
+      start: "01-01"
+      end: "02-28"
+    pre_monsoon_summer:
+      name: "Pre-Monsoon / Summer Hot Season"
+      start: "03-01"
+      end: "05-31"
+    monsoon:
+      name: "Southwest Monsoon"
+      start: "06-01"
+      end: "09-30"
+    post_monsoon:
+      name: "Post-Monsoon Transition"
+      start: "10-01"
+      end: "12-31"
+
+storage:
+  warning_threshold_gb: 10.0
+  hard_stop_on_exceed: true
+
+download:
+  max_retries: 3
+  timeout_seconds: 60
+  chunk_size_bytes: 1048576  # 1MB chunks
+  verify_ssl: true
+

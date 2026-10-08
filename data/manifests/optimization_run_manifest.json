@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1G",
+  "manifest_type": "CLIMORA_OPTIMIZATION_RUN_PROVENANCE",
+  "run_id": "OPT-PUNE-2025-SCENARIO-BA225D6A",
+  "timestamp_utc": "2026-10-02T16:41:44.691776+00:00",
+  "formulations_ratified": [
+    "F-24.1",
+    "F-24.2",
+    "F-24.3",
+    "F-24.4",
+    "F-24.5",
+    "F-24.6",
+    "F-25.1"
+  ],
+  "input_artifacts": {
+    "feature_matrix_path": "data\\processed\\canonical_feature_matrix.parquet",
+    "feature_matrix_sha256": "76f344b147b349f3887259f64c97923414c74fd9a97ec679844fb8d9109f7c01",
+    "risk_surface_path": "data\\processed\\risk\\canonical_risk_surface.parquet",
+    "risk_surface_sha256": "e2d5df6c7a0a9584367a623b0722e87f3f4340ea5ebf297cb5aaed6533da5677"
+  },
+  "scenario_parameters": {
+    "budget_inr": 10000000.0,
+    "time_limit_sec": 120.0,
+    "mip_rel_gap": 0.01,
+    "modeled_cooling_cap_degC": 4.0
+  },
+  "solver_performance": {
+    "solver_engine": "HiGHS (scipy.optimize.milp)",
+    "solve_status": "OPTIMAL",
+    "is_feasible": true,
+    "solver_runtime_sec": 70.12524461746216,
+    "total_pipeline_runtime_sec": 70.32647562026978,
+    "candidate_pairs_count": 7115,
+    "variables_count": 14230,
+    "constraints_count": 17110
+  },
+  "portfolio_summary": {
+    "total_allocated_cost_inr": 9992500.0,
+    "budget_slack_inr": 7500.0,
+    "budget_utilization_pct": 99.925,
+    "optimal_risk_reduction": 0.10604830270054796,
+    "active_allocations_count": 28,
+    "unique_cells_treated_count": 28,
+    "interventions_deployed": {
+      "street_tree_shade": 28
+    }
+  },
+  "output_artifacts": {
+    "allocation_parquet_path": "data\\processed\\optimization\\canonical_optimization_allocation.parquet",
+    "allocation_parquet_sha256": "2519473a32a2b4a3a22bc8beb43525c3f21dc404783168f1edd6de7bc4bb5555",
+    "row_count": 28
+  },
+  "governance_audit": {
+    "f22_risk_surface_unmodified": true,
+    "f23_1_spatial_autocorrelation_unmodified": true,
+    "ward_dependency": "NONE (H3 Resolution 9 analytical mesh only)",
+    "post_solve_validation_passed": true
+  }
+}

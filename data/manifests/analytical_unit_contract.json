@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1B",
+  "contract_id": "CLIMORA-CONTRACT-ANALYTICAL-UNIT-V1",
+  "status": "RATIFIED_AND_FROZEN",
+  "ratified_at": "2026-10-02T13:15:00Z",
+  "amendment_note": "Reconciled during Phase 1B Forensic Amendment Gate to link actual frozen assets and remove unsupported statistical independence claims.",
+  "primary_analytical_unit": {
+    "unit_type": "grid_hex_h9",
+    "system": "Uber H3 Discrete Global Grid System (DGGS)",
+    "resolution": 9,
+    "total_aoi_cells": 3181,
+    "nominal_cell_area_km2": 0.098623,
+    "nominal_cell_area_m2": 98623.0,
+    "nominal_edge_length_m": 200.8,
+    "nominal_center_spacing_m": 347.8,
+    "native_crs": "EPSG:4326",
+    "indexing_scheme": "64-bit uint64 / 15-character lowercase hex string (e.g., '8960145b23fffff')",
+    "neighborhood_topology": "Isotropic 6-neighbor hexagonal adjacency (uniform distance 347.8m)",
+    "boundary_perimeter_to_area": 0.0122,
+    "aoi_clipping_rule": "Hexagon centroid falls within statutory Pune Municipal Corporation polygon (data/aoi/pune.geojson)",
+    "landsat_30m_nominal_pixels_per_cell": 109.6,
+    "sentinel2_10m_nominal_pixels_per_cell": 986.2,
+    "spatial_autocorrelation_caveat": "Adjacent pixels exhibit positive spatial autocorrelation (Moran's I > 0). Spatial averaging dampens uncorrelated high-frequency instrument noise, but true effective degrees of freedom are smaller than nominal pixel counts."
+  },
+  "secondary_administrative_unit": {
+    "unit_type": "ward",
+    "authority": "Pune Municipal Corporation (PMC)",
+    "total_wards": 41,
+    "mean_area_km2": 7.61,
+    "role": "Administrative and civic reporting, councillor briefing, municipal budget allocation, tender packaging",
+    "relationship_to_h3": "Many-to-many spatial intersection with primary parent ward assignment (largest overlap fraction) and fractional area weights"
+  },
+  "native_data_preservation_policy": {
+    "native_rasters_preserved": true,
+    "destructive_resampling_prohibited": true,
+    "authoritative_source_storage": [
+      "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif (30m)",
+      "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif (30m)",
+      "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif (30m)",
+      "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif (30m)",
+      "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif (30m)",
+      "data/processed/sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/B04.tif (10m)",
+      "data/processed/dem/Copernicus_DEM_30m_pune_clipped.tif (30m)",
+      "data/processed/worldpop/2020/worldpop_pune_2020_clipped.tif (1km)"
+    ]
+  },
+  "spatial_aggregation_rules": {
+    "continuous_raster": {
+      "operators": ["mean", "median", "p75", "p90", "std", "min", "max"],
+      "valid_pixel_coverage_threshold": 0.70,
+      "nodata_treatment": "Exclude invalid/cloud pixels; fail-closed if valid coverage < 70%"
+    },
+    "demographic_count": {
+      "operator": "area_weighted_dasymetric_sum",
+      "conservation_tolerance_pct": 0.05,
+      "derived_density_operator": "population_count / 0.098623 km²"
+    },
+    "vector_point": {
+      "operator": "point_in_polygon_count",
+      "spatial_engine": "ST_Contains / Shapely contains",
+      "source_asset": "data/raw/osm/pune/public_infrastructure.geojson"
+    },
+    "vector_line": {
+      "operator": "clipped_segment_length_sum_meters",
+      "planar_projection_crs": "EPSG:32643",
+      "source_asset": "data/raw/osm/pune/road_network.geojson"
+    },
+    "vector_polygon": {
+      "operator": "intersection_area_sum_m2",
+      "planar_projection_crs": "EPSG:32643",
+      "source_assets": [
+        "data/raw/osm/pune/green_spaces.geojson",
+        "data/raw/osm/pune/water_bodies.geojson"
+      ]
+    }
+  }
+}

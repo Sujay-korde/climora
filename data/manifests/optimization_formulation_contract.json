@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1F",
+  "contract_id": "CLIMORA-CONTRACT-OPTIMIZATION-FORMULATION-F24-V1",
+  "status": "RATIFIED_OPTIMIZATION_FORMULATION_GATE_PASSED",
+  "formulation_suite": {
+    "decision_variables": "F-24.1",
+    "spatial_eligibility_and_capacity": "F-24.2",
+    "cost_model": "F-24.3",
+    "modeled_cooling_impact": "F-24.4",
+    "marginal_risk_reduction": "F-24.5",
+    "canonical_milp_problem": "F-24.6",
+    "post_intervention_thermodynamic_bounds": "F-25.1"
+  },
+  "generated_at": "2026-10-02T16:30:00.000000+00:00",
+  "truth_layer_classification": {
+    "optimization_inputs": "DERIVED (from frozen canonical feature matrix and HEV/Risk surfaces)",
+    "decision_variables": "MODELED (algorithmic optimization choices)",
+    "cooling_effects": "MODELED (scenario assumptions derived from microclimate literature)",
+    "risk_reduction": "MODELED (first-order linear response of canonical Risk = H * E * V)",
+    "prohibited_terminology": [
+      "measured cooling",
+      "observed cooling",
+      "verified cooling",
+      "actual risk reduction",
+      "ground-truth temperature reduction"
+    ]
+  },
+  "analytical_mesh_boundary": {
+    "total_geographic_cells": 3181,
+    "eligible_analytical_cells_Ne": 3113,
+    "disqualified_cells": 68,
+    "eligibility_rule": "K_valid >= 4",
+    "disqualified_cells_policy": "All 68 disqualified cells have candidate eligibility C_i_a = 0 for all interventions a; strictly omitted from solver allocation."
+  },
+  "intervention_catalog": {
+    "cool_roofs": {
+      "code": "cool_roofs",
+      "name": "High-Albedo Solar Reflective Roof Coating",
+      "category": "albedo_modification",
+      "unit_of_measure": "m2_roof_area",
+      "unit_cost_inr": 250.0,
+      "mobilization_fixed_cost_inr": 25000.0,
+      "minimum_lot_size": 500.0,
+      "cooling_coefficient_degC_per_unit": 2.380952e-05,
+      "biophysical_susceptibility_reduction_factor": 0.0,
+      "eligibility_predicate": "overall_risk_eligibility == True and norm_ndbi > 0.05",
+      "capacity_rule": "0.40 * norm_ndbi * cell_area_m2"
+    },
+    "street_trees": {
+      "code": "street_trees",
+      "name": "Urban Street Tree Canopy Planting",
+      "category": "nature_based",
+      "unit_of_measure": "tree_count",
+      "unit_cost_inr": 3500.0,
+      "mobilization_fixed_cost_inr": 20000.0,
+      "minimum_lot_size": 25.0,
+      "cooling_coefficient_degC_per_unit": 7.142857e-04,
+      "biophysical_susceptibility_reduction_factor": 11.25,
+      "eligibility_predicate": "overall_risk_eligibility == True and road_length_m > 0",
+      "capacity_rule": "min(800, floor(2 * road_length_m / 15.0))"
+    },
+    "green_corridor": {
+      "code": "green_corridor",
+      "name": "Urban Green Corridor & Vegetated Buffer",
+      "category": "nature_based",
+      "unit_of_measure": "m2_surface_area",
+      "unit_cost_inr": 800.0,
+      "mobilization_fixed_cost_inr": 50000.0,
+      "minimum_lot_size": 200.0,
+      "cooling_coefficient_degC_per_unit": 3.047619e-05,
+      "biophysical_susceptibility_reduction_factor": 0.315,
+      "eligibility_predicate": "overall_risk_eligibility == True and norm_ndvi_deficit > 0.15",
+      "capacity_rule": "0.10 * max(0, cell_area_m2 - green_space_area_m2 - water_body_area_m2 - norm_ndbi * cell_area_m2)"
+    },
+    "permeable_surfaces": {
+      "code": "permeable_surfaces",
+      "name": "Permeable Pavement & Porous Ground Cover",
+      "category": "water_infrastructure",
+      "unit_of_measure": "m2_surface_area",
+      "unit_cost_inr": 1800.0,
+      "mobilization_fixed_cost_inr": 40000.0,
+      "minimum_lot_size": 200.0,
+      "cooling_coefficient_degC_per_unit": 1.428571e-05,
+      "biophysical_susceptibility_reduction_factor": 0.225,
+      "eligibility_predicate": "overall_risk_eligibility == True and norm_ndbi > 0.10 and road_length_m > 0",
+      "capacity_rule": "0.20 * road_length_m * 3.0"
+    },
+    "bioswales": {
+      "code": "bioswales",
+      "name": "Bioretention Swale & Roadside Water Retention",
+      "category": "water_infrastructure",
+      "unit_of_measure": "m2_surface_area",
+      "unit_cost_inr": 2200.0,
+      "mobilization_fixed_cost_inr": 40000.0,
+      "minimum_lot_size": 100.0,
+      "cooling_coefficient_degC_per_unit": 1.904762e-05,
+      "biophysical_susceptibility_reduction_factor": 0.270,
+      "eligibility_predicate": "overall_risk_eligibility == True and road_length_m >= 100.0",
+      "capacity_rule": "0.05 * road_length_m * 2.0"
+    }
+  },
+  "canonical_milp_specification": {
+    "solver_class": "Mixed-Integer Linear Programming (MILP)",
+    "decision_variables": {
+      "activation": "x_i_a in {0, 1} (Binary cell deployment indicator)",
+      "quantity": "q_i_a >= 0 (Continuous physical allocation quantity)"
+    },
+    "objective": {
+      "direction": "maximize",
+      "mathematical_expression": "sum_{i in Eligible} sum_{a in Catalog} r_{i, a} * q_{i, a}",
+      "marginal_risk_reduction_coefficient": "r_{i, a} = E_i * ( V_i * (0.25 * e_a / Delta_T_scale) + H_i * (v_a / A_cell_i) )",
+      "delta_T_scale_degC": 15.0,
+      "units": "dimensionless aggregate risk reduction"
+    },
+    "constraints": [
+      {
+        "name": "Total Budget Constraint",
+        "type": "HARD",
+        "formulation": "sum_{i in Eligible} sum_{a in Catalog} (F_a * x_{i, a} + c_a * q_{i, a}) <= Budget_INR",
+        "notes": "Budget is a user scenario envelope in 2025 INR."
+      },
+      {
+        "name": "Semi-Continuous Activation Lower Bound",
+        "type": "HARD",
+        "formulation": "q_min_a * x_{i, a} <= q_{i, a} for all i, a",
+        "notes": "Enforces minimum contractor mobilization lot size."
+      },
+      {
+        "name": "Physical Capacity Upper Bound",
+        "type": "HARD",
+        "formulation": "q_{i, a} <= Q_max_{i, a} * x_{i, a} for all i, a",
+        "notes": "Guarantees allocations do not exceed spatial physical bounds."
+      },
+      {
+        "name": "Candidate Eligibility Bound",
+        "type": "HARD",
+        "formulation": "x_{i, a} <= C_{i, a} for all i, a",
+        "notes": "C_{i, a} is binary 0/1 based on spatial morphology and missingness."
+      },
+      {
+        "name": "Ground Area Mutual Compatibility Constraint",
+        "type": "HARD",
+        "formulation": "q_{i, green_corridor} + q_{i, permeable_surfaces} + q_{i, bioswales} <= A_ground_treatable_i",
+        "notes": "Prevents co-located ground interventions from exceeding available surface area."
+      },
+      {
+        "name": "Rooftop Compatibility Constraint",
+        "type": "HARD",
+        "formulation": "q_{i, cool_roofs} <= A_roof_treatable_i",
+        "notes": "Restricted strictly to available building roof footprint."
+      },
+      {
+        "name": "Integrality and Non-Negativity",
+        "type": "HARD",
+        "formulation": "x_{i, a} in {0, 1}, q_{i, a} >= 0 for all i, a"
+      }
+    ]
+  },
+  "solver_requirements": {
+    "standard_form": "min c^T y s.t. A_ub y <= b_ub, y_l <= y <= y_u, y_integrality in {0, 1}",
+    "supported_solvers": [
+      "HiGHS (via scipy.optimize.milp)",
+      "CBC (via PuLP)",
+      "Google OR-Tools MILP",
+      "COIN-OR"
+    ],
+    "reference_implementation_solver": "scipy.optimize.milp",
+    "determinism_mandate": "Zero random search heuristics; fixed branch-and-bound seed; identical solutions across executions."
+  },
+  "edge_cases": {
+    "zero_budget": "Budget = 0.0 returns feasible all-zero vector (total cost = 0.0, risk reduction = 0.0).",
+    "budget_insufficient_for_minimum_lot": "Returns feasible all-zero vector without crashing.",
+    "no_eligible_candidates": "Returns empty portfolio.",
+    "zero_impact_allocation": "Strictly excluded by optimization objective unless required by hard minimum constraints."
+  },
+  "provenance_and_governance": {
+    "f22_risk_model_unmodified": true,
+    "f23_1_spatial_autocorrelation_unmodified": true,
+    "pmc_ward_geometry_used": false,
+    "ward_dependency": "NONE (Operates strictly on H3 Resolution 9 mesh)",
+    "socioeconomic_variables_fabricated": false
+  }
+}

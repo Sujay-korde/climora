@@ -1,0 +1,138 @@
+{
+  "section_1_project_identity": {
+    "project_id": "PROJ-PUNE-2025-BA225D6A",
+    "project_title": "Pune Urban Heat Island Mitigation & Street Canopy Initiative",
+    "lifecycle_state": "PROPOSED",
+    "beneficiary_agency": "Pune Municipal Corporation (Tree Authority & Road Dept)",
+    "created_at_utc": "2026-10-02T17:37:46.865115+00:00",
+    "currency": "INR",
+    "price_basis_year": 2025
+  },
+  "section_2_problem_statement_baseline": {
+    "study_area": "Pune Municipal Corporation (PMC)",
+    "baseline_mean_surface_temperature_degC": 46.36,
+    "baseline_mean_lst_anomaly_degC": 0.33,
+    "baseline_mean_climate_risk": 0.2345,
+    "human_population_in_scope": 118941,
+    "thermal_baseline_source": "Landsat 8/9 C2 L2 5-Year Pre-Monsoon Peak-Summer Composite (2021-2025)"
+  },
+  "section_3_target_geography": {
+    "spatial_grid_type": "Uber H3 Discrete Global Grid System",
+    "h3_resolution": 9,
+    "total_treated_cells_count": 28,
+    "treated_h3_cells": [
+      "89608850003ffff",
+      "89608850007ffff",
+      "89608850017ffff",
+      "896088500b3ffff",
+      "896088500bbffff",
+      "8960885013bffff",
+      "89608850177ffff",
+      "896088501b3ffff",
+      "896088501d7ffff",
+      "89608850337ffff",
+      "896088503d3ffff",
+      "896088503d7ffff",
+      "8960885040fffff",
+      "89608850533ffff",
+      "8960885054bffff",
+      "8960885054fffff",
+      "89608850567ffff",
+      "8960885056fffff",
+      "896088505b7ffff",
+      "89608850ecbffff",
+      "8960885142bffff",
+      "8960885142fffff",
+      "896088528c3ffff",
+      "89608852e8bffff",
+      "89608852e93ffff",
+      "89608853263ffff",
+      "8960885326bffff",
+      "89608e249a7ffff"
+    ],
+    "administrative_ward_dependency": "NONE (Decoupled; spatial allocation derives strictly from H3 topology)"
+  },
+  "section_4_intervention_portfolio": {
+    "ratified_formulation": "F-24.1 through F-24.6 (CLIMORA Mathematical Register)",
+    "interventions_selected": [
+      "street_tree_shade"
+    ],
+    "intervention_categories": [
+      "nature_based",
+      "albedo_modification"
+    ]
+  },
+  "section_5_physical_scope_and_quantities": {
+    "allocations_table": [
+      {
+        "intervention_type": "street_tree_shade",
+        "quantity": 2695.0,
+        "cells_count": 28,
+        "direct_cost": 9432500.0,
+        "mobilization_cost": 560000.0,
+        "total_cost": 9992500.0,
+        "modeled_cooling_sum": 1.9249999615,
+        "modeled_risk_reduction_sum": 0.10604830270054796
+      }
+    ],
+    "total_physical_units": 2695.0
+  },
+  "section_6_transparent_cost_breakdown": {
+    "modeled_optimized_capex_inr": 9992500.0,
+    "scenario_budget_envelope_inr": 10000000.0,
+    "budget_slack_unallocated_inr": 7500.0,
+    "approved_project_budget_inr": null,
+    "actual_expenditure_inr": "NOT_AVAILABLE (Pre-implementation proposal phase)"
+  },
+  "section_7_modeled_microclimatic_and_risk_impact": {
+    "modeled_aggregate_risk_reduction_score": 0.10604830270054796,
+    "truth_layer": "MODELED (Scenario projection under F-24.4 and F-24.5)",
+    "mean_modeled_cell_cooling_degC": 0.069,
+    "thermodynamic_safety_cap_applied": "4.0\u00b0C intra-cell saturation ceiling (F-24.4 / F-25.1)",
+    "governance_note": "Risk reduction score 0.106048 represents the mathematical objective function achieved under the \u20b910M budget envelope; it does NOT represent a guaranteed 10.6% clinical or ambient cooling outcome."
+  },
+  "section_8_physical_implementation_plan": {
+    "planned_execution_quarters": "Q4 2025 - Q2 2026",
+    "contractor_mobilization_protocol": "Cell-level cluster batching adhering to F-24.1 minimum lot constraints",
+    "milestone_1": "Site reconnaissance and roadside utility clearance (Month 1-2)",
+    "milestone_2": "Procurement of indigenous saplings with 2m tree guards (Month 3)",
+    "milestone_3": "Excavation, soil conditioning, and planting (Month 4-6)",
+    "milestone_4": "Substantial completion and implementation event signoff (Month 6)"
+  },
+  "section_9_long_term_monitoring_protocol": {
+    "monitoring_cadence": "Annual pre-monsoon Landsat/Sentinel overpass audit (April DOY 95-115)",
+    "survival_rate_maintenance_requirement": "85% sapling survival at 24 months post-groundbreaking",
+    "in_situ_sensors": "Periodic thermal pyrometer ground audits along treated road corridors"
+  },
+  "section_10_third_party_mrv_and_verification": {
+    "verification_methodology": "CLIMORA Difference-in-Differences Verification Framework (F-26 / ISO 14064-2 aligned)",
+    "verification_gating_rule": "Project cannot enter VERIFIED status without 100% passing MRV QC audit and certified independent audit event",
+    "current_mrv_status": "PLANNED / NOT_YET_EXECUTABLE (Awaiting real-world physical installation)",
+    "verification_status": "UNOBSERVED / NOT YET VERIFIED",
+    "measured_empirical_cooling_degC": null,
+    "verified_impact_claims": null
+  },
+  "section_11_scientific_assumptions_and_limitations": {
+    "tree_spacing_assumption": "15.0m interval along public rights-of-way (ENGINEERING_ASSUMPTION)",
+    "cooling_transfer_rate": "7.143e-4 \u00b0C per tree over Res9 cell area (MODELED scenario assumption)",
+    "health_outcomes_claim": "EXCLUDED (Model quantifies physical thermal screening, not epidemiological morbidity/mortality)",
+    "causal_attribution": "EXCLUDED (Causal claims require post-deployment MRV with matched control cells)"
+  },
+  "section_12_data_lake_lineage_and_provenance": {
+    "feature_matrix_artifact": "C:\\Users\\lenovo\\climora\\data\\processed\\canonical_feature_matrix.parquet",
+    "hev_components_artifact": "C:\\Users\\lenovo\\climora\\data\\processed\\hev\\canonical_hev_components.parquet",
+    "risk_surface_artifact": "C:\\Users\\lenovo\\climora\\data\\processed\\risk\\canonical_risk_surface.parquet",
+    "optimization_allocation_artifact": "C:\\Users\\lenovo\\climora\\data\\processed\\optimization\\canonical_optimization_allocation.parquet",
+    "feature_matrix_sha256": "76f344b147b349f3887259f64c97923414c74fd9a97ec679844fb8d9109f7c01",
+    "risk_surface_sha256": "e2d5df6c7a0a9584367a623b0722e87f3f4340ea5ebf297cb5aaed6533da5677",
+    "allocation_parquet_sha256": "2519473a32a2b4a3a22bc8beb43525c3f21dc404783168f1edd6de7bc4bb5555",
+    "processing_pipeline_version": "1.0.0"
+  },
+  "section_13_optimization_run_traceability": {
+    "optimization_run_id": "OPT-PUNE-2025-SCENARIO-BA225D6A",
+    "solver_engine": "HiGHS (scipy.optimize.milp)",
+    "solver_status": "OPTIMAL",
+    "solver_runtime_sec": 70.12524461746216,
+    "total_candidate_pairs_evaluated": 7115
+  }
+}

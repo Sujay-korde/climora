@@ -1,0 +1,215 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1H",
+  "contract_id": "CLIMORA-CONTRACT-PROJECT-MRV-ARCHITECTURE-V1",
+  "status": "RATIFIED_PROJECT_MRV_ARCHITECTURE_GATE_PASSED",
+  "generated_at": "2026-10-02T16:50:00.000000+00:00",
+  "truth_layer_taxonomy": {
+    "OBSERVED": {
+      "definition": "Directly acquired empirical environmental, infrastructural, and spatial data from physical sensors or statutory surveys.",
+      "canonical_examples": ["Landsat C2 L2 surface reflectance/emissivity", "NASA POWER meteorological records", "OSM road geometries", "WorldPop census dasymetry"],
+      "verification_status": "EMPIRICALLY_GROUNDED"
+    },
+    "DERIVED": {
+      "definition": "Mathematically computed features, indices, and zonal statistics transformed directly from raw observations without behavioral or simulation models.",
+      "canonical_examples": ["NDVI", "NDBI", "LST anomalies", "Heat persistence P75", "Extreme recurrence ge45"],
+      "verification_status": "DETERMINISTIC_DERIVATION"
+    },
+    "MODELED": {
+      "definition": "Synthesized risk indices, spatial autocorrelations, optimization decision allocations, and projected microclimatic scenario responses.",
+      "canonical_examples": ["Composite Hazard H_i", "Exposure E_i", "Susceptibility V_i", "Canonical Risk = H*E*V", "LISA cluster classifications", "Optimal MILP allocation q_i_a", "Modeled cooling delta_T_model", "Modeled risk reduction"],
+      "verification_status": "SCENARIO_PROJECTION (NOT OBSERVED; NOT MEASURED)"
+    },
+    "VERIFIED": {
+      "definition": "Post-implementation empirical physical observations passing formal MRV quality control and causal attribution standards.",
+      "canonical_examples": ["Post-intervention thermal satellite overpass", "Handheld radiometric pyrometer field audit", "Matched Difference-in-Differences causal estimate"],
+      "verification_status": "CERTIFIED_POST_IMPLEMENTATION"
+    }
+  },
+  "project_lifecycle_state_machine": {
+    "initial_state": "DISCOVERED",
+    "terminal_states": ["VERIFIED", "REJECTED", "CANCELLED"],
+    "states": [
+      "DISCOVERED",
+      "ASSESSED",
+      "OPTIMIZED",
+      "PROPOSED",
+      "FUNDED",
+      "IMPLEMENTING",
+      "IMPLEMENTED",
+      "MONITORING",
+      "VERIFIED",
+      "REJECTED",
+      "CANCELLED",
+      "PAUSED"
+    ],
+    "transition_rules": {
+      "DISCOVERED": ["ASSESSED", "CANCELLED"],
+      "ASSESSED": ["OPTIMIZED", "CANCELLED"],
+      "OPTIMIZED": ["PROPOSED", "CANCELLED"],
+      "PROPOSED": ["FUNDED", "REJECTED", "CANCELLED"],
+      "FUNDED": ["IMPLEMENTING", "CANCELLED"],
+      "IMPLEMENTING": ["IMPLEMENTED", "PAUSED", "CANCELLED"],
+      "PAUSED": ["IMPLEMENTING", "CANCELLED"],
+      "IMPLEMENTED": ["MONITORING", "CANCELLED"],
+      "MONITORING": ["VERIFIED", "REJECTED", "CANCELLED"],
+      "VERIFIED": [],
+      "REJECTED": [],
+      "CANCELLED": []
+    },
+    "transition_prerequisites": {
+      "PROPOSED": "Requires immutable optimization run reference, validated scope, explicit budget breakdown, and 13-section machine-readable document.",
+      "FUNDED": "Requires formal sanction identifier, approved capital allocation, and funding entity metadata.",
+      "IMPLEMENTED": "Requires physical completion evidence and signed contractor implementation events with planned vs implemented quantities.",
+      "MONITORING": "Requires baseline reference confirmation, post-stabilization period elapsed, and active observation event logging.",
+      "VERIFIED": "Requires complete implementation events, post-intervention satellite/sensor observation, 100% passing MRV quality control audit, empirical impact measurement, and certified third-party verification event record."
+    }
+  },
+  "project_budget_structure": {
+    "currency": "INR",
+    "price_basis_year": 2025,
+    "financial_components": {
+      "modeled_optimized_cost_inr": "Deterministic cost output from HiGHS solver under F-24.3 (CapEx + fixed mobilization).",
+      "approved_project_budget_inr": "Statutory municipal budget or grant allocation approved by funding entity.",
+      "actual_expenditure_inr": "Audited financial ledger expenditure disbursed during physical execution (classified as NOT_AVAILABLE at proposal stage).",
+      "remaining_budget_inr": "Approved project budget minus actual expenditure."
+    },
+    "immutability_rule": "Modeled cost cannot be retroactively modified to match approved budget or actual expenditure. All three values must remain independently tracked."
+  },
+  "allocation_immutability_and_revision_policy": {
+    "canonical_allocation_rule": "The output of an optimization run (canonical_optimization_allocation.parquet) is write-once, immutable, cryptographic evidence.",
+    "revision_branching_rule": "If human planners or stakeholders adjust allocated quantities, the system creates a distinct PROPOSED_REVISION entity recording original_quantity, proposed_quantity, revision_delta, revision_reason, author_identity, and timestamp.",
+    "original_provenance_preservation": "The original solver allocation is never overwritten or mutated."
+  },
+  "baseline_evidence_package": {
+    "source_artifacts": [
+      "data/processed/canonical_feature_matrix.parquet",
+      "data/processed/hev/canonical_hev_components.parquet",
+      "data/processed/risk/canonical_risk_surface.parquet",
+      "data/processed/risk/canonical_spatial_autocorrelation.parquet"
+    ],
+    "mandatory_indicators": [
+      "lst_baseline_mean_degC",
+      "lst_anomaly_absolute_degC",
+      "heat_persistence_p75_frequency",
+      "lst_recurrence_ge45_count",
+      "population_2020_count",
+      "population_density_2020_per_km2",
+      "road_length_m",
+      "norm_ndbi",
+      "norm_ndvi_deficit",
+      "composite_hazard_H_i",
+      "composite_exposure_E_i",
+      "composite_susceptibility_V_i",
+      "canonical_risk_i",
+      "lisa_cluster_classification"
+    ]
+  },
+  "project_impact_indicators_taxonomy": {
+    "baseline_indicators": {
+      "truth_layer": "OBSERVED / DERIVED",
+      "description": "Environmental, physical, and demographic state prior to intervention execution."
+    },
+    "modeled_indicators": {
+      "truth_layer": "MODELED",
+      "description": "Simulated future microclimatic relief and risk reduction under scenario assumptions.",
+      "prohibited_terminology": ["measured cooling", "verified reduction", "actual temperature change"]
+    },
+    "verified_indicators": {
+      "truth_layer": "VERIFIED",
+      "description": "Post-intervention empirical measurements that have passed MRV quality control.",
+      "prerequisite": "Requires real-world physical implementation and post-deployment sensor acquisition."
+    }
+  },
+  "mrv_architecture_specification": {
+    "workflow_pipeline": [
+      "verification_plan",
+      "baseline_reference",
+      "implementation_event",
+      "observation_event",
+      "quality_control_audit",
+      "impact_measurement",
+      "verification_event"
+    ],
+    "implementation_event_schema": {
+      "event_id": "UUID",
+      "project_id": "UUID",
+      "h3_cell_id": "string (H3 Res9)",
+      "intervention_code": "string",
+      "planned_quantity": "float",
+      "implemented_quantity": "float",
+      "quantity_unit": "string",
+      "implementation_deviation": "float (implemented - planned)",
+      "deviation_rate": "float or null ((implemented - planned) / planned; null/undefined when planned is 0.0)",
+      "contractor_id": "string",
+      "completion_date": "ISO8601 date",
+      "evidence_uri": "string"
+    },
+    "observation_event_schema": {
+      "observation_id": "UUID",
+      "sensor_platform": "string (e.g. Landsat-8/9 OLI/TIRS, Sentinel-2 MSI [optical only], Drone Thermal Radiometric, In-situ pyrometer)",
+      "acquisition_date": "ISO8601 date",
+      "day_of_year": "integer",
+      "spatial_resolution_m": "float",
+      "cloud_cover_aoi_pct": "float",
+      "quality_flags_passed": "boolean",
+      "asset_uri": "string"
+    },
+    "quality_control_criteria": {
+      "spatial_coverage_check": "Observation must cover 100% of treated H3 cells with clear pixels.",
+      "temporal_window_comparability": "Post-implementation overpass must match baseline seasonal pre-monsoon window: Preferred window DOY 95-115; Fallback window DOY 90-120 subject to maximum offset <= 15 days from canonical target DOY 105. DOY is the canonical representation; calendar dates derive from acquisition year to preserve leap-year validity.",
+      "cloud_shadow_screening": "Source scene cloud/shadow contamination over target AOI must not exceed 5.0%; all cloud and shadow pixels must be 100% masked via QA bitmask so that exactly 0.00% unmasked invalid pixels enter metric computation.",
+      "sensor_radiometric_consistency": "Sensor compatibility is metric-specific: Thermal LST verification requires thermal radiometers (Landsat-8/9 TIRS USGS Collection 2 Level-2 or Drone Thermal Radiometric). Sentinel-2 MSI provides optical bands (NDVI/NDBI) and CANNOT directly measure thermal LST; no cross-sensor thermal equivalence is implied.",
+      "geolocation_alignment": "Observation spatial reference system (UTM Zone 43N / WGS84) must align with the canonical analytical framework with native spatial resolution <= 30m; sub-pixel coregistration (< 0.5 pixels / 15m) is a QC requirement pending executable validation on raw scene delivery."
+    },
+    "difference_in_differences_status": {
+      "formulation_id": "F-26",
+      "mathematical_formula": "tau_DID = (Y_treat_post - Y_treat_pre) - (Y_control_post - Y_control_pre)",
+      "current_operational_status": "PLANNED / NOT_EXECUTABLE",
+      "mathematical_prerequisites": [
+        "Real-world physical intervention execution",
+        "Valid treatment identification (T_i = 1)",
+        "Appropriate matched control/counterfactual selection (C_j = 1)",
+        "Suitable pre-intervention observation baseline",
+        "Suitable post-intervention empirical observation",
+        "Temporal comparability (matched seasonal acquisition windows)",
+        "Parallel counterfactual trends assumption"
+      ],
+      "execution_blockers": [
+        "No physical cooling interventions have yet been deployed in Pune under CLIMORA.",
+        "Post-implementation satellite overpasses do not yet exist.",
+        "Matched control unit counterfactual baseline requires post-intervention temporal synchronization."
+      ],
+      "intervention_implementation_note": "Intervention-specific establishment periods (e.g. 24-36 months for urban street tree sapling canopy growth) are physical civil deployment considerations, NOT universal mathematical prerequisites for the DID estimator."
+    },
+    "verification_event_states": [
+      "NOT_STARTED",
+      "DATA_PENDING",
+      "QC_PENDING",
+      "MEASUREMENT_READY",
+      "VERIFIED",
+      "REJECTED"
+    ]
+  },
+  "proposal_document_structure": {
+    "mandatory_sections": [
+      "1. Project Identity & Governance Metadata",
+      "2. Problem Statement & Baseline Thermal Evidence",
+      "3. Target Geography & Spatial Footprint (H3 Res9)",
+      "4. Proposed Intervention Portfolio",
+      "5. Physical Scope & Allocation Quantities",
+      "6. Transparent Cost Breakdown (2025 Constant INR)",
+      "7. Modeled Microclimatic & Climate Risk Impact",
+      "8. Physical Implementation Plan & Milestone Schedule",
+      "9. Long-Term Monitoring & Observation Protocol",
+      "10. Third-Party MRV & Verification Methodology",
+      "11. Scientific Assumptions, Governance & Known Limitations",
+      "12. End-to-End Data Lake Lineage & Cryptographic Provenance",
+      "13. Optimization Run Traceability & Solver Metadata"
+    ]
+  },
+  "synthetic_fixture_isolation_policy": {
+    "label": "DEMO_ONLY_SYNTHETIC_MRV_DATA",
+    "isolation_mandate": "Any synthetic implementation or verification test data generated for UI/demo purposes must carry this exact label and is strictly prohibited from entering production parquet datasets or setting canonical project status to VERIFIED."
+  }
+}

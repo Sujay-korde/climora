@@ -1,0 +1,125 @@
+{
+  "manifest_id": "climora_temporal_baseline_v1_processing",
+  "dataset_name": "CLIMORA Pune 5-Year Temporal Baseline Processing Specification & Execution Record",
+  "status": "COMPLETED",
+  "phase": "1A.8",
+  "processing_version": "1.0.0",
+  "executed_at": "2026-10-02T07:29:48.318957+00:00",
+  "study_area": "Pune, Maharashtra, India",
+  "canonical_aoi": "data/aoi/pune.geojson",
+  "temporal_scope": "2021-2025",
+  "canonical_target_doy": 105,
+  "preferred_window": [95, 115],
+  "hard_max_offset_days": 15,
+  "sensor_governance": {
+    "baseline_composition": "4 x Landsat 8 (2021, 2022, 2024, 2025) + 1 x Landsat 9 (2023)",
+    "statement": "A five-year Landsat Collection 2 Level-2 temporal baseline using the same WRS-2 Path/Row 147/047 and peak pre-monsoon acquisition window, comprising four Landsat 8 observations and one Landsat 9 observation in 2023. Explicit platform identity preserved across all layers. Zero unsupported cross-sensor calibration factors applied.",
+    "sentinel2_rule": "Sentinel-2 is maintained strictly as 2025 Current-State High-Resolution Reference Data, not as an annual historical baseline.",
+    "modis_rule": "MODIS is maintained as coarse-resolution (~1km) contextual and cross-checking data, not as a replacement for Landsat 30m data.",
+    "nasa_power_rule": "NASA POWER is maintained as point/grid-cell meteorological forcing time series without artificial spatial interpolation."
+  },
+  "processing_specifications": {
+    "landsat": {
+      "collection": "landsat-c2-l2",
+      "bands_processed": ["SR_B2", "SR_B3", "SR_B4", "SR_B5", "SR_B6", "SR_B7", "ST_B10", "QA_PIXEL", "QA_RADSAT"],
+      "surface_reflectance_scaling": {
+        "formula": "Reflectance = DN * 0.0000275 - 0.2",
+        "scale_factor": 0.0000275,
+        "add_offset": -0.2,
+        "output_dtype": "float32",
+        "nodata": "NaN",
+        "reference": "USGS Landsat Collection 2 Level-2 Surface Reflectance Product Guide"
+      },
+      "surface_temperature_scaling": {
+        "formula": "LST_Kelvin = DN * 0.00341802 + 149.0",
+        "scale_factor": 0.00341802,
+        "add_offset": 149.0,
+        "output_dtype": "float32",
+        "nodata": "NaN",
+        "units": "Kelvin (K) and Celsius (°C)",
+        "reference": "USGS Landsat Collection 2 Level-2 Surface Temperature Product Guide"
+      },
+      "qa_masking": {
+        "classification_values": {
+          "0": "FILL_NODATA",
+          "1": "VALID_CLEAR",
+          "2": "CLOUD",
+          "3": "CLOUD_SHADOW",
+          "4": "DILATED_CLOUD",
+          "5": "CIRRUS",
+          "6": "SATURATED",
+          "7": "SNOW_ICE"
+        },
+        "bit_definitions": {
+          "fill": "QA_PIXEL bit 0",
+          "dilated_cloud": "QA_PIXEL bit 1",
+          "cirrus": "QA_PIXEL bit 2",
+          "cloud": "QA_PIXEL bit 3",
+          "cloud_shadow": "QA_PIXEL bit 4",
+          "snow": "QA_PIXEL bit 5",
+          "clear": "QA_PIXEL bit 6",
+          "water": "QA_PIXEL bit 7",
+          "radiometric_saturation": "QA_RADSAT bits 1-6 (B2-B7) and bit 9 (B10)"
+        }
+      },
+      "native_resolution": "30.0 m x 30.0 m",
+      "clipped_dimensions": [706, 954],
+      "crs": "EPSG:32643",
+      "derived_indices": {
+        "NDVI": {
+          "formula": "(SR_B5 - SR_B4) / (SR_B5 + SR_B4)",
+          "range": "[-1.0, 1.0]",
+          "masking": "Zero-denominator handled explicitly; clouds, shadows, saturated, and fill masked to NaN"
+        },
+        "NDBI": {
+          "formula": "(SR_B6 - SR_B5) / (SR_B6 + SR_B5)",
+          "range": "[-1.0, 1.0]",
+          "masking": "Zero-denominator handled explicitly; invalid pixels masked to NaN"
+        },
+        "LST": {
+          "kelvin_formula": "ST_B10 * 0.00341802 + 149.0",
+          "celsius_formula": "LST_Kelvin - 273.15",
+          "masking": "Invalid pixels masked to NaN"
+        }
+      }
+    },
+    "sentinel2": {
+      "role": "2025 CURRENT-STATE HIGH-RESOLUTION REFERENCE DATA",
+      "granule": "S2A_T43QCA_20250118T053348_L2A",
+      "native_resolutions": ["10m", "20m"],
+      "scale_factor": 0.0001,
+      "crs": "EPSG:32643"
+    },
+    "modis": {
+      "product": "MOD11A2 Version 061",
+      "tile": "h25v07",
+      "scale_factor": 0.02,
+      "native_resolution": "926.625 m (~1 km Sinusoidal)",
+      "layers": ["LST_Day_1km", "LST_Night_1km", "QC_Day", "QC_Night"]
+    },
+    "nasa_power": {
+      "variables": ["T2M", "T2M_MAX", "T2M_MIN", "RH2M", "WS10M", "PRECTOTCORR", "ALLSKY_SFC_SW_DWN"],
+      "temporal_range": "2021-01-01 to 2025-12-31",
+      "total_days": 1826,
+      "total_observations": 12782,
+      "schema": ["date", "year", "day_of_year", "variable", "value", "unit", "source", "coordinates"]
+    },
+    "spatial_harmonization": {
+      "framework_manifest": "data/processed/temporal/spatial_harmonization_framework.json",
+      "status": "DECISION_DEFERRED_UNTIL_PHASE_1B",
+      "candidate_units_evaluated": [
+        "250m planar metric grid (EPSG:32643)",
+        "Uber H3 Discrete Global Grid System Resolution 9",
+        "Uber H3 Discrete Global Grid System Resolution 8",
+        "PMC statutory administrative Prabhag wards"
+      ]
+    }
+  },
+  "referenced_manifests": {
+    "raw_frozen": "data/manifests/pune_temporal_baseline_v1_frozen.json",
+    "raw_checksums": "data/manifests/pune_temporal_baseline_v1_checksums.sha256",
+    "processed_frozen": "data/manifests/pune_temporal_baseline_v1_processed_frozen.json",
+    "processed_checksums": "data/manifests/pune_temporal_baseline_v1_processed_checksums.sha256",
+    "temporal_stack": "data/processed/temporal/pune_temporal_stack_manifest.json"
+  }
+}

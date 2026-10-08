@@ -1,0 +1,803 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1B",
+  "manifest_id": "CLIMORA-MANIFEST-FEATURE-DICTIONARY-V1",
+  "status": "RATIFIED_AND_FROZEN",
+  "ratified_at": "2026-10-02T13:16:41.070604+00:00",
+  "amendment_note": "Reconciled during Phase 1B Forensic Amendment Gate to link 100% verified on-disk assets and eliminate ungrounded features.",
+  "total_features": 29,
+  "groups": [
+    "A. Thermal",
+    "B. Vegetation",
+    "C. Built Environment",
+    "D. Moisture",
+    "E. Terrain",
+    "F. Population Exposure",
+    "G. Infrastructure Exposure",
+    "H. Meteorological Context",
+    "I. Temporal Quality",
+    "J. Current-State Reference"
+  ],
+  "features": [
+    {
+      "feature_id": "feat_lst_baseline_mean",
+      "group": "A. Thermal",
+      "feature_name": "LST Baseline Mean",
+      "description": "Arithmetic mean of peak-summer morning land surface temperature across valid 2021-2025 Landsat observations (minimum 4 valid years required).",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "baseline_mean",
+      "aggregation": "zonal_mean",
+      "formula": "mean([LST_k for k in valid_years])",
+      "units": "celsius",
+      "valid_range": [
+        15.0,
+        65.0
+      ],
+      "missing_value_policy": "Require >= 4 valid annual observations; otherwise mark INSUFFICIENT_HISTORICAL_COVERAGE",
+      "quality_requirement": "Cell valid pixel fraction >= 0.70 in each included year",
+      "provenance": "processing.temporal_stack.py -> compute_zonal_temporal_baseline",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_lst_baseline_median",
+      "group": "A. Thermal",
+      "feature_name": "LST Baseline Median",
+      "description": "Median of peak-summer morning land surface temperature across 2021-2025 Landsat observations.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "baseline_median",
+      "aggregation": "zonal_median",
+      "formula": "median([LST_k for k in valid_years])",
+      "units": "celsius",
+      "valid_range": [
+        15.0,
+        65.0
+      ],
+      "missing_value_policy": "Require >= 4 valid annual observations",
+      "quality_requirement": "Cell valid pixel fraction >= 0.70",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_lst_baseline_std",
+      "group": "A. Thermal",
+      "feature_name": "LST Baseline Inter-Annual StdDev",
+      "description": "Standard deviation of peak-summer morning LST across 2021-2025, measuring inter-annual thermal variability.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "baseline_std",
+      "aggregation": "zonal_std",
+      "formula": "std([LST_k for k in valid_years])",
+      "units": "celsius",
+      "valid_range": [
+        0.0,
+        15.0
+      ],
+      "missing_value_policy": "Require >= 4 valid annual observations",
+      "quality_requirement": "Cell valid pixel fraction >= 0.70",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_lst_current_2025",
+      "group": "A. Thermal",
+      "feature_name": "LST Current State (2025)",
+      "description": "Peak-summer morning land surface temperature from 2025-04-19 Landsat 8 observation (DOY 109).",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "current_2025",
+      "aggregation": "zonal_mean",
+      "formula": "zonal_mean(LST_20250419)",
+      "units": "celsius",
+      "valid_range": [
+        15.0,
+        65.0
+      ],
+      "missing_value_policy": "Fail if 2025 cloud-free coverage < 70%",
+      "quality_requirement": "qa_mask valid fraction >= 0.70",
+      "provenance": "processing.pipeline.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_lst_anomaly_diff",
+      "group": "A. Thermal",
+      "feature_name": "LST 2025 Absolute Anomaly",
+      "description": "Thermal deviation of 2025 peak-summer LST relative to 2021-2025 historical baseline mean.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "anomaly_diff",
+      "aggregation": "difference",
+      "formula": "lst_current_2025 - lst_baseline_mean",
+      "units": "celsius",
+      "valid_range": [
+        -15.0,
+        15.0
+      ],
+      "missing_value_policy": "Null if either baseline (< 4 valid years) or 2025 invalid (< 70% coverage)",
+      "quality_requirement": "Both baseline and 2025 valid",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_lst_anomaly_zscore",
+      "group": "A. Thermal",
+      "feature_name": "LST 2025 Standardized Anomaly (Z-score)",
+      "description": "Standardized thermal anomaly of 2025 relative to 5-year inter-annual standard deviation.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "anomaly_zscore",
+      "aggregation": "zscore",
+      "formula": "(lst_current_2025 - lst_baseline_mean) / (lst_baseline_std + 0.001)",
+      "units": "dimensionless (z-score)",
+      "valid_range": [
+        -5.0,
+        5.0
+      ],
+      "missing_value_policy": "Null if std is zero or baseline/current invalid",
+      "quality_requirement": "Both baseline and 2025 valid",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_lst_persistence_p75",
+      "group": "A. Thermal",
+      "feature_name": "Heat Persistence (Top Quartile Frequency)",
+      "description": "Proportion of valid baseline years where cell zonal mean LST was in the city-wide top 25% hottest areas.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "persistence",
+      "aggregation": "threshold_frequency",
+      "formula": "sum([I(LST_k >= P75(LST_citywide, k)) for k in valid_years]) / K_valid",
+      "units": "fraction",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "missing_value_policy": "Computed over valid years (require K_valid >= 4); records K_valid in metadata",
+      "quality_requirement": "Valid pixel fraction >= 0.70",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_lst_recurrence_ge45",
+      "group": "A. Thermal",
+      "feature_name": "Extreme LST Recurrence (>= 45C)",
+      "description": "Integer count of valid baseline years where cell zonal mean LST was >= 45.0 degrees Celsius (CLIMORA methodological threshold).",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "recurrence",
+      "aggregation": "count_threshold",
+      "formula": "sum([I(LST_k >= 45.0C) for k in valid_years])",
+      "units": "count of years",
+      "valid_range": [
+        0,
+        5
+      ],
+      "missing_value_policy": "Requires K_valid >= 4; flagged as partial_temporal_record if K_valid < 5",
+      "quality_requirement": "Valid pixel fraction >= 0.70",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_ndvi_baseline_mean",
+      "group": "B. Vegetation",
+      "feature_name": "NDVI Baseline Mean",
+      "description": "5-year baseline mean Normalized Difference Vegetation Index from pre-monsoon Landsat observations.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ndvi.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ndvi.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ndvi.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ndvi.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndvi.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "baseline_mean",
+      "aggregation": "zonal_mean",
+      "formula": "mean([NDVI_k for k in valid_years])",
+      "units": "index (-1 to +1)",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Require >= 4 valid annual observations",
+      "quality_requirement": "qa_mask valid fraction >= 0.70",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_ndvi_current_2025",
+      "group": "B. Vegetation",
+      "feature_name": "NDVI Current State (2025)",
+      "description": "Normalized Difference Vegetation Index from 2025-04-19 Landsat 8 observation.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndvi.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "current_2025",
+      "aggregation": "zonal_mean",
+      "formula": "zonal_mean((NIR - Red) / (NIR + Red))",
+      "units": "index (-1 to +1)",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Null if valid coverage < 70%",
+      "quality_requirement": "qa_mask valid fraction >= 0.70",
+      "provenance": "processing.pipeline.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_ndvi_anomaly_diff",
+      "group": "B. Vegetation",
+      "feature_name": "NDVI 2025 Anomaly",
+      "description": "Deviation of 2025 NDVI from the 5-year historical pre-monsoon baseline mean.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ndvi.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ndvi.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ndvi.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ndvi.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndvi.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "anomaly_diff",
+      "aggregation": "difference",
+      "formula": "ndvi_current_2025 - ndvi_baseline_mean",
+      "units": "index",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Null if baseline or current missing",
+      "quality_requirement": "Both baseline and 2025 valid",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_vegetative_deficit_proxy",
+      "group": "B. Vegetation",
+      "feature_name": "Biophysical Vegetative Deficit Susceptibility",
+      "description": "Biophysical proxy for absence of evaporative cooling canopy cover (1 - NDVI). Explicitly a biophysical surface susceptibility metric, NEVER to be claimed as human poverty.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndvi.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "current_2025",
+      "aggregation": "linear_transform",
+      "formula": "clamp(1.0 - ndvi_current_2025, 0.0, 1.0)",
+      "units": "dimensionless (0 to 1)",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "missing_value_policy": "Null if ndvi_current_2025 missing",
+      "quality_requirement": "qa_mask valid fraction >= 0.70",
+      "provenance": "processing.feature_engineering.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_ndbi_baseline_mean",
+      "group": "C. Built Environment",
+      "feature_name": "NDBI Baseline Mean",
+      "description": "5-year baseline mean Normalized Difference Built-Up Index from pre-monsoon Landsat observations.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ndbi.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ndbi.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ndbi.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ndbi.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndbi.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "baseline_mean",
+      "aggregation": "zonal_mean",
+      "formula": "mean([NDBI_k for k in valid_years])",
+      "units": "index (-1 to +1)",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Require >= 4 valid annual observations",
+      "quality_requirement": "qa_mask valid fraction >= 0.70",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_ndbi_current_2025",
+      "group": "C. Built Environment",
+      "feature_name": "NDBI Current State (2025)",
+      "description": "Normalized Difference Built-Up Index from 2025-04-19 Landsat 8 observation.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndbi.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "current_2025",
+      "aggregation": "zonal_mean",
+      "formula": "zonal_mean((SWIR1 - NIR) / (SWIR1 + NIR))",
+      "units": "index (-1 to +1)",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Null if valid coverage < 70%",
+      "quality_requirement": "qa_mask valid fraction >= 0.70",
+      "provenance": "processing.pipeline.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_ndbi_anomaly_diff",
+      "group": "C. Built Environment",
+      "feature_name": "NDBI 2025 Anomaly",
+      "description": "Deviation of 2025 NDBI from the 5-year historical pre-monsoon baseline mean, capturing new urban densification.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ndbi.tif",
+        "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ndbi.tif",
+        "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ndbi.tif",
+        "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ndbi.tif",
+        "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndbi.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "anomaly_diff",
+      "aggregation": "difference",
+      "formula": "ndbi_current_2025 - ndbi_baseline_mean",
+      "units": "index",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Null if baseline or current missing",
+      "quality_requirement": "Both baseline and 2025 valid",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_water_body_area_m2",
+      "group": "D. Moisture",
+      "feature_name": "OSM Water Body Area",
+      "description": "Total area of open water bodies (rivers, lakes, reservoirs) in square meters intersecting the cell.",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "osm_pune_water_bodies",
+      "source_assets": [
+        "data/raw/osm/pune/water_bodies.geojson"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "vector_polygon",
+      "temporal_semantics": "static_snapshot",
+      "aggregation": "intersection_area_sum_m2",
+      "formula": "sum(ST_Area(ST_Intersection(water_geom, hex_geom))) in EPSG:32643",
+      "units": "square meters",
+      "valid_range": [
+        0.0,
+        98623.0
+      ],
+      "missing_value_policy": "Zero if no water bodies intersect",
+      "quality_requirement": "Planar projection in EPSG:32643 for meter accuracy",
+      "provenance": "processing.osm_processor.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_dem_elevation_mean_m",
+      "group": "E. Terrain",
+      "feature_name": "GLO-30 Elevation Mean",
+      "description": "Mean surface elevation in meters above sea level derived from Copernicus GLO-30 DEM.",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "copernicus_glo30_dem",
+      "source_assets": [
+        "data/raw/dem/pune/Copernicus_DSM_COG_10_N18_00_E073_00_DEM.tif",
+        "data/processed/dem/Copernicus_DEM_30m_pune_clipped.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "static",
+      "aggregation": "zonal_mean",
+      "formula": "zonal_mean(GLO30_elevation)",
+      "units": "meters",
+      "valid_range": [
+        400.0,
+        1500.0
+      ],
+      "missing_value_policy": "Fill voids using bilinear interpolation if needed",
+      "quality_requirement": "Complete spatial coverage across AOI",
+      "provenance": "processing.dem_processor.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_dem_slope_mean_deg",
+      "group": "E. Terrain",
+      "feature_name": "GLO-30 Slope Mean",
+      "description": "Mean terrain slope in degrees computed via Horn algorithm from GLO-30 DEM.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "copernicus_glo30_dem",
+      "source_assets": [
+        "data/processed/dem/Copernicus_DEM_30m_pune_clipped.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "static",
+      "aggregation": "zonal_mean",
+      "formula": "zonal_mean(arctan(sqrt(dz_dx^2 + dz_dy^2)) * 180 / pi)",
+      "units": "degrees",
+      "valid_range": [
+        0.0,
+        90.0
+      ],
+      "missing_value_policy": "Zero if flat",
+      "quality_requirement": "Complete spatial coverage",
+      "provenance": "processing.dem_processor.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_pop_count_2020",
+      "group": "F. Population Exposure",
+      "feature_name": "WorldPop 2020 Population Count",
+      "description": "Estimated resident human population count within H3 Res 9 cell via area-weighted dasymetric sum conservation.",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "worldpop_ind_ppp_2020_1km_unadj",
+      "source_assets": [
+        "data/raw/worldpop/2020/ind_ppp_2020_1km_Aggregated_UNadj.tif",
+        "data/processed/worldpop/2020/worldpop_pune_2020_clipped.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "1km (30 arc-sec)",
+      "temporal_semantics": "static_epoch_2020",
+      "aggregation": "area_weighted_sum",
+      "formula": "sum_P(C_P * Area(hex \u2229 P) / Area(P))",
+      "units": "estimated persons",
+      "valid_range": [
+        0.0,
+        100000.0
+      ],
+      "missing_value_policy": "Nodata or negative treated as 0.0 unpopulated",
+      "quality_requirement": "Demographic mass conservation verified <= 0.05% error against polygon intersection",
+      "provenance": "processing.population_exposure.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_pop_density_per_km2",
+      "group": "F. Population Exposure",
+      "feature_name": "Population Density (persons / km\u00b2)",
+      "description": "Estimated resident population density: feat_pop_count_2020 / 0.098623 km\u00b2.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "worldpop_ind_ppp_2020_1km_unadj",
+      "source_assets": [
+        "data/processed/worldpop/2020/h3_population_exposure.json"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "1km",
+      "temporal_semantics": "static_epoch_2020",
+      "aggregation": "ratio",
+      "formula": "feat_pop_count_2020 / 0.098623",
+      "units": "persons / km\u00b2",
+      "valid_range": [
+        0.0,
+        500000.0
+      ],
+      "missing_value_policy": "Zero if pop count is zero",
+      "quality_requirement": "Consistent with feat_pop_count_2020",
+      "provenance": "processing.population_exposure.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_osm_road_length_m",
+      "group": "G. Infrastructure Exposure",
+      "feature_name": "OSM Total Road Network Length",
+      "description": "Total length of motorways, trunk, primary, secondary, tertiary, and residential roads in meters intersecting the cell.",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "osm_pune_road_network",
+      "source_assets": [
+        "data/raw/osm/pune/road_network.geojson"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "vector_lines",
+      "temporal_semantics": "static_snapshot",
+      "aggregation": "clipped_line_length_sum",
+      "formula": "sum(ST_Length(ST_Intersection(road_geom, hex_geom))) in EPSG:32643",
+      "units": "meters",
+      "valid_range": [
+        0.0,
+        10000.0
+      ],
+      "missing_value_policy": "Zero if no roads intersect",
+      "quality_requirement": "Planar projection in EPSG:32643 for meter accuracy",
+      "provenance": "processing.osm_processor.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_osm_health_facility_count",
+      "group": "G. Infrastructure Exposure",
+      "feature_name": "OSM Health Facilities Count",
+      "description": "Count of hospitals and clinics located within the H3 cell (filtered by amenity in ('hospital', 'clinic')).",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "osm_pune_public_infrastructure",
+      "source_assets": [
+        "data/raw/osm/pune/public_infrastructure.geojson"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "vector_points_polygons",
+      "temporal_semantics": "static_snapshot",
+      "aggregation": "point_in_polygon_count",
+      "formula": "count(features with amenity in ('hospital', 'clinic') within hex_geom)",
+      "units": "count of facilities",
+      "valid_range": [
+        0,
+        50
+      ],
+      "missing_value_policy": "Zero if none present",
+      "quality_requirement": "Strict spatial containment",
+      "provenance": "processing.osm_processor.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_osm_education_facility_count",
+      "group": "G. Infrastructure Exposure",
+      "feature_name": "OSM Education Facilities Count",
+      "description": "Count of schools and universities located within the H3 cell (filtered by amenity in ('school', 'university')).",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "osm_pune_public_infrastructure",
+      "source_assets": [
+        "data/raw/osm/pune/public_infrastructure.geojson"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "vector_points_polygons",
+      "temporal_semantics": "static_snapshot",
+      "aggregation": "point_in_polygon_count",
+      "formula": "count(features with amenity in ('school', 'university') within hex_geom)",
+      "units": "count of facilities",
+      "valid_range": [
+        0,
+        50
+      ],
+      "missing_value_policy": "Zero if none present",
+      "quality_requirement": "Strict spatial containment",
+      "provenance": "processing.osm_processor.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_met_t2m_max_celsius",
+      "group": "H. Meteorological Context",
+      "feature_name": "NASA POWER T2M_MAX on Acquisition Day",
+      "description": "Daily maximum 2-meter air temperature recorded on the satellite acquisition date, providing synoptic atmospheric context.",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "nasa_power_daily",
+      "source_assets": [
+        "data/raw/nasa_power/pune/2025/power_2025_daily.json",
+        "data/processed/nasa_power/pune/nasa_power_2021_2025_daily_normalized.json"
+      ],
+      "spatial_unit": "grid_hex_h9 (Regional synoptic value)",
+      "native_resolution": "0.5 deg x 0.5 deg",
+      "temporal_semantics": "event_daily",
+      "aggregation": "nearest_grid_point",
+      "formula": "T2M_MAX[date = acquisition_date]",
+      "units": "celsius",
+      "valid_range": [
+        20.0,
+        50.0
+      ],
+      "missing_value_policy": "Fail if acquisition date missing from meteorological record",
+      "quality_requirement": "Complete daily record from NASA POWER API",
+      "provenance": "processing.nasa_power_normalizer.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_met_rh2m_percent",
+      "group": "H. Meteorological Context",
+      "feature_name": "NASA POWER RH2M on Acquisition Day",
+      "description": "Daily mean 2-meter relative humidity percentage on satellite acquisition date.",
+      "truth_layer": "OBSERVED",
+      "source_dataset": "nasa_power_daily",
+      "source_assets": [
+        "data/processed/nasa_power/pune/nasa_power_2021_2025_daily_normalized.json"
+      ],
+      "spatial_unit": "grid_hex_h9 (Regional synoptic value)",
+      "native_resolution": "0.5 deg x 0.5 deg",
+      "temporal_semantics": "event_daily",
+      "aggregation": "nearest_grid_point",
+      "formula": "RH2M[date = acquisition_date]",
+      "units": "percent",
+      "valid_range": [
+        0.0,
+        100.0
+      ],
+      "missing_value_policy": "Fail if date missing",
+      "quality_requirement": "NASA POWER daily QC passed",
+      "provenance": "processing.nasa_power_normalizer.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_qa_valid_pixel_fraction_2025",
+      "group": "I. Temporal Quality",
+      "feature_name": "2025 Valid Pixel Fraction",
+      "description": "Proportion of 30m Landsat pixels within the H3 cell that are clear of clouds, shadows, and saturation in 2025 (2025-04-19).",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/qa_mask.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "current_2025",
+      "aggregation": "zonal_fraction",
+      "formula": "count(qa_mask == 1) / count(pixels)",
+      "units": "fraction",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "missing_value_policy": "Zero if all pixels masked",
+      "quality_requirement": "Minimum 0.70 required for feature validity",
+      "provenance": "processing.pipeline.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_qa_valid_observation_count",
+      "group": "I. Temporal Quality",
+      "feature_name": "Valid Baseline Observation Count (2021-2025)",
+      "description": "Count of annual pre-monsoon scenes (out of 5) where cell has >= 70% valid cloud-free coverage.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "landsat_c2_l2",
+      "source_assets": [
+        "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/qa_mask.tif",
+        "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/qa_mask.tif",
+        "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/qa_mask.tif",
+        "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/qa_mask.tif",
+        "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/qa_mask.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "30m",
+      "temporal_semantics": "baseline_count",
+      "aggregation": "count_valid_years",
+      "formula": "sum_k(I(valid_fraction_k >= 0.70))",
+      "units": "count of years",
+      "valid_range": [
+        0,
+        5
+      ],
+      "missing_value_policy": "Must be >= 4 to compute baseline statistics",
+      "quality_requirement": "Strict validation filter",
+      "provenance": "processing.temporal_stack.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_s2_ndvi_10m_reference",
+      "group": "J. Current-State Reference",
+      "feature_name": "Sentinel-2 10m High-Res NDVI Reference",
+      "description": "High-resolution 10m NDVI reference from 2025-01-18 Sentinel-2 observation. Strictly current reference, NOT part of historical baseline.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "sentinel2_l2a",
+      "source_assets": [
+        "data/processed/sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/B04.tif",
+        "data/processed/sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/B08.tif",
+        "data/processed/sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/SCL.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "10m",
+      "temporal_semantics": "current_reference_2025",
+      "aggregation": "zonal_mean",
+      "formula": "zonal_mean((B08 - B04) / (B08 + B04))",
+      "units": "index (-1 to +1)",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Exclude SCL cloud/shadow pixels",
+      "quality_requirement": "SCL valid pixel fraction >= 0.80",
+      "provenance": "processing.sentinel2_processor.py",
+      "version": "1.0.0"
+    },
+    {
+      "feature_id": "feat_s2_ndbi_20m_reference",
+      "group": "J. Current-State Reference",
+      "feature_name": "Sentinel-2 20m High-Res NDBI Reference",
+      "description": "High-resolution 20m NDBI reference from 2025-01-18 Sentinel-2 observation.",
+      "truth_layer": "DERIVED",
+      "source_dataset": "sentinel2_l2a",
+      "source_assets": [
+        "data/processed/sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/B08.tif",
+        "data/processed/sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/B11.tif",
+        "data/processed/sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/SCL.tif"
+      ],
+      "spatial_unit": "grid_hex_h9",
+      "native_resolution": "20m",
+      "temporal_semantics": "current_reference_2025",
+      "aggregation": "zonal_mean",
+      "formula": "zonal_mean((B11 - B08) / (B11 + B08))",
+      "units": "index (-1 to +1)",
+      "valid_range": [
+        -1.0,
+        1.0
+      ],
+      "missing_value_policy": "Exclude SCL clouds/shadows",
+      "quality_requirement": "SCL valid pixel fraction >= 0.80",
+      "provenance": "processing.sentinel2_processor.py",
+      "version": "1.0.0"
+    }
+  ]
+}

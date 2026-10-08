@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1B",
+  "contract_id": "CLIMORA-CONTRACT-TEMPORAL-FEATURE-V1",
+  "status": "RATIFIED_AND_FROZEN",
+  "ratified_at": "2026-10-02T13:15:00Z",
+  "amendment_note": "Reconciled during Phase 1B Forensic Amendment Gate to strictly match Phase 1A.7.1 approved April baseline scenes.",
+  "scientific_scope": {
+    "baseline_definition": "5-Year Pre-Monsoon Microclimatic Baseline (2021–2025)",
+    "climatological_limitation": "Explicitly does NOT constitute a 30-year WMO long-term climate change trend. Captures inter-annual pre-monsoon variability, spatial persistence, and current-state anomalies.",
+    "canonical_target_doy": 105,
+    "preferred_window": [95, 115],
+    "hard_max_offset_days": 15,
+    "window_type": "Peak-Summer Pre-Monsoon (April 11 to April 24, DOY 101 to 114)"
+  },
+  "historical_observations": [
+    {
+      "year": 2021,
+      "scene_id": "LC08_L2SP_147047_20210424_02_T1",
+      "acquisition_date": "2021-04-24",
+      "doy": 114,
+      "doy_offset": 9,
+      "platform": "LANDSAT_8",
+      "instrument": "OLI/TIRS-1",
+      "collection": "Collection 2 Level-2",
+      "path_row": "147/047",
+      "cloud_cover_aoi_percent": 0.0,
+      "shadow_cover_aoi_percent": 0.0,
+      "role": "Historical Baseline Observation (Year 1)",
+      "raw_directory": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1",
+      "processed_directory": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1",
+      "derived_directory": "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1"
+    },
+    {
+      "year": 2022,
+      "scene_id": "LC08_L2SP_147047_20220411_02_T1",
+      "acquisition_date": "2022-04-11",
+      "doy": 101,
+      "doy_offset": 4,
+      "platform": "LANDSAT_8",
+      "instrument": "OLI/TIRS-1",
+      "collection": "Collection 2 Level-2",
+      "path_row": "147/047",
+      "cloud_cover_aoi_percent": 1.71,
+      "shadow_cover_aoi_percent": 3.22,
+      "role": "Historical Baseline Observation (Year 2)",
+      "raw_directory": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1",
+      "processed_directory": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1",
+      "derived_directory": "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1"
+    },
+    {
+      "year": 2023,
+      "scene_id": "LC09_L2SP_147047_20230422_02_T1",
+      "acquisition_date": "2023-04-22",
+      "doy": 112,
+      "doy_offset": 7,
+      "platform": "LANDSAT_9",
+      "instrument": "OLI-2/TIRS-2",
+      "collection": "Collection 2 Level-2",
+      "path_row": "147/047",
+      "cloud_cover_aoi_percent": 0.0,
+      "shadow_cover_aoi_percent": 0.03,
+      "role": "Historical Baseline Observation (Year 3)",
+      "raw_directory": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1",
+      "processed_directory": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1",
+      "derived_directory": "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1"
+    },
+    {
+      "year": 2024,
+      "scene_id": "LC08_L2SP_147047_20240416_02_T1",
+      "acquisition_date": "2024-04-16",
+      "doy": 107,
+      "doy_offset": 2,
+      "platform": "LANDSAT_8",
+      "instrument": "OLI/TIRS-1",
+      "collection": "Collection 2 Level-2",
+      "path_row": "147/047",
+      "cloud_cover_aoi_percent": 0.0,
+      "shadow_cover_aoi_percent": 0.0,
+      "role": "Historical Baseline Observation (Year 4)",
+      "raw_directory": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1",
+      "processed_directory": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1",
+      "derived_directory": "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1"
+    },
+    {
+      "year": 2025,
+      "scene_id": "LC08_L2SP_147047_20250419_02_T1",
+      "acquisition_date": "2025-04-19",
+      "doy": 109,
+      "doy_offset": 4,
+      "platform": "LANDSAT_8",
+      "instrument": "OLI/TIRS-1",
+      "collection": "Collection 2 Level-2",
+      "path_row": "147/047",
+      "cloud_cover_aoi_percent": 0.0,
+      "shadow_cover_aoi_percent": 0.0,
+      "role": "Current-State Observation (Year 5)",
+      "raw_directory": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1",
+      "processed_directory": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1",
+      "derived_directory": "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1"
+    }
+  ],
+  "temporal_quality_and_missing_data_policy": {
+    "annual_cell_validity_threshold": 0.70,
+    "annual_cell_validity_rule": "A cell is valid in year k iff clear/unmasked pixel fraction >= 0.70 (qa_mask == 1).",
+    "min_valid_baseline_years": 4,
+    "insufficient_coverage_rule": "If a cell has < 4 valid annual observations, baseline mean/median/std are null and cell is marked INSUFFICIENT_HISTORICAL_COVERAGE.",
+    "persistence_denominator_rule": "Persistence frequency is strictly divided by K_valid (the number of valid years for that cell), and K_valid is preserved in metadata.",
+    "recurrence_policy": "Extreme heat recurrence is an integer count of valid years with LST >= 45.0C; if K_valid < 5, flagged as partial_temporal_record.",
+    "anomaly_eligibility_rule": "2025 anomaly is valid iff both K_valid >= 4 and 2025 observation has valid pixel fraction >= 0.70."
+  },
+  "temporal_feature_definitions": {
+    "lst_baseline_mean": {
+      "name": "5-Year Baseline Mean LST",
+      "formula": "mean([LST_k for k in valid_years])",
+      "units": "celsius",
+      "truth_layer": "DERIVED",
+      "min_valid_observations": 4
+    },
+    "lst_baseline_median": {
+      "name": "5-Year Baseline Median LST",
+      "formula": "median([LST_k for k in valid_years])",
+      "units": "celsius",
+      "truth_layer": "DERIVED",
+      "min_valid_observations": 4
+    },
+    "lst_baseline_std": {
+      "name": "5-Year Baseline LST Standard Deviation",
+      "formula": "std([LST_k for k in valid_years])",
+      "units": "celsius",
+      "truth_layer": "DERIVED",
+      "min_valid_observations": 4
+    },
+    "lst_persistence_p75": {
+      "name": "Heat Persistence (Top Quartile Frequency)",
+      "formula": "sum([I(LST_k >= P75(LST_citywide, k)) for k in valid_years]) / K_valid",
+      "valid_range": [0.0, 1.0],
+      "units": "fraction",
+      "truth_layer": "DERIVED",
+      "interpretation": "Proportion of valid baseline years where cell was in the city-wide top 25% hottest areas"
+    },
+    "lst_recurrence_ge45": {
+      "name": "Extreme LST Recurrence (>= 45C)",
+      "formula": "sum([I(LST_k >= 45.0C) for k in valid_years])",
+      "valid_range": [0, 5],
+      "units": "count of years",
+      "truth_layer": "DERIVED",
+      "interpretation": "Number of valid annual observations with LST >= 45.0C (CLIMORA methodological threshold, not epidemiological heat-health threshold)"
+    },
+    "lst_current_2025": {
+      "name": "Current-State LST (2025)",
+      "formula": "LST_2025 (2025-04-19)",
+      "units": "celsius",
+      "truth_layer": "DERIVED"
+    },
+    "lst_anomaly_diff": {
+      "name": "2025 Thermal Anomaly (Absolute)",
+      "formula": "LST_2025 - lst_baseline_mean",
+      "units": "celsius",
+      "truth_layer": "DERIVED"
+    },
+    "lst_anomaly_zscore": {
+      "name": "2025 Thermal Anomaly (Standardized)",
+      "formula": "(LST_2025 - lst_baseline_mean) / (lst_baseline_std + 0.001)",
+      "units": "dimensionless (z-score)",
+      "truth_layer": "DERIVED"
+    }
+  },
+  "sensor_isolation_matrix": {
+    "sentinel2_role": "High-resolution 10m/20m current-state reference (S2A_T43QCA_20250118T053348_L2A); strictly isolated from 5-year Landsat baseline stack.",
+    "modis_role": "Coarse ~1km 8-day composite thermal context; macro-validation only; never upscaled to 30m.",
+    "nasa_power_role": "Daily surface meteorology (T2M_MAX, RH2M, solar radiation); provides synoptic meteorological context on acquisition dates."
+  },
+  "cross_sensor_calibration_policy": {
+    "landsat8_vs_landsat9": "Both platforms calibrated to USGS Collection 2 Level-2 Surface Reflectance and Surface Temperature algorithms; inter-sensor radiometric agreement within +/- 0.3 K; no empirical fudge factors applied; sensor identity preserved in metadata."
+  }
+}

@@ -1,0 +1,54 @@
+climora/
+├── 📄 config.yaml                              # Global configuration (AOI, cloud thresholds, STAC endpoints)
+├── 📄 README.md                                # Full documentation and CLI instructions
+├── 📄 .gitignore                               # Git safety rules
+├── 📄 .env.example                             # Environment variable template
+├── 📁 data/
+│   ├── 📁 aoi/
+│   │   └── 📄 pune.geojson                     # Canonical Pune City boundary (LGD 4194 / OSM 10351626)
+│   ├── 📁 manifests/
+│   │   └── 📄 pune_2025_acquisition_plan.json  # Complete 2025 Pune acquisition plan and provenance
+│   └── 📁 raw/                                 # Local Data Lake (723.7 MB total)
+│       ├── 📁 landsat/2025/LC08_L2SP_147047_20250214_02_T1/
+│       │   ├── SR_B2.tif                       # Blue band (85.6 MB)
+│       │   ├── SR_B3.tif                       # Green band (87.7 MB)
+│       │   ├── SR_B4.tif                       # Red band (91.9 MB)
+│       │   ├── SR_B5.tif                       # NIR band (94.5 MB)
+│       │   ├── SR_B6.tif                       # SWIR 1 band (96.4 MB)
+│       │   ├── SR_B7.tif                       # SWIR 2 band (94.6 MB)
+│       │   ├── ST_B10.tif                      # Thermal Land Surface Temperature (88.9 MB)
+│       │   ├── QA_PIXEL.tif                    # Pixel quality mask (757 KB)
+│       │   └── QA_RADSAT.tif                   # Radiometric saturation mask (225 KB)
+│       ├── 📁 sentinel2/2025/S2A_T43QCA_20250118T053348_L2A/
+│       │   ├── B05.tif                         # Red Edge 1 band (59.4 MB)
+│       │   └── SCL.tif                         # Scene Classification Layer (3.5 MB)
+│       ├── 📁 modis/2025/MYD11A2.A2025001.h25v07.061.2025011010635/
+│       │   ├── LST_Day_1km.tif                 # Daytime Land Surface Temp 1km (1.7 MB)
+│       │   ├── LST_Night_1km.tif               # Nighttime Land Surface Temp 1km (1.6 MB)
+│       │   ├── QC_Day.tif                      # Daytime QC (78 KB)
+│       │   └── QC_Night.tif                    # Nighttime QC (81 KB)
+│       ├── 📁 nasa_power/pune/2025/
+│       │   ├── power_2025_daily.json           # 365 daily meteorological records (72 KB)
+│       │   └── metadata.json                   # API request parameters & response metadata
+│       ├── 📁 osm/pune/
+│       │   ├── green_spaces.geojson            # 602 parks, gardens, forests (1.17 MB)
+│       │   ├── water_bodies.geojson            # 357 lakes, rivers, canals (1.25 MB)
+│       │   ├── public_infrastructure.geojson   # 1,268 hospitals, schools, universities (870 KB)
+│       │   ├── road_network.geojson            # 2,138 primary & trunk highways (2.60 MB)
+│       │   └── metadata.json                   # OSM extraction provenance
+│       └── 📁 dem/pune/
+│           └── Copernicus_DSM_COG_10_N18_00_E073_00_DEM.tif # 30m Copernicus DEM (45.8 MB)
+├── 📁 ingestion/
+│   ├── __init__.py                             # Package root
+│   ├── __main__.py                             # Enables `python -m ingestion`
+│   ├── cli.py                                  # CLI (search, download, validate, status)
+│   ├── config.py                               # Configuration loader
+│   ├── common.py                               # Reusable utilities (AOI, SHA-256, atomic dl)
+│   ├── landsat.py                              # Landsat STAC search & downloader
+│   ├── sentinel2.py                            # Sentinel-2 STAC search & downloader
+│   ├── modis.py                                # MODIS MOD11A2 search & downloader
+│   ├── nasa_power.py                           # NASA POWER API client
+│   ├── osm.py                                  # Overpass API vector extractor
+│   └── dem.py                                  # Copernicus DEM GLO-30 downloader
+└── 📁 tests/
+    └── test_ingestion.py                       # 7 automated tests (all passing)

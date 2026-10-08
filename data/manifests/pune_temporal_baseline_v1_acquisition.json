@@ -1,0 +1,1113 @@
+{
+  "manifest_id": "climora_temporal_baseline_v1_acquisition",
+  "specification_id": "pune_temporal_baseline_v1",
+  "specification_version": "1.2.0_amended_a1",
+  "phase": "PHASE_1A_7_1",
+  "generated_at": "2026-10-02T11:58:00.000000+00:00",
+  "status": "ACQUISITION_COMPLETED_AND_VALIDATED",
+  "study_area": "Pune, Maharashtra, India",
+  "aoi": {
+    "path": "data/aoi/pune.geojson",
+    "crs": "urn:ogc:def:crs:OGC:1.3:CRS84",
+    "bbox": [
+      73.7498473,
+      18.429497,
+      74.020214,
+      18.6208699
+    ],
+    "centroid": [
+      73.87348124014521,
+      18.52786576981327
+    ]
+  },
+  "temporal_scope": {
+    "target_years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "season": "pre_monsoon_summer_peak",
+    "canonical_target_doy": 105,
+    "preferred_doy_window": [
+      95,
+      115
+    ],
+    "fallback_doy_window": [
+      90,
+      120
+    ],
+    "max_allowed_offset_days": 15
+  },
+  "sensor_governance": {
+    "baseline_type": "predominantly_landsat_8_with_2023_landsat_9",
+    "statement": "The 2021\u20132025 temporal baseline uses a common Landsat WRS-2 Path/Row (147/047), Landsat Collection 2 Level-2 processing family, and peak pre-monsoon acquisition window. Four observations are Landsat 8 and one observation (2023) is Landsat 9. Sensor/platform identity is retained as explicit provenance metadata for downstream quality control and temporal normalization.",
+    "platform_sequence": {
+      "2021": "Landsat 8",
+      "2022": "Landsat 8",
+      "2023": "Landsat 9",
+      "2024": "Landsat 8",
+      "2025": "Landsat 8"
+    },
+    "primary_spatial_quality_metric": "Cloud contamination over canonical Pune AOI after QA_PIXEL interpretation (<= 5.0%)"
+  },
+  "amended_canonical_landsat_series": [
+    {
+      "year": 2021,
+      "platform": "Landsat 8",
+      "scene_id": "LC08_L2SP_147047_20210424_02_T1",
+      "acquisition_date": "2021-04-24T05:27:26.075289Z",
+      "doy": 114,
+      "canonical_target_doy": 105,
+      "temporal_offset_days": 9,
+      "scene_cloud_cover_percent": 0.88,
+      "pune_aoi_cloud_cover_percent": 0.0,
+      "pune_aoi_shadow_percent": 0.0,
+      "compliance_window": "PREFERRED_WINDOW_DOY_95_115",
+      "quality_status": "APPROVED_AMENDMENT_A1",
+      "notes": "Replaces cloudy April 08 pass (58.13% scene / 99.79% AOI cloud) and resolves Phase 1A.6 0.08% typo."
+    },
+    {
+      "year": 2022,
+      "platform": "Landsat 8",
+      "scene_id": "LC08_L2SP_147047_20220411_02_T1",
+      "acquisition_date": "2022-04-11T05:27:38.426235Z",
+      "doy": 101,
+      "canonical_target_doy": 105,
+      "temporal_offset_days": 4,
+      "scene_cloud_cover_percent": 15.21,
+      "pune_aoi_cloud_cover_percent": 2.61,
+      "pune_aoi_shadow_percent": 0.58,
+      "compliance_window": "PREFERRED_WINDOW_DOY_95_115",
+      "quality_status": "RETAINED_AMENDMENT_A1",
+      "notes": "Retained under Amendment A1; DOY 101 in preferred window and AOI cloud 2.61% <= 5.0%."
+    },
+    {
+      "year": 2023,
+      "platform": "Landsat 9",
+      "scene_id": "LC09_L2SP_147047_20230422_02_T1",
+      "acquisition_date": "2023-04-22T05:27:39.760219Z",
+      "doy": 112,
+      "canonical_target_doy": 105,
+      "temporal_offset_days": 7,
+      "scene_cloud_cover_percent": 0.09,
+      "pune_aoi_cloud_cover_percent": 0.02,
+      "pune_aoi_shadow_percent": 0.0,
+      "compliance_window": "PREFERRED_WINDOW_DOY_95_115",
+      "quality_status": "APPROVED_AMENDMENT_A1",
+      "notes": "Replaces cloudy April 14 pass (52.40% scene / 94.94% AOI cloud); crystal clear over Pune AOI; Landsat 9 platform explicitly documented."
+    },
+    {
+      "year": 2024,
+      "platform": "Landsat 8",
+      "scene_id": "LC08_L2SP_147047_20240416_02_T1",
+      "acquisition_date": "2024-04-16T05:27:20.353707Z",
+      "doy": 107,
+      "canonical_target_doy": 105,
+      "temporal_offset_days": 2,
+      "scene_cloud_cover_percent": 4.01,
+      "pune_aoi_cloud_cover_percent": 0.0,
+      "pune_aoi_shadow_percent": 0.61,
+      "compliance_window": "PREFERRED_WINDOW_DOY_95_115",
+      "quality_status": "CONFIRMED_VALID",
+      "notes": "Confirmed valid Priority 1 observation."
+    },
+    {
+      "year": 2025,
+      "platform": "Landsat 8",
+      "scene_id": "LC08_L2SP_147047_20250419_02_T1",
+      "acquisition_date": "2025-04-19T05:27:18.329695Z",
+      "doy": 109,
+      "canonical_target_doy": 105,
+      "temporal_offset_days": 4,
+      "scene_cloud_cover_percent": 0.35,
+      "pune_aoi_cloud_cover_percent": 0.0,
+      "pune_aoi_shadow_percent": 0.72,
+      "compliance_window": "PREFERRED_WINDOW_DOY_95_115",
+      "quality_status": "CONFIRMED_VALID",
+      "notes": "Primary canonical selection for 2025 peak summer baseline."
+    }
+  ],
+  "rejected_superseded_contract_scenes": [
+    {
+      "year": 2021,
+      "scene_id": "LC08_L2SP_147047_20210408_02_T1",
+      "date": "2021-04-08",
+      "doy": 98,
+      "status": "REJECTED_SUPERSEDED",
+      "stac_cloud_pct": 58.13,
+      "pune_aoi_cloud_pct": 99.79,
+      "reason": "Scene cloud 58.13%; Pune AOI cloud 99.79% (overcast)."
+    },
+    {
+      "year": 2023,
+      "scene_id": "LC08_L2SP_147047_20230414_02_T1",
+      "date": "2023-04-14",
+      "doy": 104,
+      "status": "REJECTED_SUPERSEDED",
+      "stac_cloud_pct": 52.4,
+      "pune_aoi_cloud_pct": 94.94,
+      "reason": "Scene cloud 52.40%; Pune AOI cloud 94.94% (overcast)."
+    },
+    {
+      "year": 2023,
+      "scene_id": "LC08_L2SP_147047_20230329_02_T1",
+      "date": "2023-03-29",
+      "doy": 88,
+      "status": "REJECTED_OUT_OF_WINDOW",
+      "stac_cloud_pct": 2.13,
+      "pune_aoi_cloud_pct": 0.0,
+      "reason": "DOY 088 offset 17 days exceeds max permitted offset of 15 days."
+    },
+    {
+      "year": 2025,
+      "scene_id": "LC09_L2SP_147047_20250310_02_T1",
+      "date": "2025-03-10",
+      "doy": 69,
+      "status": "REJECTED_DISQUALIFIED",
+      "stac_cloud_pct": 0.0,
+      "pune_aoi_cloud_pct": 0.0,
+      "reason": "DOY 069 is 36 days out of window (seasonal incomparability)."
+    }
+  ],
+  "expected_acquisition_inventory": {
+    "landsat": {
+      "scenes_count": 5,
+      "assets_per_scene": 9,
+      "total_assets": 45,
+      "required_assets": [
+        "SR_B2",
+        "SR_B3",
+        "SR_B4",
+        "SR_B5",
+        "SR_B6",
+        "SR_B7",
+        "ST_B10",
+        "QA_PIXEL",
+        "QA_RADSAT"
+      ],
+      "estimated_size_bytes": 3203341470
+    },
+    "modis": {
+      "historical_granules_count": 4,
+      "assets_per_granule": 4,
+      "total_assets": 16,
+      "target_years": [
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "matching_period_doy": "105",
+      "tile": "h25v07",
+      "required_assets": [
+        "LST_Day_1km",
+        "LST_Night_1km",
+        "QC_Day",
+        "QC_Night"
+      ],
+      "estimated_size_bytes": 13337744
+    },
+    "nasa_power": {
+      "historical_files_count": 4,
+      "target_years": [
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "required_variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "estimated_size_bytes": 287956
+    }
+  },
+  "reused_frozen_assets": {
+    "manifest_reference": "data/manifests/pune_2025_v1_frozen.json",
+    "checksums_reference": "data/manifests/pune_2025_v1_checksums.sha256",
+    "assets": [
+      "data/raw/nasa_power/pune/2025/power_2025_daily.json",
+      "data/raw/modis/2025/MOD11A2.A2025001.h25v07.061.2025011023230/",
+      "data/raw/modis/2025/MOD11A2.A2025073.h25v07.061.2025085123314/",
+      "data/raw/modis/2025/MOD11A2.A2025145.h25v07.061.2025154060132/",
+      "data/raw/modis/2025/MYD11A2.A2025001.h25v07.061.2025011010635/",
+      "data/raw/landsat/2025/LC08_L2SP_147047_20250214_02_T1/"
+    ]
+  },
+  "deferred_datasets": [
+    {
+      "dataset": "WorldPop India 100m Population",
+      "status": "DEFERRED",
+      "reason": "Deferred from temporal acquisition campaign; to be acquired through separately governed data-acquisition step before social-exposure risk modeling."
+    },
+    {
+      "dataset": "Historical Sentinel-2 MSI L2A",
+      "status": "EXCLUDED",
+      "reason": "Excluded due to lack of thermal infrared sensor; 2025 high-resolution structural baseline retained in frozen lake."
+    },
+    {
+      "dataset": "Monsoon Satellite Observations",
+      "status": "EXCLUDED",
+      "reason": "Excluded due to extreme cloud cover (>85-100%) rendering optical and thermal sensors unusable."
+    }
+  ],
+  "acquisition_unblock_verdict": "Phase 1A.7.1 Amendment A1 ratified. Contract unblocked for controlled execution.",
+  "acquisition_completed_at": "2026-10-02T06:55:46.183743+00:00",
+  "actual_storage_metrics": {
+    "existing_frozen_bytes": 1981009311,
+    "existing_frozen_gb": 1.845,
+    "new_landsat_bytes": 3196458468,
+    "new_landsat_gb": 2.977,
+    "new_modis_bytes": 13942237,
+    "new_modis_mb": 13.3,
+    "new_nasa_power_bytes": 288260,
+    "new_nasa_power_kb": 281.5,
+    "new_total_bytes": 3210688965,
+    "new_total_gb": 2.99,
+    "final_raw_dataset_bytes": 5191698276,
+    "final_raw_dataset_gb": 4.835,
+    "convention": "1 GB = 1024^3 bytes (GiB)"
+  },
+  "acquired_landsat_series": {
+    "LC08_L2SP_147047_20210424_02_T1": {
+      "year": 2021,
+      "scene_id": "LC08_L2SP_147047_20210424_02_T1",
+      "platform": "Landsat 8",
+      "date": "2021-04-24",
+      "doy": 114,
+      "offset": 9,
+      "stac_cloud_pct": 0.88,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.0,
+      "assets": {
+        "SR_B2": {
+          "req_name": "SR_B2",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B2.tif",
+          "file_size_bytes": 85540775,
+          "sha256": "bc1984b9da4121dde4c0139e5136120b92bcaff542038b04ced31efc83359dc3",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B5": {
+          "req_name": "SR_B5",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B5.tif",
+          "file_size_bytes": 94735461,
+          "sha256": "650d79b60563992557741ba5faf90ef6736a225b2c2edfa95ef74b84c5262b28",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B4": {
+          "req_name": "SR_B4",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B4.tif",
+          "file_size_bytes": 91449413,
+          "sha256": "d04126dd289faefb5d8e2d2bca2056cdbda122685ece177b7d59d4636a5302d1",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B3": {
+          "req_name": "SR_B3",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B3.tif",
+          "file_size_bytes": 87253541,
+          "sha256": "52edae140e926b19fba51ed4f1024b939e68caf9533e3189ae9caf4cd2cffd10",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_PIXEL": {
+          "req_name": "QA_PIXEL",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_PIXEL.tif",
+          "file_size_bytes": 876938,
+          "sha256": "d9f5414f822461678e3d5bc534fdbc2f4fb43c2e50ee0cd535a24efd91cd20c8",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_RADSAT": {
+          "req_name": "QA_RADSAT",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_RADSAT.tif",
+          "file_size_bytes": 226209,
+          "sha256": "877e99b4ac4cc1eca56b95499460d840066888060645d954c584abc47e7a1e65",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B7": {
+          "req_name": "SR_B7",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B7.tif",
+          "file_size_bytes": 94385217,
+          "sha256": "352d1771e794f537d15c67378f5c837e432760fabac87414dad44329aab97223",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "ST_B10": {
+          "req_name": "ST_B10",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ST_B10.tif",
+          "file_size_bytes": 91890216,
+          "sha256": "469ec5a5c4f7b714251fd97f314c7e403aa74fb79d0a814ae679a7b3a912c5c1",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B6": {
+          "req_name": "SR_B6",
+          "local_path": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B6.tif",
+          "file_size_bytes": 95515623,
+          "sha256": "adfe74fab1fa7bae4d36c83e34b097e1d40def1d2a70fe80f3496dee6abb0b82",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    },
+    "LC08_L2SP_147047_20220411_02_T1": {
+      "year": 2022,
+      "scene_id": "LC08_L2SP_147047_20220411_02_T1",
+      "platform": "Landsat 8",
+      "date": "2022-04-11",
+      "doy": 101,
+      "offset": 4,
+      "stac_cloud_pct": 15.21,
+      "pune_aoi_cloud_pct": 1.71,
+      "pune_aoi_shadow_pct": 3.22,
+      "assets": {
+        "SR_B4": {
+          "req_name": "SR_B4",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B4.tif",
+          "file_size_bytes": 90059745,
+          "sha256": "0e15c3b1d1abb2a6ce8431b6d0456e772bf600bfdc41bf6cb884d1d68809c54e",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B5": {
+          "req_name": "SR_B5",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B5.tif",
+          "file_size_bytes": 93569373,
+          "sha256": "73b6e51568831f8a38dcad827c3a6084a2b2322b78b7f42edec8fc1a65fed533",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B2": {
+          "req_name": "SR_B2",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B2.tif",
+          "file_size_bytes": 85093517,
+          "sha256": "4d2efa7c7cee6384717f89812501ac7ff16d579bee5d2c93093f477537df30e7",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B3": {
+          "req_name": "SR_B3",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B3.tif",
+          "file_size_bytes": 86452883,
+          "sha256": "8c394b085d83cd815e5befb55ce19a7a01133e9eef49aad2b1ac22a5bc174207",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_PIXEL": {
+          "req_name": "QA_PIXEL",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_PIXEL.tif",
+          "file_size_bytes": 2356377,
+          "sha256": "c00c495988803d71bccd31d84f6f2e61e12ae420909bf92c5869b814592d0c14",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_RADSAT": {
+          "req_name": "QA_RADSAT",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_RADSAT.tif",
+          "file_size_bytes": 224344,
+          "sha256": "cec527ce422c577d0ab7e08e5dddd77b02d4618a3d186b594557ccd70f11e75c",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B6": {
+          "req_name": "SR_B6",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B6.tif",
+          "file_size_bytes": 95088734,
+          "sha256": "9716f4fef6dea575ce149c7febd521356d51e6128792878f1ecf953194906efb",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "ST_B10": {
+          "req_name": "ST_B10",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ST_B10.tif",
+          "file_size_bytes": 90860060,
+          "sha256": "3c96c705694da4408dbadb46928c63a057a1f61b50f660f931a4c4476efeae39",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B7": {
+          "req_name": "SR_B7",
+          "local_path": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B7.tif",
+          "file_size_bytes": 93676302,
+          "sha256": "9ae7b21c57354c652b344ae23402f4e3bae4e1a3767985147e85d85266aacfa8",
+          "width": 7631,
+          "height": 7791,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    },
+    "LC09_L2SP_147047_20230422_02_T1": {
+      "year": 2023,
+      "scene_id": "LC09_L2SP_147047_20230422_02_T1",
+      "platform": "Landsat 9",
+      "date": "2023-04-22",
+      "doy": 112,
+      "offset": 7,
+      "stac_cloud_pct": 0.09,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.03,
+      "assets": {
+        "SR_B3": {
+          "req_name": "SR_B3",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B3.tif",
+          "file_size_bytes": 88100371,
+          "sha256": "8572795e17a4846c38027e022e27a279dd4902c21d83097290a4214d1fc48ce7",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B2": {
+          "req_name": "SR_B2",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B2.tif",
+          "file_size_bytes": 86258640,
+          "sha256": "834b2010e418886dfb129edeb37a6f816c26f9a7375c2cfe451f7b3377f16df7",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B5": {
+          "req_name": "SR_B5",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B5.tif",
+          "file_size_bytes": 95327717,
+          "sha256": "5de215a3d17839868b69c198b2357ceebdb1a0c4b2d69fcaeed9255edf98fb9b",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B4": {
+          "req_name": "SR_B4",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B4.tif",
+          "file_size_bytes": 92366973,
+          "sha256": "21e8410a9f7abc3b7ed8ec9292e9287b548ae6c01af0124b6d6a81a0a5f86245",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_PIXEL": {
+          "req_name": "QA_PIXEL",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_PIXEL.tif",
+          "file_size_bytes": 701625,
+          "sha256": "51c6de3504fa00f213094724e34ca2db59f055c8fb021e1d021199803cec19b1",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_RADSAT": {
+          "req_name": "QA_RADSAT",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_RADSAT.tif",
+          "file_size_bytes": 225492,
+          "sha256": "5ab004537d54367785665a156f455d6cb76fd1ec24483447f8b7c3afd4c0b1c1",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B6": {
+          "req_name": "SR_B6",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B6.tif",
+          "file_size_bytes": 95755262,
+          "sha256": "7abfa5315dc9d69d7402bdf412012ecd8cda2f2f198a484b3a58af8e2b2eadad",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B7": {
+          "req_name": "SR_B7",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B7.tif",
+          "file_size_bytes": 94777214,
+          "sha256": "e765c7a595193235901edfd3d5dda0935f80a72207cf3a3fc5c4e03cb262a3ee",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "ST_B10": {
+          "req_name": "ST_B10",
+          "local_path": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ST_B10.tif",
+          "file_size_bytes": 91384236,
+          "sha256": "ada5dda3f1dd51046a528acbc1c793e91ef09437be1134748d5d8a76f846bf19",
+          "width": 7641,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    },
+    "LC08_L2SP_147047_20240416_02_T1": {
+      "year": 2024,
+      "scene_id": "LC08_L2SP_147047_20240416_02_T1",
+      "platform": "Landsat 8",
+      "date": "2024-04-16",
+      "doy": 107,
+      "offset": 2,
+      "stac_cloud_pct": 4.01,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.0,
+      "assets": {
+        "SR_B5": {
+          "req_name": "SR_B5",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B5.tif",
+          "file_size_bytes": 93721892,
+          "sha256": "43f3aebfbee5d2719820e008c608610f1377394c247b0690edb97b5826b5a9c4",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B3": {
+          "req_name": "SR_B3",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B3.tif",
+          "file_size_bytes": 85645409,
+          "sha256": "855759f61a78f48764c96581fc456e76c6409ee404137932f1e302ace5df5836",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B6": {
+          "req_name": "SR_B6",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B6.tif",
+          "file_size_bytes": 95462448,
+          "sha256": "26885e36527d0b8972e498c6fd2e5d4fe72e2c70bc8e1d9170401c7db63ae4b4",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B2": {
+          "req_name": "SR_B2",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B2.tif",
+          "file_size_bytes": 84534579,
+          "sha256": "fdc669b4f295d377d787ad920ce3c375f4f1ff5cdaaf11909343074893da257e",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_PIXEL": {
+          "req_name": "QA_PIXEL",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_PIXEL.tif",
+          "file_size_bytes": 1264689,
+          "sha256": "2056db1182469f0f79914b2f002d472aa1ece757b8841828f8a4b4994876e367",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_RADSAT": {
+          "req_name": "QA_RADSAT",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_RADSAT.tif",
+          "file_size_bytes": 224617,
+          "sha256": "a05779d414142ad844f80562f5994bd0057a661f2897fe857228d2c17ef8c286",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B7": {
+          "req_name": "SR_B7",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B7.tif",
+          "file_size_bytes": 93909403,
+          "sha256": "dd22707c39338e9158fb6734f4b2f34cb3d3a3a8478f9a538b51d5279659a2ae",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "ST_B10": {
+          "req_name": "ST_B10",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ST_B10.tif",
+          "file_size_bytes": 90043950,
+          "sha256": "c24436748a5af428297fff86d9259bb2c96e155efe238bf61e9d32d85cbee6a6",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B4": {
+          "req_name": "SR_B4",
+          "local_path": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B4.tif",
+          "file_size_bytes": 89933828,
+          "sha256": "f415da9eec02ec826d5b4ae248d3e65588f11eb2c8ab5e266b76320669840e2f",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    },
+    "LC08_L2SP_147047_20250419_02_T1": {
+      "year": 2025,
+      "scene_id": "LC08_L2SP_147047_20250419_02_T1",
+      "platform": "Landsat 8",
+      "date": "2025-04-19",
+      "doy": 109,
+      "offset": 4,
+      "stac_cloud_pct": 0.35,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.0,
+      "assets": {
+        "SR_B4": {
+          "req_name": "SR_B4",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B4.tif",
+          "file_size_bytes": 91160018,
+          "sha256": "37d64db0f1a9cb88b2163ca1b373d5c6144b3294221304451620828b5a406799",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B2": {
+          "req_name": "SR_B2",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B2.tif",
+          "file_size_bytes": 85037922,
+          "sha256": "3ec83979326893512ed2ff4330525a8021108df8efa264e415c7a4a2155ed831",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B6": {
+          "req_name": "SR_B6",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B6.tif",
+          "file_size_bytes": 95339261,
+          "sha256": "941e7fa0b4e14a58348510d6ca52241ab0b5adbb1b1fce4b65f4261e88949640",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B3": {
+          "req_name": "SR_B3",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B3.tif",
+          "file_size_bytes": 86777846,
+          "sha256": "8111c878f2660a1addc8781a9ff9c937ba44f7fc4acd1173fe60e93154a93aa2",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_PIXEL": {
+          "req_name": "QA_PIXEL",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_PIXEL.tif",
+          "file_size_bytes": 723883,
+          "sha256": "a77b458b8d6f48eddd9756ac3f2362442e90285ee7dddc2eeaa752cfa685d75c",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QA_RADSAT": {
+          "req_name": "QA_RADSAT",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_RADSAT.tif",
+          "file_size_bytes": 225186,
+          "sha256": "964c11ed4b4ded54af59baf533ecf2a6d77229af589fecf31f320cce5227788e",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B5": {
+          "req_name": "SR_B5",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B5.tif",
+          "file_size_bytes": 94789826,
+          "sha256": "ded11455a26b23c6e1212aa6aadf08ede960c9f4c8d8055f429740397228c135",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "ST_B10": {
+          "req_name": "ST_B10",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ST_B10.tif",
+          "file_size_bytes": 89691456,
+          "sha256": "6fc8bc5dc301a579d23404e58c80626a9887f5d3d83356c58873ebc47429eee2",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "SR_B7": {
+          "req_name": "SR_B7",
+          "local_path": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B7.tif",
+          "file_size_bytes": 93819997,
+          "sha256": "04e3f386f321d7a8beca220f48aff167d78d1ecb51c27e95d52deb7f9efc594a",
+          "width": 7631,
+          "height": 7781,
+          "crs": "EPSG:32643",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    }
+  },
+  "acquired_modis_series": {
+    "MOD11A2.A2021105.h25v07.061.2021114054044": {
+      "year": 2021,
+      "item_id": "MOD11A2.A2021105.h25v07.061.2021114054044",
+      "date": "2021-04-15",
+      "doy": 105,
+      "assets": {
+        "LST_Day_1km": {
+          "local_path": "data/raw/modis/2021/MOD11A2.A2021105.h25v07.061.2021114054044/LST_Day_1km.tif",
+          "file_size_bytes": 1786837,
+          "sha256": "c19912f33069bce90818aab5c9d6fd34734dbc2ba6c968f7184430a459aa6259",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "LST_Night_1km": {
+          "local_path": "data/raw/modis/2021/MOD11A2.A2021105.h25v07.061.2021114054044/LST_Night_1km.tif",
+          "file_size_bytes": 1467725,
+          "sha256": "2e1689caa2fc5a58e728976c20892c42aa99776ed538fd564f974cc38a047dab",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Day": {
+          "local_path": "data/raw/modis/2021/MOD11A2.A2021105.h25v07.061.2021114054044/QC_Day.tif",
+          "file_size_bytes": 93719,
+          "sha256": "e513f3ae1d8120af3c2ea7e5ed1328e9e8e0c363cc904b10f0ba7cf9566ad2b6",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Night": {
+          "local_path": "data/raw/modis/2021/MOD11A2.A2021105.h25v07.061.2021114054044/QC_Night.tif",
+          "file_size_bytes": 109309,
+          "sha256": "4e09db3beaecc36c54d1e8c5863f0adc5bfb2dbe66f281ac335c47c82d3253f3",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    },
+    "MOD11A2.A2022105.h25v07.061.2022118025926": {
+      "year": 2022,
+      "item_id": "MOD11A2.A2022105.h25v07.061.2022118025926",
+      "date": "2022-04-15",
+      "doy": 105,
+      "assets": {
+        "LST_Day_1km": {
+          "local_path": "data/raw/modis/2022/MOD11A2.A2022105.h25v07.061.2022118025926/LST_Day_1km.tif",
+          "file_size_bytes": 1781953,
+          "sha256": "e1fe4a4618e50e7ed8a4724d7805cb648111ef13c8765032ffb46fdcabff3060",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "LST_Night_1km": {
+          "local_path": "data/raw/modis/2022/MOD11A2.A2022105.h25v07.061.2022118025926/LST_Night_1km.tif",
+          "file_size_bytes": 1571119,
+          "sha256": "9cb9423dff43e552ebc1073a50e749e5ec5f739bc5ef969199febefcefad8c63",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Day": {
+          "local_path": "data/raw/modis/2022/MOD11A2.A2022105.h25v07.061.2022118025926/QC_Day.tif",
+          "file_size_bytes": 88898,
+          "sha256": "64d46c5d6ec15d161e08c8961d0bb5efaf022936b47a2512b020b2b16074dbf9",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Night": {
+          "local_path": "data/raw/modis/2022/MOD11A2.A2022105.h25v07.061.2022118025926/QC_Night.tif",
+          "file_size_bytes": 85489,
+          "sha256": "b1ef96f38db4fc4f10545698c6d83b8acd4a217eb2269c6b56c5a05cb6873e66",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    },
+    "MOD11A2.A2023105.h25v07.061.2023114150920": {
+      "year": 2023,
+      "item_id": "MOD11A2.A2023105.h25v07.061.2023114150920",
+      "date": "2023-04-15",
+      "doy": 105,
+      "assets": {
+        "LST_Day_1km": {
+          "local_path": "data/raw/modis/2023/MOD11A2.A2023105.h25v07.061.2023114150920/LST_Day_1km.tif",
+          "file_size_bytes": 1796133,
+          "sha256": "0711b69d404e9b38c4721391114fa6dc0dc5456cd132817de844a6d9d4f75f49",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "LST_Night_1km": {
+          "local_path": "data/raw/modis/2023/MOD11A2.A2023105.h25v07.061.2023114150920/LST_Night_1km.tif",
+          "file_size_bytes": 1553832,
+          "sha256": "17a4c7f1644e7d5453c9f38f84e499d9bd66a31429384400b13e988daff207ab",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Day": {
+          "local_path": "data/raw/modis/2023/MOD11A2.A2023105.h25v07.061.2023114150920/QC_Day.tif",
+          "file_size_bytes": 53843,
+          "sha256": "eab81cef24e00ba98a87455d05b82c87e31d48c982799d1d7184be7b55ed1e67",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Night": {
+          "local_path": "data/raw/modis/2023/MOD11A2.A2023105.h25v07.061.2023114150920/QC_Night.tif",
+          "file_size_bytes": 52113,
+          "sha256": "d4dd536b2a1711bb1c6ab862fea862333856036889b6aba5d8c839c41a5a833f",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    },
+    "MOD11A2.A2024105.h25v07.061.2024115214105": {
+      "year": 2024,
+      "item_id": "MOD11A2.A2024105.h25v07.061.2024115214105",
+      "date": "2024-04-14",
+      "doy": 105,
+      "assets": {
+        "LST_Day_1km": {
+          "local_path": "data/raw/modis/2024/MOD11A2.A2024105.h25v07.061.2024115214105/LST_Day_1km.tif",
+          "file_size_bytes": 1779954,
+          "sha256": "18ca99489348c539ab66f379d7e6d2e4f3ec35b61d57cb0b61cb4f2eb5c73513",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "LST_Night_1km": {
+          "local_path": "data/raw/modis/2024/MOD11A2.A2024105.h25v07.061.2024115214105/LST_Night_1km.tif",
+          "file_size_bytes": 1549272,
+          "sha256": "13f835f43ce75176f81ca074ca03acd7aefa7aa16026c0733b7f57a4700a924b",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Day": {
+          "local_path": "data/raw/modis/2024/MOD11A2.A2024105.h25v07.061.2024115214105/QC_Day.tif",
+          "file_size_bytes": 88080,
+          "sha256": "35bb7c386f185dfb971bf3aea725d9cbb424a262abf627072c4bac2c8e3fb356",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        },
+        "QC_Night": {
+          "local_path": "data/raw/modis/2024/MOD11A2.A2024105.h25v07.061.2024115214105/QC_Night.tif",
+          "file_size_bytes": 83961,
+          "sha256": "09e2e19a802f64e7f58305337bcfd1c4803cf6e6adf32058cb620d2abbbc8e0c",
+          "width": 1200,
+          "height": 1200,
+          "crs": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+          "skipped_idempotent": false,
+          "validation_status": "VALID"
+        }
+      },
+      "all_valid": true
+    }
+  },
+  "acquired_nasa_power_series": {
+    "2021": {
+      "year": 2021,
+      "local_path": "data/raw/nasa_power/pune/2021/power_2021_daily.json",
+      "file_size_bytes": 72045,
+      "sha256": "c0251caea8727737e61d6b0c3f8cd368710aa8c625ba38310e56af9a0b76c4c8",
+      "record_count": 365,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "status": "VALID"
+    },
+    "2022": {
+      "year": 2022,
+      "local_path": "data/raw/nasa_power/pune/2022/power_2022_daily.json",
+      "file_size_bytes": 71999,
+      "sha256": "39c0a354a98728b6b21826c14a16edc81466a69c1009127b34560b50871f70cd",
+      "record_count": 365,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "status": "VALID"
+    },
+    "2023": {
+      "year": 2023,
+      "local_path": "data/raw/nasa_power/pune/2023/power_2023_daily.json",
+      "file_size_bytes": 72004,
+      "sha256": "4c82fe59edef35aa2592fca8b050c17431010b059e3653c086aa42523b7dced6",
+      "record_count": 365,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "status": "VALID"
+    },
+    "2024": {
+      "year": 2024,
+      "local_path": "data/raw/nasa_power/pune/2024/power_2024_daily.json",
+      "file_size_bytes": 72212,
+      "sha256": "795e2a67034bda739826bb68991bbd68dbb09da0134eda32487f1d87017a4c24",
+      "record_count": 366,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "status": "VALID"
+    }
+  }
+}

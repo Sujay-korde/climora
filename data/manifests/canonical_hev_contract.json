@@ -1,0 +1,395 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1D",
+  "contract_id": "CLIMORA-CONTRACT-CANONICAL-HEV-V1",
+  "status": "RATIFIED_AND_CANONICAL",
+  "generated_at": "2026-10-02T14:42:38.772052+00:00",
+  "input_feature_matrix": {
+    "path": "data/processed/canonical_feature_matrix.parquet",
+    "sha256": "76f344b147b349f3887259f64c97923414c74fd9a97ec679844fb8d9109f7c01",
+    "total_cells": 3181,
+    "eligible_cells": 3113,
+    "ineligible_cells": 68
+  },
+  "weight_governance": {
+    "status": "CLIMORA_INITIAL_METHODOLOGICAL_ASSUMPTION (PENDING_CALIBRATION)",
+    "hazard_weights": {
+      "norm_lst_2025": 0.25,
+      "norm_lst_anomaly": 0.25,
+      "norm_persistence": 0.25,
+      "norm_recurrence_ge45": 0.25
+    },
+    "exposure_weights": {
+      "norm_population": 0.4,
+      "norm_population_density": 0.3,
+      "norm_civic_infra": 0.2,
+      "norm_road_length": 0.1
+    },
+    "susceptibility_weights": {
+      "norm_ndvi_deficit": 0.45,
+      "norm_ndbi": 0.45,
+      "norm_green_space_deficit": 0.1
+    }
+  },
+  "ward_decoupling": {
+    "status": "DECOUPLED_H3_RES9_ONLY",
+    "ward_id_used_in_computation": false,
+    "administrative_reporting_state": "BLOCKED \u2014 AUTHORITATIVE PMC WARD GEOMETRY NOT LOCATED (PHASE 1C.1A)",
+    "governance_rule": "H/E/V computed strictly at H3 Res9. Ward reporting remains a deferred downstream integration layer."
+  },
+  "component_distributions": {
+    "H_i": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.081296,
+      "q01": 0.182309,
+      "q05": 0.211248,
+      "q25": 0.312717,
+      "median": 0.438584,
+      "mean": 0.460385,
+      "q75": 0.600898,
+      "q95": 0.785401,
+      "q99": 0.825928,
+      "max": 0.885578,
+      "std": 0.186694
+    },
+    "E_i_all": {
+      "count": 3181,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.006154,
+      "q05": 0.014585,
+      "q25": 0.064286,
+      "median": 0.155146,
+      "mean": 0.222247,
+      "q75": 0.360066,
+      "q95": 0.593662,
+      "q99": 0.680066,
+      "max": 0.808556,
+      "std": 0.188996
+    },
+    "E_i_eligible": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.006543,
+      "q05": 0.015507,
+      "q25": 0.06634,
+      "median": 0.161449,
+      "mean": 0.225693,
+      "q75": 0.364495,
+      "q95": 0.598067,
+      "q99": 0.680088,
+      "max": 0.808556,
+      "std": 0.189316
+    },
+    "V_i": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.090014,
+      "q01": 0.385689,
+      "q05": 0.509072,
+      "q25": 0.650941,
+      "median": 0.745266,
+      "mean": 0.725963,
+      "q75": 0.81553,
+      "q95": 0.886561,
+      "q99": 0.916837,
+      "max": 0.976001,
+      "std": 0.118863
+    }
+  },
+  "subcomponent_distributions": {
+    "norm_lst_2025": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.32609,
+      "q05": 0.422624,
+      "q25": 0.529462,
+      "median": 0.604731,
+      "mean": 0.616611,
+      "q75": 0.701505,
+      "q95": 0.840516,
+      "q99": 0.916077,
+      "max": 1.0,
+      "std": 0.12769
+    },
+    "norm_lst_anomaly": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.190478,
+      "q05": 0.255048,
+      "q25": 0.352816,
+      "median": 0.407014,
+      "mean": 0.414346,
+      "q75": 0.472901,
+      "q95": 0.583422,
+      "q99": 0.676812,
+      "max": 1.0,
+      "std": 0.101111
+    },
+    "norm_persistence": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.0,
+      "q05": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "mean": 0.247848,
+      "q75": 0.4,
+      "q95": 1.0,
+      "q99": 1.0,
+      "max": 1.0,
+      "std": 0.382143
+    },
+    "norm_recurrence_ge45": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.0,
+      "q05": 0.0,
+      "q25": 0.2,
+      "median": 0.6,
+      "mean": 0.562737,
+      "q75": 0.8,
+      "q95": 1.0,
+      "q99": 1.0,
+      "max": 1.0,
+      "std": 0.340383
+    },
+    "norm_population": {
+      "count": 3181,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.008301,
+      "q05": 0.020131,
+      "q25": 0.07802,
+      "median": 0.199879,
+      "mean": 0.300694,
+      "q75": 0.496291,
+      "q95": 0.805575,
+      "q99": 0.909463,
+      "max": 1.0,
+      "std": 0.259458
+    },
+    "norm_population_density": {
+      "count": 3181,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.00832,
+      "q05": 0.02018,
+      "q25": 0.078184,
+      "median": 0.200283,
+      "mean": 0.300925,
+      "q75": 0.496474,
+      "q95": 0.806779,
+      "q99": 0.910142,
+      "max": 1.0,
+      "std": 0.259634
+    },
+    "norm_civic_infra": {
+      "count": 3181,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.0,
+      "q05": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "mean": 0.028922,
+      "q75": 0.0,
+      "q95": 0.181818,
+      "q99": 0.363636,
+      "max": 1.0,
+      "std": 0.082738
+    },
+    "norm_road_length": {
+      "count": 3181,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.0,
+      "q05": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "mean": 0.059076,
+      "q75": 0.0,
+      "q95": 0.34743,
+      "q99": 0.60482,
+      "max": 1.0,
+      "std": 0.136151
+    },
+    "norm_ndvi_deficit": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.305406,
+      "q05": 0.44375,
+      "q25": 0.602525,
+      "median": 0.712131,
+      "mean": 0.692397,
+      "q75": 0.797414,
+      "q95": 0.883067,
+      "q99": 0.927321,
+      "max": 1.0,
+      "std": 0.138608
+    },
+    "norm_ndbi": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.350989,
+      "q05": 0.472009,
+      "q25": 0.624041,
+      "median": 0.723543,
+      "mean": 0.70712,
+      "q75": 0.801956,
+      "q95": 0.903183,
+      "q99": 0.944525,
+      "max": 1.0,
+      "std": 0.133089
+    },
+    "norm_green_space_deficit": {
+      "count": 3113,
+      "missing": 0,
+      "min": 0.0,
+      "q01": 0.408784,
+      "q05": 0.712364,
+      "q25": 0.996824,
+      "median": 1.0,
+      "mean": 0.961808,
+      "q75": 1.0,
+      "q95": 1.0,
+      "q99": 1.0,
+      "max": 1.0,
+      "std": 0.11536
+    }
+  },
+  "inter_dimensional_correlations": {
+    "pearson": {
+      "H": {
+        "H": 1.0,
+        "E": -0.404811,
+        "V": 0.758153
+      },
+      "E": {
+        "H": -0.404811,
+        "E": 1.0,
+        "V": -0.299164
+      },
+      "V": {
+        "H": 0.758153,
+        "E": -0.299164,
+        "V": 1.0
+      }
+    },
+    "spearman": {
+      "H": {
+        "H": 1.0,
+        "E": -0.438788,
+        "V": 0.79344
+      },
+      "E": {
+        "H": -0.438788,
+        "E": 1.0,
+        "V": -0.378681
+      },
+      "V": {
+        "H": 0.79344,
+        "E": -0.378681,
+        "V": 1.0
+      }
+    }
+  },
+  "intra_dimensional_correlations": {
+    "hazard_subcomponents": {
+      "norm_lst_2025": {
+        "norm_lst_2025": 1.0,
+        "norm_lst_anomaly": -0.106324,
+        "norm_persistence": 0.797641,
+        "norm_recurrence_ge45": 0.850376
+      },
+      "norm_lst_anomaly": {
+        "norm_lst_2025": -0.106324,
+        "norm_lst_anomaly": 1.0,
+        "norm_persistence": -0.337176,
+        "norm_recurrence_ge45": -0.304385
+      },
+      "norm_persistence": {
+        "norm_lst_2025": 0.797641,
+        "norm_lst_anomaly": -0.337176,
+        "norm_persistence": 1.0,
+        "norm_recurrence_ge45": 0.642873
+      },
+      "norm_recurrence_ge45": {
+        "norm_lst_2025": 0.850376,
+        "norm_lst_anomaly": -0.304385,
+        "norm_persistence": 0.642873,
+        "norm_recurrence_ge45": 1.0
+      }
+    },
+    "exposure_subcomponents": {
+      "norm_population": {
+        "norm_population": 1.0,
+        "norm_population_density": 1.0,
+        "norm_civic_infra": 0.223815,
+        "norm_road_length": 0.161202
+      },
+      "norm_population_density": {
+        "norm_population": 1.0,
+        "norm_population_density": 1.0,
+        "norm_civic_infra": 0.223997,
+        "norm_road_length": 0.161344
+      },
+      "norm_civic_infra": {
+        "norm_population": 0.223815,
+        "norm_population_density": 0.223997,
+        "norm_civic_infra": 1.0,
+        "norm_road_length": 0.246814
+      },
+      "norm_road_length": {
+        "norm_population": 0.161202,
+        "norm_population_density": 0.161344,
+        "norm_civic_infra": 0.246814,
+        "norm_road_length": 1.0
+      }
+    },
+    "susceptibility_subcomponents": {
+      "norm_ndvi_deficit": {
+        "norm_ndvi_deficit": 1.0,
+        "norm_ndbi": 0.824862,
+        "norm_green_space_deficit": 0.231638
+      },
+      "norm_ndbi": {
+        "norm_ndvi_deficit": 0.824862,
+        "norm_ndbi": 1.0,
+        "norm_green_space_deficit": 0.016025
+      },
+      "norm_green_space_deficit": {
+        "norm_ndvi_deficit": 0.231638,
+        "norm_ndbi": 0.016025,
+        "norm_green_space_deficit": 1.0
+      }
+    }
+  },
+  "zero_exposure_audit": {
+    "count_cells_zero_exposure": 1,
+    "h3_cell_ids": [
+      "89608855343ffff"
+    ],
+    "semantic_interpretation": "E_i = 0 indicates that cell is at the city-wide minimum for population count and density, with zero mapped civic infrastructure and zero mapped roadways. Under the downstream zero-exposure axiom, this will yield Risk_i = 0. In Phase 1D, Risk_i is not constructed."
+  },
+  "missingness_audit": {
+    "k_valid_ge_4_cells": 3113,
+    "k_valid_lt_4_cells": 68,
+    "imputation_policy": "NO_SILENT_IMPUTATION (Strict NaN preservation for disqualified cells)"
+  },
+  "materialized_assets": {
+    "parquet_path": "data/processed/hev/canonical_hev_components.parquet",
+    "parquet_sha256": "1970c2da7863f5771b223c2f265344129ea3f7ed1e5119ece98dc56e37fa2be9",
+    "parquet_size_bytes": 247636,
+    "row_count": 3181,
+    "column_count": 19
+  }
+}

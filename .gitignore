@@ -1,0 +1,105 @@
+# ==============================================================================
+# CLIMORA Production Git Ignore Policy
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment Variables, Secrets & Credentials
+# ------------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pkcs12
+*.pfx
+*.cert
+id_rsa*
+aws_credentials
+credentials.json
+client_secret*.json
+
+# ------------------------------------------------------------------------------
+# 2. Local Scientific Data Lake & Satellite Rasters
+# ------------------------------------------------------------------------------
+# Raw satellite scenes, multi-spectral rasters, large arrays remain in S3
+*.tif
+*.tiff
+*.jp2
+*.nc
+*.hdf
+*.part
+
+data/raw/
+data/derived/
+data/processed/landsat/
+data/processed/sentinel2/
+data/processed/modis/
+data/processed/worldpop/
+data/processed/nasa_power/
+data/processed/*.csv
+
+# ------------------------------------------------------------------------------
+# 3. Canonical Parquets (Cryptographically Ratified & Stored in S3 Data Lake)
+# ------------------------------------------------------------------------------
+# Parquet files are strictly preserved in S3 with SHA-256 digests in manifests
+*.parquet
+
+# ------------------------------------------------------------------------------
+# 4. Frontend Dependencies & Build Output
+# ------------------------------------------------------------------------------
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+*.zip
+
+# ------------------------------------------------------------------------------
+# 5. Python & Virtual Environments
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+.venv/
+venv/
+ENV/
+env/
+
+# ------------------------------------------------------------------------------
+# 6. Testing, Linting & Coverage Caches
+# ------------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# ------------------------------------------------------------------------------
+# 7. IDE, OS & Temporary Developer Space
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.cache
+scratch/

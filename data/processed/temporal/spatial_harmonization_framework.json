@@ -1,0 +1,171 @@
+{
+  "title": "CLIMORA Spatial Harmonization Framework & Multi-Resolution Registry",
+  "phase": "1A.8",
+  "processing_version": "1.0.0",
+  "created_at": "2026-10-02T07:29:47.311323+00:00",
+  "governance_status": "DECISION_DEFERRED_UNTIL_PHASE_1B",
+  "lock_status": "UNLOCKED (Native resolutions preserved to prevent scientific degradation)",
+  "spatial_profiles": {
+    "landsat_30m": {
+      "modality": "Optical / Thermal Pre-Monsoon Baseline",
+      "datasets": [
+        "Landsat 8 OLI/TIRS",
+        "Landsat 9 OLI-2/TIRS-2"
+      ],
+      "native_spatial_resolution": "30.0 m x 30.0 m",
+      "crs": "EPSG:32643 (WGS 84 / UTM Zone 43N)",
+      "clipped_dimensions": [
+        706,
+        954
+      ],
+      "total_pixels_in_bbox": 673524,
+      "statutory_aoi_valid_pixels": 346809,
+      "affine_transform": [
+        30.0,
+        0.0,
+        368025.0,
+        0.0,
+        -30.0,
+        2059245.0
+      ],
+      "bounding_box_utm": [
+        368025.0,
+        2038065.0,
+        396645.0,
+        2059245.0
+      ],
+      "status": "NATIVE_RESOLUTION_PRESERVED"
+    },
+    "sentinel2_10m_20m": {
+      "modality": "Current-State High-Resolution Optical Reference",
+      "datasets": [
+        "Sentinel-2A MSI L2A (2025-01-18)"
+      ],
+      "native_spatial_resolution": "10.0 m (B2, B3, B4, B8) and 20.0 m (B5, B6, B7, B11, B12, B8A, SCL)",
+      "crs": "EPSG:32643 (WGS 84 / UTM Zone 43N)",
+      "clipped_dimensions_10m": [
+        2118,
+        2858
+      ],
+      "clipped_dimensions_20m": [
+        1060,
+        1430
+      ],
+      "spatial_nesting_ratio_to_landsat": "Exact 3:1 integer sub-grid commensurability (10m x 3 = 30m)",
+      "status": "NATIVE_RESOLUTION_PRESERVED"
+    },
+    "modis_1km": {
+      "modality": "Coarse-Resolution Regional Thermal Context",
+      "datasets": [
+        "MODIS MOD11A2 v061 (Terra)",
+        "MODIS MYD11A2 v061 (Aqua)"
+      ],
+      "native_spatial_resolution": "926.625 m x 926.625 m (~1 km nominal)",
+      "crs": "Sinusoidal (tile h25v07)",
+      "clipped_dimensions": [
+        24,
+        19
+      ],
+      "valid_aoi_pixels": 284,
+      "status": "NATIVE_RESOLUTION_PRESERVED"
+    },
+    "dem_30m": {
+      "modality": "Topography / Digital Elevation Model",
+      "datasets": [
+        "Copernicus DEM GLO-30 DSM"
+      ],
+      "native_spatial_resolution": "1 arc-second (~30 m at equator, ~28.5 m at 18.5\u00b0N)",
+      "crs": "EPSG:4326 (WGS 84)",
+      "clipped_dimensions": [
+        824,
+        1083
+      ],
+      "status": "NATIVE_RESOLUTION_PRESERVED"
+    },
+    "osm_vectors": {
+      "modality": "Urban Morphology & Infrastructure Vector Geometry",
+      "datasets": [
+        "data/raw/osm/pune/green_spaces.geojson",
+        "data/raw/osm/pune/water_bodies.geojson",
+        "data/raw/osm/pune/road_network.geojson",
+        "data/raw/osm/pune/public_infrastructure.geojson"
+      ],
+      "geometry_types": [
+        "Polygon",
+        "MultiPolygon",
+        "LineString",
+        "Point"
+      ],
+      "native_crs": "EPSG:4326",
+      "status": "NATIVE_VECTOR_PRESERVED"
+    },
+    "nasa_power_point": {
+      "modality": "Meteorological Forcing Time Series",
+      "datasets": [
+        "NASA POWER Daily Meteorology (2021-2025)"
+      ],
+      "spatial_representation": "Centroid point [73.8735, 18.5279] on MERRA-2 0.5\u00b0 x 0.625\u00b0 Grid",
+      "status": "NATIVE_POINT_PRESERVED"
+    }
+  },
+  "candidate_analytical_units": {
+    "candidate_1_planar_metric_grid_250m": {
+      "unit_name": "Planar Metric Grid (250 m x 250 m)",
+      "target_crs": "EPSG:32643",
+      "cell_area_km2": 0.0625,
+      "landsat_aggregation_factor": "~8.33 x 8.33 pixels per cell (~69.4 Landsat pixels)",
+      "sentinel2_aggregation_factor": "25 x 25 pixels per cell (625 pixels)",
+      "modis_downscaling_factor": "~3.7 x 3.7 cells per MODIS pixel",
+      "pros": [
+        "Cartesian metric uniformity across Pune municipal extent",
+        "Standard 2D array representation directly consumable by CNNs and PyTorch tensors",
+        "Simple zonal statistics without area distortion"
+      ],
+      "cons": [
+        "Artificial square boundaries do not follow natural street corridors or wards",
+        "Fractional boundary intersection with municipal limits"
+      ],
+      "suitability_score": "HIGH (for raster risk modeling)"
+    },
+    "candidate_2_uber_h3_resolution_9": {
+      "unit_name": "Uber H3 Discrete Global Grid System (Resolution 9)",
+      "spatial_type": "Hexagonal Geodesic DGGS",
+      "average_cell_area_km2": 0.105,
+      "average_edge_length_m": 174.38,
+      "average_inter_cell_distance_m": 302.04,
+      "approximate_cells_over_pune": "~3,300 cells",
+      "landsat_aggregation_factor": "~116 Landsat 30m pixels per hexagon",
+      "pros": [
+        "Uniform distance to all 6 adjacent neighbors (optimal for heat diffusion & contagion)",
+        "Invariant to directional orientation artifacts",
+        "Standardized integer cell indexing (int64) for ultra-fast database joins",
+        "Global scalability and direct mapping to mobility/demographic datasets"
+      ],
+      "cons": [
+        "Non-hierarchical aperture-7 area nesting across resolutions",
+        "Requires geodesic zonal aggregation rather than planar array slicing"
+      ],
+      "suitability_score": "HIGH (for spatial connectivity and intervention modeling)"
+    },
+    "candidate_3_uber_h3_resolution_8": {
+      "unit_name": "Uber H3 Discrete Global Grid System (Resolution 8)",
+      "spatial_type": "Hexagonal Geodesic DGGS",
+      "average_cell_area_km2": 0.737,
+      "average_edge_length_m": 461.35,
+      "approximate_cells_over_pune": "~470 cells",
+      "suitability_score": "MEDIUM (good for macro-neighborhood analysis, too coarse for block-level cool roofs)"
+    },
+    "candidate_4_administrative_wards": {
+      "unit_name": "PMC Statutory Administrative Prabhag Wards",
+      "spatial_type": "Administrative Vector Polygons",
+      "pros": [
+        "Direct alignment with civic budgetary and municipal implementation mechanisms"
+      ],
+      "cons": [
+        "High variance in ward area (Modifiable Areal Unit Problem - MAUP)"
+      ],
+      "suitability_score": "REPORTING_ONLY (downstream aggregation target, not primary modeling mesh)"
+    }
+  },
+  "deferred_decision_statement": "The final analytical spatial unit (e.g., 250m planar metric grid vs. H3 resolution 9) is intentionally deferred to Phase 1B. All Phase 1A.8 products are strictly stored at their native resolutions to enable lossless, mathematically rigorous aggregation to whichever target geometry is formally ratified."
+}

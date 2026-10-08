@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1B",
+  "contract_id": "CLIMORA-CONTRACT-POPULATION-EXPOSURE-V1",
+  "status": "RATIFIED_AND_FROZEN",
+  "ratified_at": "2026-10-02T08:37:44.934591+00:00",
+  "product_specification": {
+    "dataset_name": "WorldPop Global 2000-2020 1km UN-adjusted Population Count",
+    "year": 2020,
+    "country": "India (IND)",
+    "provider": "WorldPop Research Group, University of Southampton",
+    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+    "native_crs": "EPSG:4326",
+    "native_resolution": "30 arc-seconds (~1 km)",
+    "units": "Estimated number of persons (people per pixel / count)",
+    "methodology": "Random Forest dasymetric spatial disaggregation calibrated to UN WPP national totals",
+    "raw_asset": "data/raw/worldpop/2020/ind_ppp_2020_1km_Aggregated_UNadj.tif",
+    "clipped_asset": "data/processed/worldpop/2020/worldpop_pune_2020_clipped.tif"
+  },
+  "exposure_semantics": {
+    "primary_unit": "grid_hex_h9",
+    "population_count_definition": "Total estimated resident persons within the H3 Resolution 9 hexagonal cell (~9.86 ha), computed via area-weighted dasymetric sum conservation.",
+    "population_density_definition": "Estimated persons per square kilometer: population_count / 0.098623 km\u00b2.",
+    "aggregation_operator": "area_weighted_sum",
+    "conservation_guarantee": "Demographic mass conserved within <= 0.05% against exact polygon intersection",
+    "exact_conservation_delta_pct": 0.0033,
+    "bounding_raster_delta_pct": 5.4078,
+    "total_pune_estimated_population": 5011229.57,
+    "nodata_policy": "Zero or negative pixels treated as 0.0 population (unpopulated/water/void)",
+    "truth_layer": "OBSERVED (Raw Count) / DERIVED (Zonal Aggregate & Density)"
+  },
+  "quality_and_uncertainty": {
+    "demographic_uncertainty_bound": "+/- 15%",
+    "demographic_uncertainty_classification": "CLIMORA_ASSUMPTION (Methodological sensitivity parameter; empirical urban parcel downscaling uncertainty is unquantified at hexagon scale in India)",
+    "census_base_year": "Census of India 2011 projected to 2020 via UN Population Division growth rates",
+    "suitability": "Optimal for relative intra-urban heat exposure prioritization; not statutory census enumeration",
+    "floating_population_limitation": "Represents ambient residential nighttime population; does not capture diurnal peak commuter influx in commercial central business districts (CBDs)."
+  }
+}

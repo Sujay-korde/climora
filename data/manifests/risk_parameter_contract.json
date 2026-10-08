@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1B",
+  "contract_id": "CLIMORA-CONTRACT-RISK-PARAMETERS-V1",
+  "status": "RATIFIED_AND_FROZEN",
+  "ratified_at": "2026-10-02T13:15:00Z",
+  "framework_attribution": {
+    "conceptual_framework": "IPCC AR6 Working Group II Risk Concept (Risk = interaction of Hazard, Exposure, Vulnerability)",
+    "methodological_implementation": "CLIMORA Multiplicative Power-Law Formulation: Risk_i = H_i^alpha * E_i^beta * V_i^gamma",
+    "attribution_distinction": "The power-law equation is explicitly a CLIMORA methodological implementation, NOT an IPCC-prescribed formula. It was chosen to enforce the axiom that zero human exposure results in zero human climate risk.",
+    "zero_exposure_axiom": "If Exposure E_i = 0, then Risk_i = 0."
+  },
+  "risk_parameters": [
+    {
+      "parameter_name": "risk_weight_alpha",
+      "target_component": "Hazard (H)",
+      "default_value": 1.0,
+      "allowed_range": [0.0, 3.0],
+      "calibration_status": "PENDING_METHODOLOGICAL_CALIBRATION",
+      "semantic_role": "Exponent weighting the multi-temporal physical thermal hazard index",
+      "normalization_applied": "Min-Max scaling to [0.0, 1.0] prior to exponentiation"
+    },
+    {
+      "parameter_name": "risk_weight_beta",
+      "target_component": "Exposure (E)",
+      "default_value": 1.0,
+      "allowed_range": [0.0, 3.0],
+      "calibration_status": "PENDING_METHODOLOGICAL_CALIBRATION",
+      "semantic_role": "Exponent weighting the population and infrastructure exposure index",
+      "normalization_applied": "Min-Max scaling to [0.0, 1.0] prior to exponentiation"
+    },
+    {
+      "parameter_name": "risk_weight_gamma",
+      "target_component": "Biophysical and Structural Susceptibility (V)",
+      "default_value": 1.0,
+      "allowed_range": [0.0, 3.0],
+      "calibration_status": "PENDING_METHODOLOGICAL_CALIBRATION",
+      "semantic_role": "Exponent weighting the biophysical vegetative deficit and built-up thermal mass susceptibility index",
+      "normalization_applied": "Min-Max scaling to [0.0, 1.0] prior to exponentiation"
+    }
+  ],
+  "susceptibility_semantics_boundary": {
+    "biophysical_susceptibility_definition": "Surface properties amplifying localized heat stress: lack of vegetative evaporative canopy (1 - NDVI) and impervious built-up thermal mass (NDBI).",
+    "socioeconomic_vulnerability_disclaimer": "CLIMORA explicitly does NOT possess parcel-level socioeconomic vulnerability or adaptive capacity measurements for Pune. Satellite spectral indices must NEVER be interpreted as measures of human poverty, income, or social deprivation. True socioeconomic vulnerability remains PENDING statutory household and slum surveys."
+  },
+  "methodological_thresholds": {
+    "lst_extreme_recurrence_threshold_celsius": 45.0,
+    "threshold_type": "CLIMORA_METHODOLOGICAL_SURFACE_TEMPERATURE_THRESHOLD",
+    "epidemiological_disclaimer": "45.0C is a surface temperature (LST) screening threshold for acute physical radiant heat on impervious/tin surfaces, NOT an epidemiological human air-temperature threshold.",
+    "annual_cell_coverage_valid_threshold": 0.70,
+    "min_valid_baseline_years_required": 4
+  }
+}

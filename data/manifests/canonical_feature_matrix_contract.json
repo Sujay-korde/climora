@@ -1,0 +1,1246 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "Phase 1C.1",
+  "contract_id": "CLIMORA-CONTRACT-CANONICAL-FEATURE-MATRIX-V1",
+  "status": "RATIFIED_AND_CANONICAL",
+  "ratified_at": "2026-10-02T14:14:39.811365+00:00",
+  "primary_analytical_mesh": {
+    "system": "Uber H3 DGGS",
+    "resolution": 9,
+    "total_cells": 3181,
+    "nominal_cell_area_km2": 0.098623,
+    "geodesic_cell_area_min_km2": 0.098367,
+    "geodesic_cell_area_max_km2": 0.098871,
+    "geodesic_cell_area_mean_km2": 0.098629
+  },
+  "administrative_reporting_mesh": {
+    "authority": "Pune Municipal Corporation (PMC)",
+    "total_wards": 41,
+    "ward_id_prefix": "PMC_WARD_"
+  },
+  "materialized_assets": {
+    "parquet_path": "data/processed/canonical_feature_matrix.parquet",
+    "parquet_sha256": "76f344b147b349f3887259f64c97923414c74fd9a97ec679844fb8d9109f7c01",
+    "csv_path": "data/processed/canonical_feature_matrix.csv",
+    "csv_sha256": "c6a8c7b3b167754e629b8d62a7ba20dedda1a809fb15d5f5353356146f5247aa"
+  },
+  "normalization_reference_ranges": {
+    "lst_2025": {
+      "min": 31.76,
+      "max": 55.01
+    },
+    "lst_anomaly_absolute": {
+      "min": -3.68,
+      "max": 5.73
+    },
+    "lst_persistence": {
+      "min": 0.0,
+      "max": 1.0
+    },
+    "lst_recurrence_ge45": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "population_2020": {
+      "min": 25.07,
+      "max": 5180.79
+    },
+    "population_density_2020": {
+      "min": 254.8,
+      "max": 52478.9
+    },
+    "ndvi_2025": {
+      "min": 0.1027,
+      "max": 0.7523
+    },
+    "ndvi_deficit": {
+      "formula": "1.0 - norm(ndvi_2025)"
+    },
+    "ndbi_2025": {
+      "min": -0.3917,
+      "max": 0.1299
+    },
+    "road_length_m": {
+      "min": 0.0,
+      "max": 2040.84
+    },
+    "civic_infra_sum": {
+      "min": 0.0,
+      "max": 11.0
+    }
+  },
+  "audit_summary": {
+    "total_cells": 3181,
+    "total_columns": 57,
+    "eligible_baseline_cells": 3113,
+    "insufficient_coverage_cells": 68,
+    "citywide_q75_thresholds": {
+      "2021": 50.08,
+      "2022": 43.8,
+      "2023": 48.03,
+      "2024": 49.37,
+      "2025": 48.07
+    },
+    "numerical_safeguard_cells_count": 0,
+    "population_conservation": {
+      "total_matrix_population": 5011229.59,
+      "expected_population": 5011229.57,
+      "conservation_delta_percent": 0.0,
+      "conservation_pass": true
+    },
+    "columns": {
+      "h3_cell_id": {
+        "dtype": "object",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "unique_count": 3181
+      },
+      "ward_id": {
+        "dtype": "object",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "unique_count": 41
+      },
+      "centroid_lat": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 18.4324,
+        "max": 18.6197,
+        "mean": 18.5278,
+        "median": 18.53,
+        "std": 0.0428,
+        "q25": 18.4935,
+        "q75": 18.5622,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "centroid_lon": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 73.7501,
+        "max": 74.0191,
+        "mean": 73.8735,
+        "median": 73.8751,
+        "std": 0.0602,
+        "q25": 73.8258,
+        "q75": 73.9164,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "cell_area_km2": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0984,
+        "max": 0.0989,
+        "mean": 0.0986,
+        "median": 0.0986,
+        "std": 0.0001,
+        "q25": 0.0985,
+        "q75": 0.0987,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "valid_fraction_2021": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.3273,
+        "max": 1.0,
+        "mean": 0.9854,
+        "median": 1.0,
+        "std": 0.0679,
+        "q25": 1.0,
+        "q75": 1.0,
+        "outlier_count": 221,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "valid_fraction_2022": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.9055,
+        "median": 1.0,
+        "std": 0.2521,
+        "q25": 1.0,
+        "q75": 1.0,
+        "outlier_count": 610,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "valid_fraction_2023": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.3273,
+        "max": 1.0,
+        "mean": 0.9849,
+        "median": 1.0,
+        "std": 0.0698,
+        "q25": 1.0,
+        "q75": 1.0,
+        "outlier_count": 228,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "valid_fraction_2024": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.3273,
+        "max": 1.0,
+        "mean": 0.9854,
+        "median": 1.0,
+        "std": 0.0679,
+        "q25": 1.0,
+        "q75": 1.0,
+        "outlier_count": 220,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "valid_fraction_2025": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.3273,
+        "max": 1.0,
+        "mean": 0.9854,
+        "median": 1.0,
+        "std": 0.0679,
+        "q25": 1.0,
+        "q75": 1.0,
+        "outlier_count": 220,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "K_valid": {
+        "dtype": "int64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 5.0,
+        "mean": 4.7994,
+        "median": 5.0,
+        "std": 0.7669,
+        "q25": 5.0,
+        "q75": 5.0,
+        "outlier_count": 366,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "historical_coverage_status": {
+        "dtype": "object",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "unique_count": 2
+      },
+      "lst_2021": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 32.71,
+        "max": 59.58,
+        "mean": 47.8423,
+        "median": 47.59,
+        "std": 3.693,
+        "q25": 45.37,
+        "q75": 50.08,
+        "outlier_count": 40,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_2022": {
+        "dtype": "float64",
+        "missing_count": 364,
+        "valid_count": 2817,
+        "missing_percentage": 11.44,
+        "min": 31.83,
+        "max": 50.88,
+        "mean": 41.9763,
+        "median": 41.84,
+        "std": 2.9592,
+        "q25": 39.98,
+        "q75": 43.8,
+        "outlier_count": 24,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_2023": {
+        "dtype": "float64",
+        "missing_count": 70,
+        "valid_count": 3111,
+        "missing_percentage": 2.2,
+        "min": 32.43,
+        "max": 59.81,
+        "mean": 45.7815,
+        "median": 45.2,
+        "std": 3.9071,
+        "q25": 43.02,
+        "q75": 48.03,
+        "outlier_count": 49,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_2024": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 33.19,
+        "max": 58.98,
+        "mean": 47.3323,
+        "median": 46.88,
+        "std": 3.406,
+        "q25": 44.89,
+        "q75": 49.37,
+        "outlier_count": 37,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_2025": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 31.76,
+        "max": 55.01,
+        "mean": 46.0962,
+        "median": 45.82,
+        "std": 2.9688,
+        "q25": 44.07,
+        "q75": 48.07,
+        "outlier_count": 17,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_baseline_mean": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 32.38,
+        "max": 56.1,
+        "mean": 45.8771,
+        "median": 45.58,
+        "std": 3.2124,
+        "q25": 43.68,
+        "q75": 47.75,
+        "outlier_count": 35,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_baseline_median": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 32.43,
+        "max": 58.28,
+        "mean": 46.5156,
+        "median": 46.13,
+        "std": 3.4261,
+        "q25": 44.17,
+        "q75": 48.45,
+        "outlier_count": 52,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_baseline_std": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.4747,
+        "max": 7.2053,
+        "mean": 2.4659,
+        "median": 2.3814,
+        "std": 0.7017,
+        "q25": 2.0723,
+        "q75": 2.7716,
+        "outlier_count": 174,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_anomaly_absolute": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -3.68,
+        "max": 5.73,
+        "mean": 0.219,
+        "median": 0.15,
+        "std": 0.9515,
+        "q25": -0.36,
+        "q75": 0.77,
+        "outlier_count": 74,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_anomaly_zscore": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -1.2421,
+        "max": 1.6068,
+        "mean": 0.0906,
+        "median": 0.0669,
+        "std": 0.3613,
+        "q25": -0.1546,
+        "q75": 0.3274,
+        "outlier_count": 37,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_persistence": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.2478,
+        "median": 0.0,
+        "std": 0.3821,
+        "q25": 0.0,
+        "q75": 0.4,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "lst_recurrence_ge45": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 5.0,
+        "mean": 2.8137,
+        "median": 3.0,
+        "std": 1.7019,
+        "q25": 1.0,
+        "q75": 4.0,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndvi_2021": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0715,
+        "max": 0.8656,
+        "mean": 0.3237,
+        "median": 0.3143,
+        "std": 0.1022,
+        "q25": 0.2441,
+        "q75": 0.393,
+        "outlier_count": 24,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndvi_2022": {
+        "dtype": "float64",
+        "missing_count": 364,
+        "valid_count": 2817,
+        "missing_percentage": 11.44,
+        "min": 0.1124,
+        "max": 0.7326,
+        "mean": 0.2917,
+        "median": 0.2791,
+        "std": 0.0777,
+        "q25": 0.2335,
+        "q75": 0.339,
+        "outlier_count": 43,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndvi_2023": {
+        "dtype": "float64",
+        "missing_count": 70,
+        "valid_count": 3111,
+        "missing_percentage": 2.2,
+        "min": 0.0745,
+        "max": 0.74,
+        "mean": 0.3317,
+        "median": 0.3213,
+        "std": 0.1054,
+        "q25": 0.2492,
+        "q75": 0.405,
+        "outlier_count": 15,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndvi_2024": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.1256,
+        "max": 0.6436,
+        "mean": 0.2911,
+        "median": 0.2785,
+        "std": 0.0792,
+        "q25": 0.2331,
+        "q75": 0.3414,
+        "outlier_count": 47,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndvi_2025": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.1027,
+        "max": 0.7523,
+        "mean": 0.3025,
+        "median": 0.2897,
+        "std": 0.09,
+        "q25": 0.2343,
+        "q75": 0.3609,
+        "outlier_count": 33,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndvi_baseline_mean": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0982,
+        "max": 0.7006,
+        "mean": 0.3085,
+        "median": 0.3004,
+        "std": 0.0879,
+        "q25": 0.2395,
+        "q75": 0.3673,
+        "outlier_count": 27,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndvi_anomaly": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -0.233,
+        "max": 0.0903,
+        "mean": -0.006,
+        "median": -0.0042,
+        "std": 0.0188,
+        "q25": -0.0147,
+        "q75": 0.0043,
+        "outlier_count": 160,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndbi_2021": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -0.531,
+        "max": 0.1777,
+        "mean": -0.0164,
+        "median": -0.0083,
+        "std": 0.0788,
+        "q25": -0.0639,
+        "q75": 0.0365,
+        "outlier_count": 38,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndbi_2022": {
+        "dtype": "float64",
+        "missing_count": 364,
+        "valid_count": 2817,
+        "missing_percentage": 11.44,
+        "min": -0.3656,
+        "max": 0.1552,
+        "mean": 0.0007,
+        "median": 0.0061,
+        "std": 0.07,
+        "q25": -0.0402,
+        "q75": 0.0474,
+        "outlier_count": 47,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndbi_2023": {
+        "dtype": "float64",
+        "missing_count": 70,
+        "valid_count": 3111,
+        "missing_percentage": 2.2,
+        "min": -0.3939,
+        "max": 0.1764,
+        "mean": -0.0251,
+        "median": -0.0178,
+        "std": 0.0758,
+        "q25": -0.0743,
+        "q75": 0.0255,
+        "outlier_count": 29,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndbi_2024": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -0.3177,
+        "max": 0.1692,
+        "mean": 0.0003,
+        "median": 0.0061,
+        "std": 0.0691,
+        "q25": -0.0429,
+        "q75": 0.0468,
+        "outlier_count": 41,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndbi_2025": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -0.3917,
+        "max": 0.1299,
+        "mean": -0.0229,
+        "median": -0.0143,
+        "std": 0.0694,
+        "q25": -0.0662,
+        "q75": 0.0266,
+        "outlier_count": 32,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndbi_baseline_mean": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -0.3758,
+        "max": 0.1504,
+        "mean": -0.0132,
+        "median": -0.0047,
+        "std": 0.0706,
+        "q25": -0.0576,
+        "q75": 0.0363,
+        "outlier_count": 41,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "ndbi_anomaly": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": -0.1066,
+        "max": 0.1209,
+        "mean": -0.0097,
+        "median": -0.0092,
+        "std": 0.0135,
+        "q25": -0.0162,
+        "q75": -0.0025,
+        "outlier_count": 130,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "population_2020": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 25.07,
+        "max": 5180.79,
+        "mean": 1575.363,
+        "median": 1055.59,
+        "std": 1337.6906,
+        "q25": 427.32,
+        "q75": 2583.81,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "population_density_2020": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 254.8,
+        "max": 52478.9,
+        "mean": 15970.3118,
+        "median": 10714.4,
+        "std": 13559.1507,
+        "q25": 4337.9,
+        "q75": 26182.7,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "hospital_count": {
+        "dtype": "int64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 10.0,
+        "mean": 0.165,
+        "median": 0.0,
+        "std": 0.6159,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 336,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "clinic_count": {
+        "dtype": "int64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 6.0,
+        "mean": 0.1097,
+        "median": 0.0,
+        "std": 0.4418,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 245,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "school_count": {
+        "dtype": "int64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 5.0,
+        "mean": 0.0318,
+        "median": 0.0,
+        "std": 0.2297,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 78,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "university_count": {
+        "dtype": "int64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 5.0,
+        "mean": 0.0116,
+        "median": 0.0,
+        "std": 0.1865,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 19,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "road_length_m": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 2040.84,
+        "mean": 120.5656,
+        "median": 0.0,
+        "std": 277.8626,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 672,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "green_space_area_m2": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 165882.19,
+        "mean": 6283.5496,
+        "median": 0.0,
+        "std": 19103.4924,
+        "q25": 0.0,
+        "q75": 462.99,
+        "outlier_count": 721,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "water_body_area_m2": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 70571.44,
+        "mean": 1217.0284,
+        "median": 0.0,
+        "std": 6209.4532,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 266,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_lst_2025": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.6166,
+        "median": 0.6047,
+        "std": 0.1277,
+        "q25": 0.5295,
+        "q75": 0.7015,
+        "outlier_count": 17,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_lst_anomaly": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.4143,
+        "median": 0.407,
+        "std": 0.1011,
+        "q25": 0.3528,
+        "q75": 0.4729,
+        "outlier_count": 74,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_persistence": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.2478,
+        "median": 0.0,
+        "std": 0.3821,
+        "q25": 0.0,
+        "q75": 0.4,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_recurrence_ge45": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.5627,
+        "median": 0.6,
+        "std": 0.3404,
+        "q25": 0.2,
+        "q75": 0.8,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_population": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.3007,
+        "median": 0.1999,
+        "std": 0.2595,
+        "q25": 0.078,
+        "q75": 0.4963,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_population_density": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.3009,
+        "median": 0.2003,
+        "std": 0.2596,
+        "q25": 0.0782,
+        "q75": 0.4965,
+        "outlier_count": 0,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_ndvi_deficit": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.6924,
+        "median": 0.7121,
+        "std": 0.1386,
+        "q25": 0.6025,
+        "q75": 0.7974,
+        "outlier_count": 33,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_ndbi": {
+        "dtype": "float64",
+        "missing_count": 68,
+        "valid_count": 3113,
+        "missing_percentage": 2.14,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.7071,
+        "median": 0.7235,
+        "std": 0.1331,
+        "q25": 0.624,
+        "q75": 0.802,
+        "outlier_count": 32,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_road_length": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.0591,
+        "median": 0.0,
+        "std": 0.1362,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 672,
+        "zero_variance": false,
+        "has_infinite": false
+      },
+      "norm_civic_infra": {
+        "dtype": "float64",
+        "missing_count": 0,
+        "valid_count": 3181,
+        "missing_percentage": 0.0,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.0289,
+        "median": 0.0,
+        "std": 0.0827,
+        "q25": 0.0,
+        "q75": 0.0,
+        "outlier_count": 545,
+        "zero_variance": false,
+        "has_infinite": false
+      }
+    }
+  },
+  "columns": {
+    "h3_cell_id": {
+      "truth_layer": "OBSERVED",
+      "units": "15-char hex string",
+      "type": "string"
+    },
+    "ward_id": {
+      "truth_layer": "DERIVED",
+      "units": "identifier",
+      "type": "string",
+      "semantics": "deterministic primary administrative reporting ward assignment"
+    },
+    "centroid_lat": {
+      "truth_layer": "DERIVED",
+      "units": "degrees north",
+      "type": "float"
+    },
+    "centroid_lon": {
+      "truth_layer": "DERIVED",
+      "units": "degrees east",
+      "type": "float"
+    },
+    "cell_area_km2": {
+      "truth_layer": "DERIVED",
+      "units": "km2",
+      "type": "float",
+      "calculation": "geodesic cell area via h3.cell_area(c, unit='km^2')"
+    },
+    "valid_fraction_2021": {
+      "truth_layer": "DERIVED",
+      "units": "fraction",
+      "type": "float"
+    },
+    "valid_fraction_2022": {
+      "truth_layer": "DERIVED",
+      "units": "fraction",
+      "type": "float"
+    },
+    "valid_fraction_2023": {
+      "truth_layer": "DERIVED",
+      "units": "fraction",
+      "type": "float"
+    },
+    "valid_fraction_2024": {
+      "truth_layer": "DERIVED",
+      "units": "fraction",
+      "type": "float"
+    },
+    "valid_fraction_2025": {
+      "truth_layer": "DERIVED",
+      "units": "fraction",
+      "type": "float"
+    },
+    "K_valid": {
+      "truth_layer": "DERIVED",
+      "units": "count of years",
+      "type": "integer"
+    },
+    "historical_coverage_status": {
+      "truth_layer": "DERIVED",
+      "units": "categorical flag",
+      "type": "string"
+    },
+    "lst_2021": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "sensor": "Landsat 8 OLI/TIRS"
+    },
+    "lst_2022": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "sensor": "Landsat 8 OLI/TIRS"
+    },
+    "lst_2023": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "sensor": "Landsat 9 OLI-2/TIRS-2"
+    },
+    "lst_2024": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "sensor": "Landsat 8 OLI/TIRS"
+    },
+    "lst_2025": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "sensor": "Landsat 8 OLI/TIRS"
+    },
+    "lst_baseline_mean": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "formula": "mean(valid_lst)"
+    },
+    "lst_baseline_median": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "formula": "median(valid_lst)"
+    },
+    "lst_baseline_std": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "formula": "std(valid_lst, ddof=1)"
+    },
+    "lst_anomaly_absolute": {
+      "truth_layer": "DERIVED",
+      "units": "celsius",
+      "formula": "lst_2025 - lst_baseline_mean"
+    },
+    "lst_anomaly_zscore": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless",
+      "formula": "anomaly / std"
+    },
+    "lst_persistence": {
+      "truth_layer": "DERIVED",
+      "units": "fraction",
+      "formula": "sum(I(T >= Q75_t)) / K_valid"
+    },
+    "lst_recurrence_ge45": {
+      "truth_layer": "DERIVED",
+      "units": "count of years",
+      "formula": "sum(I(T >= 45C))"
+    },
+    "ndvi_2021": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndvi_2022": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndvi_2023": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndvi_2024": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndvi_2025": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndvi_baseline_mean": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndvi_anomaly": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless",
+      "formula": "ndvi_2025 - ndvi_baseline_mean"
+    },
+    "ndbi_2021": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndbi_2022": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndbi_2023": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndbi_2024": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndbi_2025": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndbi_baseline_mean": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless [-1, 1]"
+    },
+    "ndbi_anomaly": {
+      "truth_layer": "DERIVED",
+      "units": "dimensionless",
+      "formula": "ndbi_2025 - ndbi_baseline_mean"
+    },
+    "population_2020": {
+      "truth_layer": "DERIVED",
+      "units": "estimated persons",
+      "source": "WorldPop 2020 IND UNadj"
+    },
+    "population_density_2020": {
+      "truth_layer": "DERIVED",
+      "units": "persons / km2",
+      "formula": "population_2020 / cell_area_km2"
+    },
+    "hospital_count": {
+      "truth_layer": "DERIVED",
+      "units": "count",
+      "source": "OSM public_infrastructure"
+    },
+    "clinic_count": {
+      "truth_layer": "DERIVED",
+      "units": "count",
+      "source": "OSM public_infrastructure"
+    },
+    "school_count": {
+      "truth_layer": "DERIVED",
+      "units": "count",
+      "source": "OSM public_infrastructure"
+    },
+    "university_count": {
+      "truth_layer": "DERIVED",
+      "units": "count",
+      "source": "OSM public_infrastructure"
+    },
+    "road_length_m": {
+      "truth_layer": "DERIVED",
+      "units": "meters",
+      "source": "OSM road_network"
+    },
+    "green_space_area_m2": {
+      "truth_layer": "DERIVED",
+      "units": "m2",
+      "source": "OSM green_spaces"
+    },
+    "water_body_area_m2": {
+      "truth_layer": "DERIVED",
+      "units": "m2",
+      "source": "OSM water_bodies"
+    },
+    "norm_lst_2025": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_lst_anomaly": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_persistence": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_recurrence_ge45": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_population": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_population_density": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_ndvi_deficit": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_ndbi": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_road_length": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    },
+    "norm_civic_infra": {
+      "truth_layer": "MODELED",
+      "units": "score [0, 1]"
+    }
+  }
+}

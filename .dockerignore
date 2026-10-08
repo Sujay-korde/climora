@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env
+.env.*
+.pytest_cache
+data/raw/
+frontend/
+node_modules/
+tests/
+scratch/
+docs/
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info
+.coverage
+htmlcov/

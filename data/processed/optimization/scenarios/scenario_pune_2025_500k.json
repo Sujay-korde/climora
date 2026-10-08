@@ -1,0 +1,56 @@
+{
+  "scenario_id": "SCEN-PUNE-2025-500K-BENCHMARK",
+  "project_id": "PROJ-PUNE-2025-BA225D6A",
+  "truth_layer": "MODELED",
+  "is_canonical": false,
+  "is_precomputed_benchmark": true,
+  "disclaimer": "MODELED SCENARIO ONLY. Does not represent a sanctioned, funded, or verified intervention.",
+  "generated_at_utc": "2026-10-06T09:05:00.000000+00:00",
+  "formulation_ratified": "F-24.6",
+  "solver_engine": "HiGHS (scipy.optimize.milp)",
+  "budget_inr": 500000.0,
+  "total_allocated_cost_inr": 500000.0,
+  "budget_slack_inr": 0.0,
+  "budget_utilization_pct": 100.0,
+  "optimal_objective_value": 0.006438,
+  "objective_description": "Modeled optimization objective (dimensionless sum of marginal risk responses)",
+  "solver_status": "OPTIMAL",
+  "solver_duration_sec": 65.5,
+  "total_cells_treated": 2,
+  "allocations": [
+    {
+      "h3_cell_id": "8960885142bffff",
+      "intervention_type": "street_tree_shade",
+      "quantity": 38.43,
+      "unit": "tree_count",
+      "unit_cost": 3500.0,
+      "fixed_cost": 20000.0,
+      "total_cost": 154500.0,
+      "modeled_cooling_degC": 0.0274,
+      "marginal_risk_reduction": 0.001759,
+      "baseline_risk": 0.2833,
+      "population_2020": 3925.4
+    },
+    {
+      "h3_cell_id": "89608853263ffff",
+      "intervention_type": "street_tree_shade",
+      "quantity": 93.0,
+      "unit": "tree_count",
+      "unit_cost": 3500.0,
+      "fixed_cost": 20000.0,
+      "total_cost": 345500.0,
+      "modeled_cooling_degC": 0.0664,
+      "marginal_risk_reduction": 0.004678,
+      "baseline_risk": 0.3416,
+      "population_2020": 3829.1
+    }
+  ],
+  "summary_by_intervention": {
+    "street_tree_shade": {
+      "total_quantity": 131.43,
+      "unit": "tree_count",
+      "total_cost_inr": 500000.0,
+      "cells_count": 2
+    }
+  }
+}

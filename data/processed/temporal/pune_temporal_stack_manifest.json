@@ -1,0 +1,3244 @@
+{
+  "manifest_id": "climora_temporal_stack_v1",
+  "dataset_name": "CLIMORA Pune 5-Year Temporal Baseline Stack (2021-2025)",
+  "processing_version": "1.0.0",
+  "phase": "1A.8",
+  "created_at": "2026-10-02T07:29:47.312581+00:00",
+  "canonical_target_doy": 105,
+  "preferred_window": [
+    95,
+    115
+  ],
+  "hard_max_offset_days": 15,
+  "sensor_governance": {
+    "statement": "Four Landsat 8 observations (2021, 2022, 2024, 2025) and one Landsat 9 observation in 2023. Explicit platform identity preserved across all layers. Zero unsupported cross-sensor calibration factors applied.",
+    "platforms": {
+      "2021": "Landsat 8",
+      "2022": "Landsat 8",
+      "2023": "Landsat 9",
+      "2024": "Landsat 8",
+      "2025": "Landsat 8"
+    }
+  },
+  "scientific_caveats": {
+    "intended_analytic_uses": [
+      "Baseline normalization",
+      "Spatial persistence analysis",
+      "Recurrence identification",
+      "Annual comparative anomaly analysis (relative to 5-year mean)",
+      "2025 current-state contextualization"
+    ],
+    "explicit_prohibitions": [
+      "Do NOT describe these five annual pre-monsoon snapshots as a long-term climate trend.",
+      "Do NOT infer warming attribution.",
+      "Do NOT infer causal climate change from this dataset."
+    ]
+  },
+  "annual_observations": {
+    "2021": {
+      "year": 2021,
+      "temporal_metadata": {
+        "date": "2021-04-24",
+        "doy": 114,
+        "canonical_target_doy": 105,
+        "doy_offset": 9,
+        "season": "peak_pre_monsoon_summer",
+        "within_preferred_window": true,
+        "within_hard_max_offset": true
+      },
+      "sensor_governance": {
+        "platform": "Landsat 8",
+        "sensor": "OLI/TIRS",
+        "collection": "landsat-c2-l2",
+        "processing_level": "Collection 2 Level-2",
+        "path_row": "147/047",
+        "scene_id": "LC08_L2SP_147047_20210424_02_T1",
+        "is_landsat_9": false
+      },
+      "quality_metrics": {
+        "raster_dimensions": [
+          706,
+          954
+        ],
+        "total_raster_pixels": 673524,
+        "aoi_internal_pixels": 346809,
+        "valid_clear_pixels": 346803,
+        "valid_clear_pct": 99.9983,
+        "cloud_pixels": 0,
+        "cloud_pct": 0.0,
+        "shadow_pixels": 0,
+        "shadow_pct": 0.0,
+        "dilated_cloud_pixels": 0,
+        "dilated_cloud_pct": 0.0,
+        "cirrus_pixels": 0,
+        "cirrus_pct": 0.0,
+        "saturated_pixels": 6,
+        "saturated_pct": 0.0017,
+        "fill_nodata_pixels": 326715,
+        "qa_logic": {
+          "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+          "qa_pixel_bit_definitions": {
+            "bit_0": "Fill (1 = fill / nodata)",
+            "bit_1": "Dilated Cloud (1 = dilated cloud)",
+            "bit_2": "Cirrus (1 = high confidence cirrus)",
+            "bit_3": "Cloud (1 = high confidence cloud)",
+            "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+            "bit_5": "Snow/Ice (1 = snow/ice)",
+            "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+            "bit_7": "Water (1 = water body)",
+            "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+            "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+          },
+          "qa_radsat_saturation_mask": {
+            "evaluated_bands": [
+              "SR_B2",
+              "SR_B3",
+              "SR_B4",
+              "SR_B5",
+              "SR_B6",
+              "SR_B7",
+              "ST_B10"
+            ],
+            "bit_mask": 638,
+            "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+          },
+          "classification_hierarchy": [
+            {
+              "code": 0,
+              "name": "FILL_NODATA",
+              "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+            },
+            {
+              "code": 6,
+              "name": "SATURATED",
+              "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+            },
+            {
+              "code": 2,
+              "name": "CLOUD",
+              "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+            },
+            {
+              "code": 3,
+              "name": "CLOUD_SHADOW",
+              "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+            },
+            {
+              "code": 4,
+              "name": "DILATED_CLOUD",
+              "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+            },
+            {
+              "code": 5,
+              "name": "CIRRUS",
+              "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+            },
+            {
+              "code": 7,
+              "name": "SNOW_ICE",
+              "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+            },
+            {
+              "code": 1,
+              "name": "VALID_CLEAR",
+              "rule": "non-fill, clear, uncorrupted, un-saturated"
+            }
+          ],
+          "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+        }
+      },
+      "lineage": {
+        "raw_directory": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1",
+        "processed_directory": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1",
+        "derived_directory": "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1",
+        "processed_assets": {
+          "SR_B2": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B2",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B2.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B2.tif",
+            "raw_sha256": "bc1984b9da4121dde4c0139e5136120b92bcaff542038b04ced31efc83359dc3",
+            "processed_sha256": "becfa645ad08e17de8463ddbcd59ab3513b1afbb8a5a20c3f85c99835714fbf4",
+            "file_size_bytes": 1082530,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346808,
+            "min": -0.16031751036643982,
+            "max": 0.45416998863220215,
+            "mean": 0.07003012299537659
+          },
+          "SR_B3": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B3",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B3.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B3.tif",
+            "raw_sha256": "52edae140e926b19fba51ed4f1024b939e68caf9533e3189ae9caf4cd2cffd10",
+            "processed_sha256": "c2f990d5bc292ae342a5229cbd86b4e6b95bd329c81cbb807ba3536c21728669",
+            "file_size_bytes": 1109006,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.0008874982595443726,
+            "max": 0.4686075448989868,
+            "mean": 0.09771993011236191
+          },
+          "SR_B4": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B4",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B4.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B4.tif",
+            "raw_sha256": "d04126dd289faefb5d8e2d2bca2056cdbda122685ece177b7d59d4636a5302d1",
+            "processed_sha256": "1978af9e453c516fb8ecb3d5d8c7e54add09eb220251698f3490ce10233a306c",
+            "file_size_bytes": 1142732,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.01675499975681305,
+            "max": 0.5179975032806396,
+            "mean": 0.11067651957273483
+          },
+          "SR_B5": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B5",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B5.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B5.tif",
+            "raw_sha256": "650d79b60563992557741ba5faf90ef6736a225b2c2edfa95ef74b84c5262b28",
+            "processed_sha256": "618045ab6adc4adb1e4f2285038b19d4de91b0e4f392ebfae6332ec08f7b144c",
+            "file_size_bytes": 1071228,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.0075149983167648315,
+            "max": 0.6214250326156616,
+            "mean": 0.21574179828166962
+          },
+          "SR_B6": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B6",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B6.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B6.tif",
+            "raw_sha256": "adfe74fab1fa7bae4d36c83e34b097e1d40def1d2a70fe80f3496dee6abb0b82",
+            "processed_sha256": "49a7cc80ef0961dfa3876ac96de4bbef37a56fabc4212f49db4fffaee5fd1031",
+            "file_size_bytes": 1075535,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.011584997177124023,
+            "max": 1.0920324325561523,
+            "mean": 0.20945876836776733
+          },
+          "SR_B7": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B7",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B7.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B7.tif",
+            "raw_sha256": "352d1771e794f537d15c67378f5c837e432760fabac87414dad44329aab97223",
+            "processed_sha256": "15fc68daed5e735474ae4a89527928182afdd0eb9b63bd205a8865950dccc85e",
+            "file_size_bytes": 1123849,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.00745999813079834,
+            "max": 1.322619915008545,
+            "mean": 0.16459549963474274
+          },
+          "ST_B10": {
+            "asset_type": "surface_temperature",
+            "band": "ST_B10",
+            "scale_factor": 0.00341802,
+            "add_offset": 149.0,
+            "units": "Kelvin",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ST_B10.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ST_B10.tif",
+            "raw_sha256": "469ec5a5c4f7b714251fd97f314c7e403aa74fb79d0a814ae679a7b3a912c5c1",
+            "processed_sha256": "07fcf96f31f278d22eba7eba818c16cd9a29f8088e9c2e7cc43a7107e7d08574",
+            "file_size_bytes": 772166,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 304.9539794921875,
+            "max": 334.2019958496094,
+            "mean": 321.02777099609375
+          },
+          "QA_PIXEL": {
+            "asset_type": "quality_pixel",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_PIXEL.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_PIXEL.tif",
+            "raw_sha256": "d9f5414f822461678e3d5bc534fdbc2f4fb43c2e50ee0cd535a24efd91cd20c8",
+            "processed_sha256": "3c177d93be0dc642b54a4065caf9626e3970d5d711ecffc43bb6c40de1718dc3",
+            "file_size_bytes": 12863,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 1
+          },
+          "QA_RADSAT": {
+            "asset_type": "quality_radsat",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_RADSAT.tif",
+            "raw_source_asset": "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_RADSAT.tif",
+            "raw_sha256": "877e99b4ac4cc1eca56b95499460d840066888060645d954c584abc47e7a1e65",
+            "processed_sha256": "863b0e4014fa54f851138b52c3a20c6aef33e7ebcdb84c7a14bf41031c05e310",
+            "file_size_bytes": 9710,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 65535
+          },
+          "qa_mask": {
+            "asset_type": "deterministic_qa_classification",
+            "local_path": "data/processed/landsat/2021/LC08_L2SP_147047_20210424_02_T1/qa_mask.tif",
+            "processed_sha256": "5da8d182401792e995b5a97e81adf48cc287e7b0b2f40018f64dc2e42689a257",
+            "file_size_bytes": 6816,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint8",
+            "nodata": 0,
+            "metrics": {
+              "raster_dimensions": [
+                706,
+                954
+              ],
+              "total_raster_pixels": 673524,
+              "aoi_internal_pixels": 346809,
+              "valid_clear_pixels": 346803,
+              "valid_clear_pct": 99.9983,
+              "cloud_pixels": 0,
+              "cloud_pct": 0.0,
+              "shadow_pixels": 0,
+              "shadow_pct": 0.0,
+              "dilated_cloud_pixels": 0,
+              "dilated_cloud_pct": 0.0,
+              "cirrus_pixels": 0,
+              "cirrus_pct": 0.0,
+              "saturated_pixels": 6,
+              "saturated_pct": 0.0017,
+              "fill_nodata_pixels": 326715,
+              "qa_logic": {
+                "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+                "qa_pixel_bit_definitions": {
+                  "bit_0": "Fill (1 = fill / nodata)",
+                  "bit_1": "Dilated Cloud (1 = dilated cloud)",
+                  "bit_2": "Cirrus (1 = high confidence cirrus)",
+                  "bit_3": "Cloud (1 = high confidence cloud)",
+                  "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+                  "bit_5": "Snow/Ice (1 = snow/ice)",
+                  "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+                  "bit_7": "Water (1 = water body)",
+                  "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+                  "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+                },
+                "qa_radsat_saturation_mask": {
+                  "evaluated_bands": [
+                    "SR_B2",
+                    "SR_B3",
+                    "SR_B4",
+                    "SR_B5",
+                    "SR_B6",
+                    "SR_B7",
+                    "ST_B10"
+                  ],
+                  "bit_mask": 638,
+                  "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+                },
+                "classification_hierarchy": [
+                  {
+                    "code": 0,
+                    "name": "FILL_NODATA",
+                    "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+                  },
+                  {
+                    "code": 6,
+                    "name": "SATURATED",
+                    "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+                  },
+                  {
+                    "code": 2,
+                    "name": "CLOUD",
+                    "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 3,
+                    "name": "CLOUD_SHADOW",
+                    "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 4,
+                    "name": "DILATED_CLOUD",
+                    "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 5,
+                    "name": "CIRRUS",
+                    "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 7,
+                    "name": "SNOW_ICE",
+                    "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 1,
+                    "name": "VALID_CLEAR",
+                    "rule": "non-fill, clear, uncorrupted, un-saturated"
+                  }
+                ],
+                "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+              }
+            }
+          }
+        },
+        "derived_assets": {
+          "ndvi": {
+            "index_name": "NDVI",
+            "local_path": "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ndvi.tif",
+            "sha256": "28518b106221594da35d041056753255122acda849b90429ba15a078652121c0",
+            "file_size_bytes": 1149391,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDVI",
+              "formula": "(SR_B5 - SR_B4) / (SR_B5 + SR_B4)",
+              "bands_used": [
+                "SR_B4 (RED)",
+                "SR_B5 (NIR)"
+              ],
+              "valid_count": 346803,
+              "min": -0.4357048273086548,
+              "max": 0.8879991173744202,
+              "mean": 0.32335934042930603,
+              "std": 0.14989300072193146,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B4.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B5.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "ndbi": {
+            "index_name": "NDBI",
+            "local_path": "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ndbi.tif",
+            "sha256": "5a885c85f8f3c4cc1166758c91e31a4ea3a95b59f5bca547765929e9804db0c6",
+            "file_size_bytes": 1270403,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDBI",
+              "formula": "(SR_B6 - SR_B5) / (SR_B6 + SR_B5)",
+              "bands_used": [
+                "SR_B5 (NIR)",
+                "SR_B6 (SWIR1)"
+              ],
+              "valid_count": 346803,
+              "min": -0.611315906047821,
+              "max": 0.37424594163894653,
+              "mean": -0.01612991653382778,
+              "std": 0.11213236302137375,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B5.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/SR_B6.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_kelvin": {
+            "index_name": "LST_Kelvin",
+            "local_path": "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_kelvin.tif",
+            "sha256": "3d0831f6b9b4043b186f5e43c6e902dc0a94c566210354142b67965bdfc0e5cf",
+            "file_size_bytes": 772206,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Kelvin (K)",
+              "min": 304.9539794921875,
+              "max": 334.2019958496094,
+              "mean": 321.0278015136719,
+              "std": 4.134475231170654
+            },
+            "lineage": [
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ST_B10.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_celsius": {
+            "index_name": "LST_Celsius",
+            "local_path": "data/derived/landsat/2021/LC08_L2SP_147047_20210424_02_T1/lst_celsius.tif",
+            "sha256": "75c05d08732e2ad41847d3a6526bf2fcc64b65cefce832388ebd0fa4ae7a45ad",
+            "file_size_bytes": 765960,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Degrees Celsius (\u00b0C)",
+              "min": 31.803985595703125,
+              "max": 61.052001953125,
+              "mean": 47.877830505371094,
+              "std": 4.134475231170654
+            },
+            "lineage": [
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/ST_B10.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2021/LC08_L2SP_147047_20210424_02_T1/QA_RADSAT.tif"
+            ]
+          }
+        }
+      },
+      "ancillary_context": {
+        "nasa_power_target_window_meteorology": {
+          "T2M": {
+            "mean": 28.82,
+            "min": 27.33,
+            "max": 30.33,
+            "count": 21
+          },
+          "T2M_MAX": {
+            "mean": 37.37,
+            "min": 34.24,
+            "max": 39.97,
+            "count": 21
+          },
+          "T2M_MIN": {
+            "mean": 21.42,
+            "min": 19.29,
+            "max": 25.33,
+            "count": 21
+          },
+          "RH2M": {
+            "mean": 42.28,
+            "min": 29.61,
+            "max": 53.55,
+            "count": 21
+          },
+          "WS10M": {
+            "mean": 2.78,
+            "min": 0.67,
+            "max": 3.81,
+            "count": 21
+          },
+          "PRECTOTCORR": {
+            "mean": 0.51,
+            "min": 0.0,
+            "max": 5.59,
+            "count": 21
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "mean": 23.8,
+            "min": 15.76,
+            "max": 26.97,
+            "count": 21
+          }
+        },
+        "modis_context_item_id": "MOD11A2.A2021105.h25v07.061.2021114054044"
+      }
+    },
+    "2022": {
+      "year": 2022,
+      "temporal_metadata": {
+        "date": "2022-04-11",
+        "doy": 101,
+        "canonical_target_doy": 105,
+        "doy_offset": 4,
+        "season": "peak_pre_monsoon_summer",
+        "within_preferred_window": true,
+        "within_hard_max_offset": true
+      },
+      "sensor_governance": {
+        "platform": "Landsat 8",
+        "sensor": "OLI/TIRS",
+        "collection": "landsat-c2-l2",
+        "processing_level": "Collection 2 Level-2",
+        "path_row": "147/047",
+        "scene_id": "LC08_L2SP_147047_20220411_02_T1",
+        "is_landsat_9": false
+      },
+      "quality_metrics": {
+        "raster_dimensions": [
+          706,
+          954
+        ],
+        "total_raster_pixels": 673524,
+        "aoi_internal_pixels": 346809,
+        "valid_clear_pixels": 318954,
+        "valid_clear_pct": 91.9682,
+        "cloud_pixels": 5932,
+        "cloud_pct": 1.7105,
+        "shadow_pixels": 11178,
+        "shadow_pct": 3.2231,
+        "dilated_cloud_pixels": 6379,
+        "dilated_cloud_pct": 1.8393,
+        "cirrus_pixels": 11127,
+        "cirrus_pct": 3.2084,
+        "saturated_pixels": 0,
+        "saturated_pct": 0.0,
+        "fill_nodata_pixels": 326715,
+        "qa_logic": {
+          "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+          "qa_pixel_bit_definitions": {
+            "bit_0": "Fill (1 = fill / nodata)",
+            "bit_1": "Dilated Cloud (1 = dilated cloud)",
+            "bit_2": "Cirrus (1 = high confidence cirrus)",
+            "bit_3": "Cloud (1 = high confidence cloud)",
+            "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+            "bit_5": "Snow/Ice (1 = snow/ice)",
+            "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+            "bit_7": "Water (1 = water body)",
+            "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+            "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+          },
+          "qa_radsat_saturation_mask": {
+            "evaluated_bands": [
+              "SR_B2",
+              "SR_B3",
+              "SR_B4",
+              "SR_B5",
+              "SR_B6",
+              "SR_B7",
+              "ST_B10"
+            ],
+            "bit_mask": 638,
+            "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+          },
+          "classification_hierarchy": [
+            {
+              "code": 0,
+              "name": "FILL_NODATA",
+              "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+            },
+            {
+              "code": 6,
+              "name": "SATURATED",
+              "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+            },
+            {
+              "code": 2,
+              "name": "CLOUD",
+              "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+            },
+            {
+              "code": 3,
+              "name": "CLOUD_SHADOW",
+              "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+            },
+            {
+              "code": 4,
+              "name": "DILATED_CLOUD",
+              "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+            },
+            {
+              "code": 5,
+              "name": "CIRRUS",
+              "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+            },
+            {
+              "code": 7,
+              "name": "SNOW_ICE",
+              "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+            },
+            {
+              "code": 1,
+              "name": "VALID_CLEAR",
+              "rule": "non-fill, clear, uncorrupted, un-saturated"
+            }
+          ],
+          "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+        }
+      },
+      "lineage": {
+        "raw_directory": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1",
+        "processed_directory": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1",
+        "derived_directory": "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1",
+        "processed_assets": {
+          "SR_B2": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B2",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B2.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B2.tif",
+            "raw_sha256": "4d2efa7c7cee6384717f89812501ac7ff16d579bee5d2c93093f477537df30e7",
+            "processed_sha256": "2e90efda41c0ee18841941ab738f5e41655c1b96c3cb8e4231486c9d291a4fb5",
+            "file_size_bytes": 1047246,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.02676500380039215,
+            "max": 0.2401375025510788,
+            "mean": 0.06848643720149994
+          },
+          "SR_B3": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B3",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B3.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B3.tif",
+            "raw_sha256": "8c394b085d83cd815e5befb55ce19a7a01133e9eef49aad2b1ac22a5bc174207",
+            "processed_sha256": "f03c54918341dd143d2a834a6ccf5070725e5abb6db7eca485ae385daf51c779",
+            "file_size_bytes": 1063252,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.045602500438690186,
+            "max": 0.31746751070022583,
+            "mean": 0.0984572023153305
+          },
+          "SR_B4": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B4",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B4.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B4.tif",
+            "raw_sha256": "0e15c3b1d1abb2a6ce8431b6d0456e772bf600bfdc41bf6cb884d1d68809c54e",
+            "processed_sha256": "0df2cf94ae8a365b3aaf85051b8dfd1f17cc3714a808ca4fa6f098d2619c34f8",
+            "file_size_bytes": 1114274,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.034244999289512634,
+            "max": 0.3729900121688843,
+            "mean": 0.11054474860429764
+          },
+          "SR_B5": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B5",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B5.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B5.tif",
+            "raw_sha256": "73b6e51568831f8a38dcad827c3a6084a2b2322b78b7f42edec8fc1a65fed533",
+            "processed_sha256": "a5fd0185c2d8c1aea497628c8adcdd7aeb22a2f9787bea255e69cfe8b3f40fa5",
+            "file_size_bytes": 1061740,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.05478750169277191,
+            "max": 0.5037800073623657,
+            "mean": 0.20019836723804474
+          },
+          "SR_B6": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B6",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B6.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B6.tif",
+            "raw_sha256": "9716f4fef6dea575ce149c7febd521356d51e6128792878f1ecf953194906efb",
+            "processed_sha256": "dba972e0504b2b8d8615794b9b09fffe5a4fb006d1bf1dfc91baff6a51b9a23a",
+            "file_size_bytes": 1073178,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.03369499742984772,
+            "max": 0.7766625285148621,
+            "mean": 0.20174235105514526
+          },
+          "SR_B7": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B7",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B7.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B7.tif",
+            "raw_sha256": "9ae7b21c57354c652b344ae23402f4e3bae4e1a3767985147e85d85266aacfa8",
+            "processed_sha256": "92567ea46b5c9fc265e54098e8f6f8e9d53429e609d290f6f808aea286c14df2",
+            "file_size_bytes": 1116470,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.02605000138282776,
+            "max": 0.8147500157356262,
+            "mean": 0.15356549620628357
+          },
+          "ST_B10": {
+            "asset_type": "surface_temperature",
+            "band": "ST_B10",
+            "scale_factor": 0.00341802,
+            "add_offset": 149.0,
+            "units": "Kelvin",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ST_B10.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ST_B10.tif",
+            "raw_sha256": "3c96c705694da4408dbadb46928c63a057a1f61b50f660f931a4c4476efeae39",
+            "processed_sha256": "36a7eccca3f9e92848e496f83012b279741c3991163e1e821317d27a35a5078d",
+            "file_size_bytes": 752865,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 293.9479675292969,
+            "max": 326.904541015625,
+            "mean": 314.5805358886719
+          },
+          "QA_PIXEL": {
+            "asset_type": "quality_pixel",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_PIXEL.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_PIXEL.tif",
+            "raw_sha256": "c00c495988803d71bccd31d84f6f2e61e12ae420909bf92c5869b814592d0c14",
+            "processed_sha256": "a2cf57be6013e163222a49b4f80a226462df7606f41c9ab4eb8392da8631455b",
+            "file_size_bytes": 22003,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 1
+          },
+          "QA_RADSAT": {
+            "asset_type": "quality_radsat",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_RADSAT.tif",
+            "raw_source_asset": "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_RADSAT.tif",
+            "raw_sha256": "cec527ce422c577d0ab7e08e5dddd77b02d4618a3d186b594557ccd70f11e75c",
+            "processed_sha256": "1a07b2e9730d676d865ff91df5a5031e8ba7b356e45256feade91e61367595cf",
+            "file_size_bytes": 9677,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 65535
+          },
+          "qa_mask": {
+            "asset_type": "deterministic_qa_classification",
+            "local_path": "data/processed/landsat/2022/LC08_L2SP_147047_20220411_02_T1/qa_mask.tif",
+            "processed_sha256": "5043c056b0438b04a0c6d9bf33d244bfe994dc618f43fe78f2ac2b96376fac96",
+            "file_size_bytes": 12593,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint8",
+            "nodata": 0,
+            "metrics": {
+              "raster_dimensions": [
+                706,
+                954
+              ],
+              "total_raster_pixels": 673524,
+              "aoi_internal_pixels": 346809,
+              "valid_clear_pixels": 318954,
+              "valid_clear_pct": 91.9682,
+              "cloud_pixels": 5932,
+              "cloud_pct": 1.7105,
+              "shadow_pixels": 11178,
+              "shadow_pct": 3.2231,
+              "dilated_cloud_pixels": 6379,
+              "dilated_cloud_pct": 1.8393,
+              "cirrus_pixels": 11127,
+              "cirrus_pct": 3.2084,
+              "saturated_pixels": 0,
+              "saturated_pct": 0.0,
+              "fill_nodata_pixels": 326715,
+              "qa_logic": {
+                "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+                "qa_pixel_bit_definitions": {
+                  "bit_0": "Fill (1 = fill / nodata)",
+                  "bit_1": "Dilated Cloud (1 = dilated cloud)",
+                  "bit_2": "Cirrus (1 = high confidence cirrus)",
+                  "bit_3": "Cloud (1 = high confidence cloud)",
+                  "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+                  "bit_5": "Snow/Ice (1 = snow/ice)",
+                  "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+                  "bit_7": "Water (1 = water body)",
+                  "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+                  "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+                },
+                "qa_radsat_saturation_mask": {
+                  "evaluated_bands": [
+                    "SR_B2",
+                    "SR_B3",
+                    "SR_B4",
+                    "SR_B5",
+                    "SR_B6",
+                    "SR_B7",
+                    "ST_B10"
+                  ],
+                  "bit_mask": 638,
+                  "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+                },
+                "classification_hierarchy": [
+                  {
+                    "code": 0,
+                    "name": "FILL_NODATA",
+                    "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+                  },
+                  {
+                    "code": 6,
+                    "name": "SATURATED",
+                    "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+                  },
+                  {
+                    "code": 2,
+                    "name": "CLOUD",
+                    "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 3,
+                    "name": "CLOUD_SHADOW",
+                    "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 4,
+                    "name": "DILATED_CLOUD",
+                    "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 5,
+                    "name": "CIRRUS",
+                    "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 7,
+                    "name": "SNOW_ICE",
+                    "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 1,
+                    "name": "VALID_CLEAR",
+                    "rule": "non-fill, clear, uncorrupted, un-saturated"
+                  }
+                ],
+                "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+              }
+            }
+          }
+        },
+        "derived_assets": {
+          "ndvi": {
+            "index_name": "NDVI",
+            "local_path": "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ndvi.tif",
+            "sha256": "b4e2b84c3823bfc5722e50393006c58329fc8433d2a4b4ae705f313966ddeebb",
+            "file_size_bytes": 1042603,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDVI",
+              "formula": "(SR_B5 - SR_B4) / (SR_B5 + SR_B4)",
+              "bands_used": [
+                "SR_B4 (RED)",
+                "SR_B5 (NIR)"
+              ],
+              "valid_count": 318954,
+              "min": -0.1034955158829689,
+              "max": 0.820331335067749,
+              "mean": 0.29061174392700195,
+              "std": 0.10896242409944534,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B4.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B5.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "ndbi": {
+            "index_name": "NDBI",
+            "local_path": "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ndbi.tif",
+            "sha256": "0e1af047b4e9b4ea3823f2aea442ccd3a873566e7d0a76f431db2a9198177f1b",
+            "file_size_bytes": 1183689,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDBI",
+              "formula": "(SR_B6 - SR_B5) / (SR_B6 + SR_B5)",
+              "bands_used": [
+                "SR_B5 (NIR)",
+                "SR_B6 (SWIR1)"
+              ],
+              "valid_count": 318954,
+              "min": -0.49258139729499817,
+              "max": 0.3181975781917572,
+              "mean": 0.0009444985189475119,
+              "std": 0.09536255896091461,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B5.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/SR_B6.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_kelvin": {
+            "index_name": "LST_Kelvin",
+            "local_path": "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_kelvin.tif",
+            "sha256": "55a5af81703510c9c7ef97744bca313fa27f452b65927ffee72054c7caf05c89",
+            "file_size_bytes": 711797,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Kelvin (K)",
+              "min": 302.2024841308594,
+              "max": 326.904541015625,
+              "mean": 315.091552734375,
+              "std": 3.3256194591522217
+            },
+            "lineage": [
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ST_B10.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_celsius": {
+            "index_name": "LST_Celsius",
+            "local_path": "data/derived/landsat/2022/LC08_L2SP_147047_20220411_02_T1/lst_celsius.tif",
+            "sha256": "204d7adea923d38602a35e77baaf0336d934b4b5b2fbda6b6b9fd1d821a4ef03",
+            "file_size_bytes": 703023,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Degrees Celsius (\u00b0C)",
+              "min": 29.052490234375,
+              "max": 53.754547119140625,
+              "mean": 41.94160461425781,
+              "std": 3.325619697570801
+            },
+            "lineage": [
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/ST_B10.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2022/LC08_L2SP_147047_20220411_02_T1/QA_RADSAT.tif"
+            ]
+          }
+        }
+      },
+      "ancillary_context": {
+        "nasa_power_target_window_meteorology": {
+          "T2M": {
+            "mean": 29.39,
+            "min": 27.43,
+            "max": 31.6,
+            "count": 21
+          },
+          "T2M_MAX": {
+            "mean": 38.25,
+            "min": 35.52,
+            "max": 40.42,
+            "count": 21
+          },
+          "T2M_MIN": {
+            "mean": 22.02,
+            "min": 19.55,
+            "max": 24.61,
+            "count": 21
+          },
+          "RH2M": {
+            "mean": 43.8,
+            "min": 29.15,
+            "max": 55.03,
+            "count": 21
+          },
+          "WS10M": {
+            "mean": 2.91,
+            "min": 2.07,
+            "max": 3.86,
+            "count": 21
+          },
+          "PRECTOTCORR": {
+            "mean": 0.42,
+            "min": 0.0,
+            "max": 6.3,
+            "count": 21
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "mean": 23.14,
+            "min": 16.72,
+            "max": 26.86,
+            "count": 21
+          }
+        },
+        "modis_context_item_id": "MOD11A2.A2022105.h25v07.061.2022118025926"
+      }
+    },
+    "2023": {
+      "year": 2023,
+      "temporal_metadata": {
+        "date": "2023-04-22",
+        "doy": 112,
+        "canonical_target_doy": 105,
+        "doy_offset": 7,
+        "season": "peak_pre_monsoon_summer",
+        "within_preferred_window": true,
+        "within_hard_max_offset": true
+      },
+      "sensor_governance": {
+        "platform": "Landsat 9",
+        "sensor": "OLI-2/TIRS-2",
+        "collection": "landsat-c2-l2",
+        "processing_level": "Collection 2 Level-2",
+        "path_row": "147/047",
+        "scene_id": "LC09_L2SP_147047_20230422_02_T1",
+        "is_landsat_9": true
+      },
+      "quality_metrics": {
+        "raster_dimensions": [
+          706,
+          954
+        ],
+        "total_raster_pixels": 673524,
+        "aoi_internal_pixels": 346809,
+        "valid_clear_pixels": 346606,
+        "valid_clear_pct": 99.9415,
+        "cloud_pixels": 11,
+        "cloud_pct": 0.0032,
+        "shadow_pixels": 96,
+        "shadow_pct": 0.0277,
+        "dilated_cloud_pixels": 85,
+        "dilated_cloud_pct": 0.0245,
+        "cirrus_pixels": 0,
+        "cirrus_pct": 0.0,
+        "saturated_pixels": 36,
+        "saturated_pct": 0.0104,
+        "fill_nodata_pixels": 326715,
+        "qa_logic": {
+          "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+          "qa_pixel_bit_definitions": {
+            "bit_0": "Fill (1 = fill / nodata)",
+            "bit_1": "Dilated Cloud (1 = dilated cloud)",
+            "bit_2": "Cirrus (1 = high confidence cirrus)",
+            "bit_3": "Cloud (1 = high confidence cloud)",
+            "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+            "bit_5": "Snow/Ice (1 = snow/ice)",
+            "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+            "bit_7": "Water (1 = water body)",
+            "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+            "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+          },
+          "qa_radsat_saturation_mask": {
+            "evaluated_bands": [
+              "SR_B2",
+              "SR_B3",
+              "SR_B4",
+              "SR_B5",
+              "SR_B6",
+              "SR_B7",
+              "ST_B10"
+            ],
+            "bit_mask": 638,
+            "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+          },
+          "classification_hierarchy": [
+            {
+              "code": 0,
+              "name": "FILL_NODATA",
+              "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+            },
+            {
+              "code": 6,
+              "name": "SATURATED",
+              "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+            },
+            {
+              "code": 2,
+              "name": "CLOUD",
+              "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+            },
+            {
+              "code": 3,
+              "name": "CLOUD_SHADOW",
+              "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+            },
+            {
+              "code": 4,
+              "name": "DILATED_CLOUD",
+              "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+            },
+            {
+              "code": 5,
+              "name": "CIRRUS",
+              "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+            },
+            {
+              "code": 7,
+              "name": "SNOW_ICE",
+              "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+            },
+            {
+              "code": 1,
+              "name": "VALID_CLEAR",
+              "rule": "non-fill, clear, uncorrupted, un-saturated"
+            }
+          ],
+          "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+        }
+      },
+      "lineage": {
+        "raw_directory": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1",
+        "processed_directory": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1",
+        "derived_directory": "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1",
+        "processed_assets": {
+          "SR_B2": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B2",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B2.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B2.tif",
+            "raw_sha256": "834b2010e418886dfb129edeb37a6f816c26f9a7375c2cfe451f7b3377f16df7",
+            "processed_sha256": "2515af65b5d0ac54a503bfeb39b7bc19bcc03067855de741e7270fcfd7e059cf",
+            "file_size_bytes": 1100473,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": -0.1856449991464615,
+            "max": 1.2472974061965942,
+            "mean": 0.06787575781345367
+          },
+          "SR_B3": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B3",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B3.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B3.tif",
+            "raw_sha256": "8572795e17a4846c38027e022e27a279dd4902c21d83097290a4214d1fc48ce7",
+            "processed_sha256": "c2c2158cbc405d00138d619d505773910fd24b16f0284dc14ab225f459509cdf",
+            "file_size_bytes": 1119474,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": -0.00887499749660492,
+            "max": 1.3175599575042725,
+            "mean": 0.09588484466075897
+          },
+          "SR_B4": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B4",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B4.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B4.tif",
+            "raw_sha256": "21e8410a9f7abc3b7ed8ec9292e9287b548ae6c01af0124b6d6a81a0a5f86245",
+            "processed_sha256": "383bbef418b5f4c1fe4851e84e8b2efded4091fa68d18bbf694211a53395b0b2",
+            "file_size_bytes": 1147106,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": -0.0053550004959106445,
+            "max": 1.325452446937561,
+            "mean": 0.1084086075425148
+          },
+          "SR_B5": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B5",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B5.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B5.tif",
+            "raw_sha256": "5de215a3d17839868b69c198b2357ceebdb1a0c4b2d69fcaeed9255edf98fb9b",
+            "processed_sha256": "bb8ab439d6c4974794aee9e6d6eb09e7cf02cdbef48f36e7e73a1971001920ec",
+            "file_size_bytes": 1075877,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.011199995875358582,
+            "max": 1.2965774536132812,
+            "mean": 0.2134775072336197
+          },
+          "SR_B6": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B6",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B6.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B6.tif",
+            "raw_sha256": "7abfa5315dc9d69d7402bdf412012ecd8cda2f2f198a484b3a58af8e2b2eadad",
+            "processed_sha256": "45f667e141c7067c632c0c0812f6da3e5996213e9443bb99178d88f525ae4ea3",
+            "file_size_bytes": 1077410,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.007212504744529724,
+            "max": 1.3670049905776978,
+            "mean": 0.20393714308738708
+          },
+          "SR_B7": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B7",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B7.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B7.tif",
+            "raw_sha256": "e765c7a595193235901edfd3d5dda0935f80a72207cf3a3fc5c4e03cb262a3ee",
+            "processed_sha256": "580f5f937c396af6eac798d34951fbfe105afe60b9e4ae2901858fb67ab05351",
+            "file_size_bytes": 1131438,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.007487505674362183,
+            "max": 1.4242600202560425,
+            "mean": 0.15896989405155182
+          },
+          "ST_B10": {
+            "asset_type": "surface_temperature",
+            "band": "ST_B10",
+            "scale_factor": 0.00341802,
+            "add_offset": 149.0,
+            "units": "Kelvin",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ST_B10.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ST_B10.tif",
+            "raw_sha256": "ada5dda3f1dd51046a528acbc1c793e91ef09437be1134748d5d8a76f846bf19",
+            "processed_sha256": "a106665093de2635b9f2685a2a142c1c4aac6f7ee7e850f61e22a886009103ef",
+            "file_size_bytes": 766658,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 298.91436767578125,
+            "max": 334.3147888183594,
+            "mean": 318.9670104980469
+          },
+          "QA_PIXEL": {
+            "asset_type": "quality_pixel",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_PIXEL.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_PIXEL.tif",
+            "raw_sha256": "51c6de3504fa00f213094724e34ca2db59f055c8fb021e1d021199803cec19b1",
+            "processed_sha256": "c59647fdf5d25f2f828210f636eece4a73dd216a73cd488cf083fba44cd2c5fd",
+            "file_size_bytes": 13275,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 1
+          },
+          "QA_RADSAT": {
+            "asset_type": "quality_radsat",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_RADSAT.tif",
+            "raw_source_asset": "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_RADSAT.tif",
+            "raw_sha256": "5ab004537d54367785665a156f455d6cb76fd1ec24483447f8b7c3afd4c0b1c1",
+            "processed_sha256": "e3907d4faee81487dece2e2120d4256b5053d0b29af33f505403bf999b3c8249",
+            "file_size_bytes": 9810,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 65535
+          },
+          "qa_mask": {
+            "asset_type": "deterministic_qa_classification",
+            "local_path": "data/processed/landsat/2023/LC09_L2SP_147047_20230422_02_T1/qa_mask.tif",
+            "processed_sha256": "8fbc19d6cdabd93247dfe34b0d4f2ff5760c0d6d4b26ff9f99634f3e5ed50bcb",
+            "file_size_bytes": 6898,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint8",
+            "nodata": 0,
+            "metrics": {
+              "raster_dimensions": [
+                706,
+                954
+              ],
+              "total_raster_pixels": 673524,
+              "aoi_internal_pixels": 346809,
+              "valid_clear_pixels": 346606,
+              "valid_clear_pct": 99.9415,
+              "cloud_pixels": 11,
+              "cloud_pct": 0.0032,
+              "shadow_pixels": 96,
+              "shadow_pct": 0.0277,
+              "dilated_cloud_pixels": 85,
+              "dilated_cloud_pct": 0.0245,
+              "cirrus_pixels": 0,
+              "cirrus_pct": 0.0,
+              "saturated_pixels": 36,
+              "saturated_pct": 0.0104,
+              "fill_nodata_pixels": 326715,
+              "qa_logic": {
+                "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+                "qa_pixel_bit_definitions": {
+                  "bit_0": "Fill (1 = fill / nodata)",
+                  "bit_1": "Dilated Cloud (1 = dilated cloud)",
+                  "bit_2": "Cirrus (1 = high confidence cirrus)",
+                  "bit_3": "Cloud (1 = high confidence cloud)",
+                  "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+                  "bit_5": "Snow/Ice (1 = snow/ice)",
+                  "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+                  "bit_7": "Water (1 = water body)",
+                  "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+                  "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+                },
+                "qa_radsat_saturation_mask": {
+                  "evaluated_bands": [
+                    "SR_B2",
+                    "SR_B3",
+                    "SR_B4",
+                    "SR_B5",
+                    "SR_B6",
+                    "SR_B7",
+                    "ST_B10"
+                  ],
+                  "bit_mask": 638,
+                  "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+                },
+                "classification_hierarchy": [
+                  {
+                    "code": 0,
+                    "name": "FILL_NODATA",
+                    "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+                  },
+                  {
+                    "code": 6,
+                    "name": "SATURATED",
+                    "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+                  },
+                  {
+                    "code": 2,
+                    "name": "CLOUD",
+                    "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 3,
+                    "name": "CLOUD_SHADOW",
+                    "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 4,
+                    "name": "DILATED_CLOUD",
+                    "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 5,
+                    "name": "CIRRUS",
+                    "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 7,
+                    "name": "SNOW_ICE",
+                    "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 1,
+                    "name": "VALID_CLEAR",
+                    "rule": "non-fill, clear, uncorrupted, un-saturated"
+                  }
+                ],
+                "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+              }
+            }
+          }
+        },
+        "derived_assets": {
+          "ndvi": {
+            "index_name": "NDVI",
+            "local_path": "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ndvi.tif",
+            "sha256": "578eaeda6c8b9b30bf042bb040165270423cdcef7a213f231f4b36a5195626d9",
+            "file_size_bytes": 1161506,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDVI",
+              "formula": "(SR_B5 - SR_B4) / (SR_B5 + SR_B4)",
+              "bands_used": [
+                "SR_B4 (RED)",
+                "SR_B5 (NIR)"
+              ],
+              "valid_count": 346606,
+              "min": -0.5243658423423767,
+              "max": 1.0,
+              "mean": 0.33102092146873474,
+              "std": 0.1608750969171524,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B4.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B5.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "ndbi": {
+            "index_name": "NDBI",
+            "local_path": "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ndbi.tif",
+            "sha256": "8973902f0696e5624d28fb7af3235a51dcbe33cbce06108ac02a9545de2f33d7",
+            "file_size_bytes": 1272279,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDBI",
+              "formula": "(SR_B6 - SR_B5) / (SR_B6 + SR_B5)",
+              "bands_used": [
+                "SR_B5 (NIR)",
+                "SR_B6 (SWIR1)"
+              ],
+              "valid_count": 346606,
+              "min": -0.657481849193573,
+              "max": 0.43352892994880676,
+              "mean": -0.024628449231386185,
+              "std": 0.11075210571289062,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B5.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/SR_B6.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_kelvin": {
+            "index_name": "LST_Kelvin",
+            "local_path": "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_kelvin.tif",
+            "sha256": "66318446a59c8eae5f368e890cd79e183e8525ad71dbf30ebfef5490df6cb6bd",
+            "file_size_bytes": 766506,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Kelvin (K)",
+              "min": 303.9661865234375,
+              "max": 334.3147888183594,
+              "mean": 318.9659729003906,
+              "std": 4.2697834968566895
+            },
+            "lineage": [
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ST_B10.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_celsius": {
+            "index_name": "LST_Celsius",
+            "local_path": "data/derived/landsat/2023/LC09_L2SP_147047_20230422_02_T1/lst_celsius.tif",
+            "sha256": "7bc2f4e2af09bed25e5a469cb0a712a4b1777b3a7da4c1c0eaeb4d628576aa1a",
+            "file_size_bytes": 759804,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Degrees Celsius (\u00b0C)",
+              "min": 30.816192626953125,
+              "max": 61.164794921875,
+              "mean": 45.81605529785156,
+              "std": 4.2697834968566895
+            },
+            "lineage": [
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/ST_B10.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2023/LC09_L2SP_147047_20230422_02_T1/QA_RADSAT.tif"
+            ]
+          }
+        }
+      },
+      "ancillary_context": {
+        "nasa_power_target_window_meteorology": {
+          "T2M": {
+            "mean": 28.84,
+            "min": 26.02,
+            "max": 31.13,
+            "count": 21
+          },
+          "T2M_MAX": {
+            "mean": 36.91,
+            "min": 34.03,
+            "max": 39.83,
+            "count": 21
+          },
+          "T2M_MIN": {
+            "mean": 21.86,
+            "min": 18.37,
+            "max": 26.06,
+            "count": 21
+          },
+          "RH2M": {
+            "mean": 42.36,
+            "min": 30.2,
+            "max": 54.58,
+            "count": 21
+          },
+          "WS10M": {
+            "mean": 2.92,
+            "min": 2.12,
+            "max": 4.05,
+            "count": 21
+          },
+          "PRECTOTCORR": {
+            "mean": 0.86,
+            "min": 0.0,
+            "max": 8.04,
+            "count": 21
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "mean": 23.22,
+            "min": 16.65,
+            "max": 27.52,
+            "count": 21
+          }
+        },
+        "modis_context_item_id": "MOD11A2.A2023105.h25v07.061.2023114150920"
+      }
+    },
+    "2024": {
+      "year": 2024,
+      "temporal_metadata": {
+        "date": "2024-04-16",
+        "doy": 107,
+        "canonical_target_doy": 105,
+        "doy_offset": 2,
+        "season": "peak_pre_monsoon_summer",
+        "within_preferred_window": true,
+        "within_hard_max_offset": true
+      },
+      "sensor_governance": {
+        "platform": "Landsat 8",
+        "sensor": "OLI/TIRS",
+        "collection": "landsat-c2-l2",
+        "processing_level": "Collection 2 Level-2",
+        "path_row": "147/047",
+        "scene_id": "LC08_L2SP_147047_20240416_02_T1",
+        "is_landsat_9": false
+      },
+      "quality_metrics": {
+        "raster_dimensions": [
+          706,
+          954
+        ],
+        "total_raster_pixels": 673524,
+        "aoi_internal_pixels": 346809,
+        "valid_clear_pixels": 346805,
+        "valid_clear_pct": 99.9988,
+        "cloud_pixels": 0,
+        "cloud_pct": 0.0,
+        "shadow_pixels": 0,
+        "shadow_pct": 0.0,
+        "dilated_cloud_pixels": 0,
+        "dilated_cloud_pct": 0.0,
+        "cirrus_pixels": 0,
+        "cirrus_pct": 0.0,
+        "saturated_pixels": 4,
+        "saturated_pct": 0.0012,
+        "fill_nodata_pixels": 326715,
+        "qa_logic": {
+          "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+          "qa_pixel_bit_definitions": {
+            "bit_0": "Fill (1 = fill / nodata)",
+            "bit_1": "Dilated Cloud (1 = dilated cloud)",
+            "bit_2": "Cirrus (1 = high confidence cirrus)",
+            "bit_3": "Cloud (1 = high confidence cloud)",
+            "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+            "bit_5": "Snow/Ice (1 = snow/ice)",
+            "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+            "bit_7": "Water (1 = water body)",
+            "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+            "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+          },
+          "qa_radsat_saturation_mask": {
+            "evaluated_bands": [
+              "SR_B2",
+              "SR_B3",
+              "SR_B4",
+              "SR_B5",
+              "SR_B6",
+              "SR_B7",
+              "ST_B10"
+            ],
+            "bit_mask": 638,
+            "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+          },
+          "classification_hierarchy": [
+            {
+              "code": 0,
+              "name": "FILL_NODATA",
+              "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+            },
+            {
+              "code": 6,
+              "name": "SATURATED",
+              "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+            },
+            {
+              "code": 2,
+              "name": "CLOUD",
+              "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+            },
+            {
+              "code": 3,
+              "name": "CLOUD_SHADOW",
+              "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+            },
+            {
+              "code": 4,
+              "name": "DILATED_CLOUD",
+              "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+            },
+            {
+              "code": 5,
+              "name": "CIRRUS",
+              "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+            },
+            {
+              "code": 7,
+              "name": "SNOW_ICE",
+              "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+            },
+            {
+              "code": 1,
+              "name": "VALID_CLEAR",
+              "rule": "non-fill, clear, uncorrupted, un-saturated"
+            }
+          ],
+          "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+        }
+      },
+      "lineage": {
+        "raw_directory": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1",
+        "processed_directory": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1",
+        "derived_directory": "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1",
+        "processed_assets": {
+          "SR_B2": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B2",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B2.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B2.tif",
+            "raw_sha256": "fdc669b4f295d377d787ad920ce3c375f4f1ff5cdaaf11909343074893da257e",
+            "processed_sha256": "36f2ef7bd983e1435bff3265317cf58ff49940d7697145c5216cc1000aaacdfd",
+            "file_size_bytes": 1048998,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.019312500953674316,
+            "max": 0.2181374877691269,
+            "mean": 0.06809830665588379
+          },
+          "SR_B3": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B3",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B3.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B3.tif",
+            "raw_sha256": "855759f61a78f48764c96581fc456e76c6409ee404137932f1e302ace5df5836",
+            "processed_sha256": "897c8d5a0f33934741378ab676323da79d67c4a54f3f57fd0fdbdc8453898a2c",
+            "file_size_bytes": 1067288,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.04409000277519226,
+            "max": 0.28543001413345337,
+            "mean": 0.09950902312994003
+          },
+          "SR_B4": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B4",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B4.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B4.tif",
+            "raw_sha256": "f415da9eec02ec826d5b4ae248d3e65588f11eb2c8ab5e266b76320669840e2f",
+            "processed_sha256": "155022fe4caf350bd580c6e8ac9bbe9fc88772edb6653073ad15608b10b2002a",
+            "file_size_bytes": 1118983,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.024674996733665466,
+            "max": 0.3444175124168396,
+            "mean": 0.11009734123945236
+          },
+          "SR_B5": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B5",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B5.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B5.tif",
+            "raw_sha256": "43f3aebfbee5d2719820e008c608610f1377394c247b0690edb97b5826b5a9c4",
+            "processed_sha256": "e3165bf64bfd5275f7e69713c965c161b1b5807dbb6ca4c2f2e050abc9e0e1df",
+            "file_size_bytes": 1061037,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.05019499361515045,
+            "max": 0.5261375308036804,
+            "mean": 0.1998395025730133
+          },
+          "SR_B6": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B6",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B6.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B6.tif",
+            "raw_sha256": "26885e36527d0b8972e498c6fd2e5d4fe72e2c70bc8e1d9170401c7db63ae4b4",
+            "processed_sha256": "c85a4dbdecb32898c057bf53e38a7a855feead82f47db85ab84ab59d6de5305d",
+            "file_size_bytes": 1071839,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.02646249532699585,
+            "max": 0.8111750483512878,
+            "mean": 0.2016238123178482
+          },
+          "SR_B7": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B7",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B7.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B7.tif",
+            "raw_sha256": "dd22707c39338e9158fb6734f4b2f34cb3d3a3a8478f9a538b51d5279659a2ae",
+            "processed_sha256": "691140755011b01fd3c09d96b739e7ea2b257121d32a81d8b30de7c9ecdead18",
+            "file_size_bytes": 1124709,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.020384997129440308,
+            "max": 1.3219050168991089,
+            "mean": 0.15406090021133423
+          },
+          "ST_B10": {
+            "asset_type": "surface_temperature",
+            "band": "ST_B10",
+            "scale_factor": 0.00341802,
+            "add_offset": 149.0,
+            "units": "Kelvin",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ST_B10.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ST_B10.tif",
+            "raw_sha256": "c24436748a5af428297fff86d9259bb2c96e155efe238bf61e9d32d85cbee6a6",
+            "processed_sha256": "5cd9d06e394570e0a1606b84fb5c593500f7c3dbcd41a598cebf3e7897b52464",
+            "file_size_bytes": 756851,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 304.4993896484375,
+            "max": 334.9368896484375,
+            "mean": 320.5034484863281
+          },
+          "QA_PIXEL": {
+            "asset_type": "quality_pixel",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_PIXEL.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_PIXEL.tif",
+            "raw_sha256": "2056db1182469f0f79914b2f002d472aa1ece757b8841828f8a4b4994876e367",
+            "processed_sha256": "1d41315ad303b5797587c973464aadb935e27491446ff3a11c80f06c11c489d4",
+            "file_size_bytes": 12556,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 1
+          },
+          "QA_RADSAT": {
+            "asset_type": "quality_radsat",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_RADSAT.tif",
+            "raw_source_asset": "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_RADSAT.tif",
+            "raw_sha256": "a05779d414142ad844f80562f5994bd0057a661f2897fe857228d2c17ef8c286",
+            "processed_sha256": "c8580b78f714c72f45faf31726bc8537cc0b77463df496d704c28b165f28ca5f",
+            "file_size_bytes": 9704,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 65535
+          },
+          "qa_mask": {
+            "asset_type": "deterministic_qa_classification",
+            "local_path": "data/processed/landsat/2024/LC08_L2SP_147047_20240416_02_T1/qa_mask.tif",
+            "processed_sha256": "2bf8502c4ef079e9a25a0cef3b948fee5cc6973ea37ad74c9bd011056551726e",
+            "file_size_bytes": 6807,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint8",
+            "nodata": 0,
+            "metrics": {
+              "raster_dimensions": [
+                706,
+                954
+              ],
+              "total_raster_pixels": 673524,
+              "aoi_internal_pixels": 346809,
+              "valid_clear_pixels": 346805,
+              "valid_clear_pct": 99.9988,
+              "cloud_pixels": 0,
+              "cloud_pct": 0.0,
+              "shadow_pixels": 0,
+              "shadow_pct": 0.0,
+              "dilated_cloud_pixels": 0,
+              "dilated_cloud_pct": 0.0,
+              "cirrus_pixels": 0,
+              "cirrus_pct": 0.0,
+              "saturated_pixels": 4,
+              "saturated_pct": 0.0012,
+              "fill_nodata_pixels": 326715,
+              "qa_logic": {
+                "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+                "qa_pixel_bit_definitions": {
+                  "bit_0": "Fill (1 = fill / nodata)",
+                  "bit_1": "Dilated Cloud (1 = dilated cloud)",
+                  "bit_2": "Cirrus (1 = high confidence cirrus)",
+                  "bit_3": "Cloud (1 = high confidence cloud)",
+                  "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+                  "bit_5": "Snow/Ice (1 = snow/ice)",
+                  "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+                  "bit_7": "Water (1 = water body)",
+                  "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+                  "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+                },
+                "qa_radsat_saturation_mask": {
+                  "evaluated_bands": [
+                    "SR_B2",
+                    "SR_B3",
+                    "SR_B4",
+                    "SR_B5",
+                    "SR_B6",
+                    "SR_B7",
+                    "ST_B10"
+                  ],
+                  "bit_mask": 638,
+                  "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+                },
+                "classification_hierarchy": [
+                  {
+                    "code": 0,
+                    "name": "FILL_NODATA",
+                    "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+                  },
+                  {
+                    "code": 6,
+                    "name": "SATURATED",
+                    "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+                  },
+                  {
+                    "code": 2,
+                    "name": "CLOUD",
+                    "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 3,
+                    "name": "CLOUD_SHADOW",
+                    "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 4,
+                    "name": "DILATED_CLOUD",
+                    "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 5,
+                    "name": "CIRRUS",
+                    "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 7,
+                    "name": "SNOW_ICE",
+                    "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 1,
+                    "name": "VALID_CLEAR",
+                    "rule": "non-fill, clear, uncorrupted, un-saturated"
+                  }
+                ],
+                "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+              }
+            }
+          }
+        },
+        "derived_assets": {
+          "ndvi": {
+            "index_name": "NDVI",
+            "local_path": "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ndvi.tif",
+            "sha256": "929af2b560032da7412026bf02d7aa7f3ca84d27247d84afdb08b598d4bc8d3b",
+            "file_size_bytes": 1113944,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDVI",
+              "formula": "(SR_B5 - SR_B4) / (SR_B5 + SR_B4)",
+              "bands_used": [
+                "SR_B4 (RED)",
+                "SR_B5 (NIR)"
+              ],
+              "valid_count": 346805,
+              "min": -0.059340521693229675,
+              "max": 0.8356935977935791,
+              "mean": 0.29042571783065796,
+              "std": 0.11229127645492554,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B4.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B5.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "ndbi": {
+            "index_name": "NDBI",
+            "local_path": "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ndbi.tif",
+            "sha256": "ecb6c6d4af31f14c18cd7cadf698bed7a86fdb6773381c1ff5a7d80b03c2a43f",
+            "file_size_bytes": 1265404,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDBI",
+              "formula": "(SR_B6 - SR_B5) / (SR_B6 + SR_B5)",
+              "bands_used": [
+                "SR_B5 (NIR)",
+                "SR_B6 (SWIR1)"
+              ],
+              "valid_count": 346805,
+              "min": -0.529978334903717,
+              "max": 0.40506476163864136,
+              "mean": 0.0006242684321478009,
+              "std": 0.09639497101306915,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B5.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/SR_B6.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_kelvin": {
+            "index_name": "LST_Kelvin",
+            "local_path": "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_kelvin.tif",
+            "sha256": "c95316291edb2905e12c2147da71d0ab418ea598f47cfaed080019d3b0d0c534",
+            "file_size_bytes": 756885,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Kelvin (K)",
+              "min": 304.4993896484375,
+              "max": 334.9368896484375,
+              "mean": 320.5033874511719,
+              "std": 3.7521791458129883
+            },
+            "lineage": [
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ST_B10.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_celsius": {
+            "index_name": "LST_Celsius",
+            "local_path": "data/derived/landsat/2024/LC08_L2SP_147047_20240416_02_T1/lst_celsius.tif",
+            "sha256": "5ab71650195918e14df6a02ad5495aba34c084af00cec180f71d1fba61c64a7e",
+            "file_size_bytes": 745108,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Degrees Celsius (\u00b0C)",
+              "min": 31.349395751953125,
+              "max": 61.786895751953125,
+              "mean": 47.3534049987793,
+              "std": 3.7521791458129883
+            },
+            "lineage": [
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/ST_B10.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2024/LC08_L2SP_147047_20240416_02_T1/QA_RADSAT.tif"
+            ]
+          }
+        }
+      },
+      "ancillary_context": {
+        "nasa_power_target_window_meteorology": {
+          "T2M": {
+            "mean": 30.17,
+            "min": 28.74,
+            "max": 33.42,
+            "count": 21
+          },
+          "T2M_MAX": {
+            "mean": 39.29,
+            "min": 38.01,
+            "max": 40.79,
+            "count": 21
+          },
+          "T2M_MIN": {
+            "mean": 22.5,
+            "min": 19.41,
+            "max": 27.14,
+            "count": 21
+          },
+          "RH2M": {
+            "mean": 39.39,
+            "min": 32.01,
+            "max": 49.47,
+            "count": 21
+          },
+          "WS10M": {
+            "mean": 3.1,
+            "min": 2.26,
+            "max": 4.0,
+            "count": 21
+          },
+          "PRECTOTCORR": {
+            "mean": 0.27,
+            "min": 0.0,
+            "max": 3.59,
+            "count": 21
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "mean": 23.5,
+            "min": 19.31,
+            "max": 26.76,
+            "count": 21
+          }
+        },
+        "modis_context_item_id": "MOD11A2.A2024105.h25v07.061.2024115214105"
+      }
+    },
+    "2025": {
+      "year": 2025,
+      "temporal_metadata": {
+        "date": "2025-04-19",
+        "doy": 109,
+        "canonical_target_doy": 105,
+        "doy_offset": 4,
+        "season": "peak_pre_monsoon_summer",
+        "within_preferred_window": true,
+        "within_hard_max_offset": true
+      },
+      "sensor_governance": {
+        "platform": "Landsat 8",
+        "sensor": "OLI/TIRS",
+        "collection": "landsat-c2-l2",
+        "processing_level": "Collection 2 Level-2",
+        "path_row": "147/047",
+        "scene_id": "LC08_L2SP_147047_20250419_02_T1",
+        "is_landsat_9": false
+      },
+      "quality_metrics": {
+        "raster_dimensions": [
+          706,
+          954
+        ],
+        "total_raster_pixels": 673524,
+        "aoi_internal_pixels": 346809,
+        "valid_clear_pixels": 346799,
+        "valid_clear_pct": 99.9971,
+        "cloud_pixels": 0,
+        "cloud_pct": 0.0,
+        "shadow_pixels": 0,
+        "shadow_pct": 0.0,
+        "dilated_cloud_pixels": 0,
+        "dilated_cloud_pct": 0.0,
+        "cirrus_pixels": 0,
+        "cirrus_pct": 0.0,
+        "saturated_pixels": 10,
+        "saturated_pct": 0.0029,
+        "fill_nodata_pixels": 326715,
+        "qa_logic": {
+          "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+          "qa_pixel_bit_definitions": {
+            "bit_0": "Fill (1 = fill / nodata)",
+            "bit_1": "Dilated Cloud (1 = dilated cloud)",
+            "bit_2": "Cirrus (1 = high confidence cirrus)",
+            "bit_3": "Cloud (1 = high confidence cloud)",
+            "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+            "bit_5": "Snow/Ice (1 = snow/ice)",
+            "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+            "bit_7": "Water (1 = water body)",
+            "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+            "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+            "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+          },
+          "qa_radsat_saturation_mask": {
+            "evaluated_bands": [
+              "SR_B2",
+              "SR_B3",
+              "SR_B4",
+              "SR_B5",
+              "SR_B6",
+              "SR_B7",
+              "ST_B10"
+            ],
+            "bit_mask": 638,
+            "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+          },
+          "classification_hierarchy": [
+            {
+              "code": 0,
+              "name": "FILL_NODATA",
+              "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+            },
+            {
+              "code": 6,
+              "name": "SATURATED",
+              "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+            },
+            {
+              "code": 2,
+              "name": "CLOUD",
+              "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+            },
+            {
+              "code": 3,
+              "name": "CLOUD_SHADOW",
+              "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+            },
+            {
+              "code": 4,
+              "name": "DILATED_CLOUD",
+              "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+            },
+            {
+              "code": 5,
+              "name": "CIRRUS",
+              "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+            },
+            {
+              "code": 7,
+              "name": "SNOW_ICE",
+              "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+            },
+            {
+              "code": 1,
+              "name": "VALID_CLEAR",
+              "rule": "non-fill, clear, uncorrupted, un-saturated"
+            }
+          ],
+          "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+        }
+      },
+      "lineage": {
+        "raw_directory": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1",
+        "processed_directory": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1",
+        "derived_directory": "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1",
+        "processed_assets": {
+          "SR_B2": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B2",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B2.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B2.tif",
+            "raw_sha256": "3ec83979326893512ed2ff4330525a8021108df8efa264e415c7a4a2155ed831",
+            "processed_sha256": "b36322059afc71738a058e4e2b93e145840069a359e029bf25b5b424ffb92183",
+            "file_size_bytes": 1074400,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": -0.007445007562637329,
+            "max": 1.2504874467849731,
+            "mean": 0.0717170387506485
+          },
+          "SR_B3": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B3",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B3.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B3.tif",
+            "raw_sha256": "8111c878f2660a1addc8781a9ff9c937ba44f7fc4acd1173fe60e93154a93aa2",
+            "processed_sha256": "7f509a98336f0e66d3170aa3a1e9adb0881bb0729527de7c4f127d6c96f817bf",
+            "file_size_bytes": 1110134,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.02907499670982361,
+            "max": 1.3245724439620972,
+            "mean": 0.10189972817897797
+          },
+          "SR_B4": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B4",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B4.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B4.tif",
+            "raw_sha256": "37d64db0f1a9cb88b2163ca1b373d5c6144b3294221304451620828b5a406799",
+            "processed_sha256": "8030f281a77000f672697f356102b06e3cf7b7e96d2b1022e822d2de31a0804c",
+            "file_size_bytes": 1144380,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.021320000290870667,
+            "max": 1.319237470626831,
+            "mean": 0.11715193837881088
+          },
+          "SR_B5": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B5",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B5.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B5.tif",
+            "raw_sha256": "ded11455a26b23c6e1212aa6aadf08ede960c9f4c8d8055f429740397228c135",
+            "processed_sha256": "4e5d3c3554689b21f2ef07de441b5738caa2e31def12eb36f203540204609d30",
+            "file_size_bytes": 1070234,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.02739749848842621,
+            "max": 1.2944599390029907,
+            "mean": 0.21759241819381714
+          },
+          "SR_B6": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B6",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B6.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B6.tif",
+            "raw_sha256": "941e7fa0b4e14a58348510d6ca52241ab0b5adbb1b1fce4b65f4261e88949640",
+            "processed_sha256": "67b55c190f3c1ae1ea9e3e4c098e7b959e775c31ec7e5084ca358fc3941a357c",
+            "file_size_bytes": 1074655,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.02250249683856964,
+            "max": 1.3690674304962158,
+            "mean": 0.20927393436431885
+          },
+          "SR_B7": {
+            "asset_type": "surface_reflectance",
+            "band": "SR_B7",
+            "scale_factor": 2.75e-05,
+            "add_offset": -0.2,
+            "units": "unitless surface reflectance",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B7.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B7.tif",
+            "raw_sha256": "04e3f386f321d7a8beca220f48aff167d78d1ecb51c27e95d52deb7f9efc594a",
+            "processed_sha256": "db140077c7f81ba9e17a44e09ac915b52c8f1bded70b8e5b47c4b5608baff03d",
+            "file_size_bytes": 1122991,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 0.018047496676445007,
+            "max": 1.4259099960327148,
+            "mean": 0.16150037944316864
+          },
+          "ST_B10": {
+            "asset_type": "surface_temperature",
+            "band": "ST_B10",
+            "scale_factor": 0.00341802,
+            "add_offset": 149.0,
+            "units": "Kelvin",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ST_B10.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ST_B10.tif",
+            "raw_sha256": "6fc8bc5dc301a579d23404e58c80626a9887f5d3d83356c58873ebc47429eee2",
+            "processed_sha256": "b71e3f1ce5cd056c393358bfa0e4dee47253078d9ce6a0a5dcc2fff81b102a7a",
+            "file_size_bytes": 761529,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "valid_pixel_count": 346809,
+            "min": 303.2279052734375,
+            "max": 330.5857238769531,
+            "mean": 319.2720031738281
+          },
+          "QA_PIXEL": {
+            "asset_type": "quality_pixel",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_PIXEL.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_PIXEL.tif",
+            "raw_sha256": "a77b458b8d6f48eddd9756ac3f2362442e90285ee7dddc2eeaa752cfa685d75c",
+            "processed_sha256": "161f2c6712d791dfd95fd54d39e3e45d392a8fb7e63bbe46c3d276bdfd1570e5",
+            "file_size_bytes": 12777,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 1
+          },
+          "QA_RADSAT": {
+            "asset_type": "quality_radsat",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_RADSAT.tif",
+            "raw_source_asset": "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_RADSAT.tif",
+            "raw_sha256": "964c11ed4b4ded54af59baf533ecf2a6d77229af589fecf31f320cce5227788e",
+            "processed_sha256": "b879e5314e9e8265636afbc33c88b9861d720370cc957139cd873c08cdbf14c2",
+            "file_size_bytes": 9730,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint16",
+            "nodata": 65535
+          },
+          "qa_mask": {
+            "asset_type": "deterministic_qa_classification",
+            "local_path": "data/processed/landsat/2025/LC08_L2SP_147047_20250419_02_T1/qa_mask.tif",
+            "processed_sha256": "91fcd6e4926ca9fde11f33014f1568f90d67560a19ae197f65a5d1af3963f45a",
+            "file_size_bytes": 6825,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "uint8",
+            "nodata": 0,
+            "metrics": {
+              "raster_dimensions": [
+                706,
+                954
+              ],
+              "total_raster_pixels": 673524,
+              "aoi_internal_pixels": 346809,
+              "valid_clear_pixels": 346799,
+              "valid_clear_pct": 99.9971,
+              "cloud_pixels": 0,
+              "cloud_pct": 0.0,
+              "shadow_pixels": 0,
+              "shadow_pct": 0.0,
+              "dilated_cloud_pixels": 0,
+              "dilated_cloud_pct": 0.0,
+              "cirrus_pixels": 0,
+              "cirrus_pct": 0.0,
+              "saturated_pixels": 10,
+              "saturated_pct": 0.0029,
+              "fill_nodata_pixels": 326715,
+              "qa_logic": {
+                "standard": "USGS Landsat Collection 2 Level-2 QA_PIXEL & QA_RADSAT Specifications",
+                "qa_pixel_bit_definitions": {
+                  "bit_0": "Fill (1 = fill / nodata)",
+                  "bit_1": "Dilated Cloud (1 = dilated cloud)",
+                  "bit_2": "Cirrus (1 = high confidence cirrus)",
+                  "bit_3": "Cloud (1 = high confidence cloud)",
+                  "bit_4": "Cloud Shadow (1 = high confidence cloud shadow)",
+                  "bit_5": "Snow/Ice (1 = snow/ice)",
+                  "bit_6": "Clear (1 = clear land or water, no cloud/shadow/cirrus)",
+                  "bit_7": "Water (1 = water body)",
+                  "bits_8_9": "Cloud Confidence (00=None, 01=Low, 10=Medium, 11=High)",
+                  "bits_10_11": "Cloud Shadow Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_12_13": "Snow/Ice Confidence (00=None, 01=Low, 10=Reserved, 11=High)",
+                  "bits_14_15": "Cirrus Confidence (00=None, 01=Low, 10=Reserved, 11=High)"
+                },
+                "qa_radsat_saturation_mask": {
+                  "evaluated_bands": [
+                    "SR_B2",
+                    "SR_B3",
+                    "SR_B4",
+                    "SR_B5",
+                    "SR_B6",
+                    "SR_B7",
+                    "ST_B10"
+                  ],
+                  "bit_mask": 638,
+                  "description": "Bitmask selecting saturation in visible, NIR, SWIR, and thermal bands"
+                },
+                "classification_hierarchy": [
+                  {
+                    "code": 0,
+                    "name": "FILL_NODATA",
+                    "rule": "qa_pixel & 1 != 0 or raw_dn == 0 or nodata"
+                  },
+                  {
+                    "code": 6,
+                    "name": "SATURATED",
+                    "rule": "qa_radsat & relevant_mask != 0 (non-fill)"
+                  },
+                  {
+                    "code": 2,
+                    "name": "CLOUD",
+                    "rule": "qa_pixel & (1 << 3) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 3,
+                    "name": "CLOUD_SHADOW",
+                    "rule": "qa_pixel & (1 << 4) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 4,
+                    "name": "DILATED_CLOUD",
+                    "rule": "qa_pixel & (1 << 1) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 5,
+                    "name": "CIRRUS",
+                    "rule": "qa_pixel & (1 << 2) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 7,
+                    "name": "SNOW_ICE",
+                    "rule": "qa_pixel & (1 << 5) != 0 (non-fill)"
+                  },
+                  {
+                    "code": 1,
+                    "name": "VALID_CLEAR",
+                    "rule": "non-fill, clear, uncorrupted, un-saturated"
+                  }
+                ],
+                "valid_clear_definition": "A pixel is valid clear iff it is non-fill, not cloud, not cloud shadow, not dilated cloud, not cirrus, and not radiometrically saturated."
+              }
+            }
+          }
+        },
+        "derived_assets": {
+          "ndvi": {
+            "index_name": "NDVI",
+            "local_path": "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndvi.tif",
+            "sha256": "1f78af1b68a2aa6843cb478ba9379916c076041b512edf99db427da57edb2fce",
+            "file_size_bytes": 1140336,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDVI",
+              "formula": "(SR_B5 - SR_B4) / (SR_B5 + SR_B4)",
+              "bands_used": [
+                "SR_B4 (RED)",
+                "SR_B5 (NIR)"
+              ],
+              "valid_count": 346799,
+              "min": -0.20798787474632263,
+              "max": 0.8571885824203491,
+              "mean": 0.3018813133239746,
+              "std": 0.13300351798534393,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B4.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B5.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "ndbi": {
+            "index_name": "NDBI",
+            "local_path": "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ndbi.tif",
+            "sha256": "24b4f6d1cda4a7d437d441a6fc6cdfbaf1f9490722ba27c469db2f31209b7ffa",
+            "file_size_bytes": 1269001,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "index": "NDBI",
+              "formula": "(SR_B6 - SR_B5) / (SR_B6 + SR_B5)",
+              "bands_used": [
+                "SR_B5 (NIR)",
+                "SR_B6 (SWIR1)"
+              ],
+              "valid_count": 346799,
+              "min": -0.5549576878547668,
+              "max": 0.395648330450058,
+              "mean": -0.02253308892250061,
+              "std": 0.09945575892925262,
+              "units": "dimensionless [-1.0, 1.0]"
+            },
+            "lineage": [
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B5.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/SR_B6.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_kelvin": {
+            "index_name": "LST_Kelvin",
+            "local_path": "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_kelvin.tif",
+            "sha256": "0decbb6587eaf26172f5696edbb7865b3492cad3f202a19537fa0a58543e40d2",
+            "file_size_bytes": 761575,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Kelvin (K)",
+              "min": 303.2279052734375,
+              "max": 330.5857238769531,
+              "mean": 319.27191162109375,
+              "std": 3.3707222938537598
+            },
+            "lineage": [
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ST_B10.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_RADSAT.tif"
+            ]
+          },
+          "lst_celsius": {
+            "index_name": "LST_Celsius",
+            "local_path": "data/derived/landsat/2025/LC08_L2SP_147047_20250419_02_T1/lst_celsius.tif",
+            "sha256": "b2329202b2f5b4080e8ba277259e255ad70ceb40b9c8ad77f53404dc1db25f30",
+            "file_size_bytes": 752560,
+            "dimensions": [
+              706,
+              954
+            ],
+            "resolution_m": [
+              30.0,
+              30.0
+            ],
+            "crs": "EPSG:32643",
+            "dtype": "float32",
+            "nodata": "NaN",
+            "metrics": {
+              "units": "Degrees Celsius (\u00b0C)",
+              "min": 30.077911376953125,
+              "max": 57.43572998046875,
+              "mean": 46.12192916870117,
+              "std": 3.370722532272339
+            },
+            "lineage": [
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/ST_B10.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_PIXEL.tif",
+              "data/raw/landsat/2025/LC08_L2SP_147047_20250419_02_T1/QA_RADSAT.tif"
+            ]
+          }
+        }
+      },
+      "ancillary_context": {
+        "nasa_power_target_window_meteorology": {
+          "T2M": {
+            "mean": 29.61,
+            "min": 27.05,
+            "max": 31.42,
+            "count": 21
+          },
+          "T2M_MAX": {
+            "mean": 39.93,
+            "min": 36.63,
+            "max": 41.98,
+            "count": 21
+          },
+          "T2M_MIN": {
+            "mean": 20.88,
+            "min": 19.25,
+            "max": 22.78,
+            "count": 21
+          },
+          "RH2M": {
+            "mean": 39.87,
+            "min": 22.63,
+            "max": 52.76,
+            "count": 21
+          },
+          "WS10M": {
+            "mean": 3.45,
+            "min": 2.58,
+            "max": 4.43,
+            "count": 21
+          },
+          "PRECTOTCORR": {
+            "mean": 0.06,
+            "min": 0.0,
+            "max": 1.26,
+            "count": 21
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "mean": 25.34,
+            "min": 23.36,
+            "max": 27.07,
+            "count": 21
+          }
+        },
+        "modis_context_item_id": null
+      }
+    }
+  }
+}

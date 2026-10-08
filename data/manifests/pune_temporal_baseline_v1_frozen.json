@@ -1,0 +1,216 @@
+{
+  "manifest_id": "climora_temporal_baseline_v1_frozen",
+  "dataset_version": "pune_temporal_baseline_v1",
+  "status": "FROZEN",
+  "phase": "1A.7",
+  "frozen_at": "2026-10-02T06:55:46.185857+00:00",
+  "temporal_scope": "2021\u20132025",
+  "season": "peak_pre_monsoon_summer",
+  "canonical_doy": 105,
+  "preferred_window": [
+    95,
+    115
+  ],
+  "hard_max_offset_days": 15,
+  "study_area": "Pune, Maharashtra, India",
+  "sensor_governance": {
+    "baseline_type": "predominantly_landsat_8_with_2023_landsat_9",
+    "statement": "A five-year Landsat Collection 2 Level-2 temporal baseline using the same WRS-2 Path/Row 147/047 and peak pre-monsoon acquisition window, comprising four Landsat 8 observations and one Landsat 9 observation in 2023. Platform identity is retained explicitly for downstream quality control and temporal normalization.",
+    "platform_sequence": {
+      "2021": "Landsat 8",
+      "2022": "Landsat 8",
+      "2023": "Landsat 9",
+      "2024": "Landsat 8",
+      "2025": "Landsat 8"
+    }
+  },
+  "landsat_series": [
+    {
+      "year": 2021,
+      "scene_id": "LC08_L2SP_147047_20210424_02_T1",
+      "platform": "Landsat 8",
+      "date": "2021-04-24",
+      "doy": 114,
+      "offset_days": 9,
+      "stac_cloud_pct": 0.88,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.0,
+      "assets_count": 9,
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2022,
+      "scene_id": "LC08_L2SP_147047_20220411_02_T1",
+      "platform": "Landsat 8",
+      "date": "2022-04-11",
+      "doy": 101,
+      "offset_days": 4,
+      "stac_cloud_pct": 15.21,
+      "pune_aoi_cloud_pct": 1.71,
+      "pune_aoi_shadow_pct": 3.22,
+      "assets_count": 9,
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2023,
+      "scene_id": "LC09_L2SP_147047_20230422_02_T1",
+      "platform": "Landsat 9",
+      "date": "2023-04-22",
+      "doy": 112,
+      "offset_days": 7,
+      "stac_cloud_pct": 0.09,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.03,
+      "assets_count": 9,
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2024,
+      "scene_id": "LC08_L2SP_147047_20240416_02_T1",
+      "platform": "Landsat 8",
+      "date": "2024-04-16",
+      "doy": 107,
+      "offset_days": 2,
+      "stac_cloud_pct": 4.01,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.0,
+      "assets_count": 9,
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2025,
+      "scene_id": "LC08_L2SP_147047_20250419_02_T1",
+      "platform": "Landsat 8",
+      "date": "2025-04-19",
+      "doy": 109,
+      "offset_days": 4,
+      "stac_cloud_pct": 0.35,
+      "pune_aoi_cloud_pct": 0.0,
+      "pune_aoi_shadow_pct": 0.0,
+      "assets_count": 9,
+      "validation": "PASSED_VALID"
+    }
+  ],
+  "modis_historical_series": [
+    {
+      "year": 2021,
+      "item_id": "MOD11A2.A2021105.h25v07.061.2021114054044",
+      "date": "2021-04-15",
+      "doy": 105,
+      "assets_count": 4,
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2022,
+      "item_id": "MOD11A2.A2022105.h25v07.061.2022118025926",
+      "date": "2022-04-15",
+      "doy": 105,
+      "assets_count": 4,
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2023,
+      "item_id": "MOD11A2.A2023105.h25v07.061.2023114150920",
+      "date": "2023-04-15",
+      "doy": 105,
+      "assets_count": 4,
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2024,
+      "item_id": "MOD11A2.A2024105.h25v07.061.2024115214105",
+      "date": "2024-04-14",
+      "doy": 105,
+      "assets_count": 4,
+      "validation": "PASSED_VALID"
+    }
+  ],
+  "nasa_power_historical_series": [
+    {
+      "year": 2021,
+      "daily_records_count": 365,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2022,
+      "daily_records_count": 365,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2023,
+      "daily_records_count": 365,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "validation": "PASSED_VALID"
+    },
+    {
+      "year": 2024,
+      "daily_records_count": 366,
+      "variables": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "RH2M",
+        "WS10M",
+        "PRECTOTCORR",
+        "ALLSKY_SFC_SW_DWN"
+      ],
+      "validation": "PASSED_VALID"
+    }
+  ],
+  "reused_frozen_phase_0_assets": {
+    "total_files": 44,
+    "manifest_reference": "data/manifests/pune_2025_v1_frozen.json",
+    "checksums_reference": "data/manifests/pune_2025_v1_checksums.sha256",
+    "integrity_status": "VERIFIED_UNCHANGED"
+  },
+  "inventory_summary": {
+    "landsat_assets": 45,
+    "modis_historical_assets": 16,
+    "nasa_power_historical_files": 4,
+    "new_historical_files_total": 65,
+    "reused_frozen_files_total": 44,
+    "total_lake_files": 109
+  },
+  "checksums_manifest": "data/manifests/pune_temporal_baseline_v1_checksums.sha256",
+  "storage_metrics": {
+    "existing_frozen_bytes": 1981009311,
+    "existing_frozen_gb": 1.845,
+    "new_landsat_bytes": 3196458468,
+    "new_landsat_gb": 2.977,
+    "new_modis_bytes": 13942237,
+    "new_modis_mb": 13.3,
+    "new_nasa_power_bytes": 288260,
+    "new_nasa_power_kb": 281.5,
+    "new_total_bytes": 3210688965,
+    "new_total_gb": 2.99,
+    "final_raw_dataset_bytes": 5191698276,
+    "final_raw_dataset_gb": 4.835,
+    "convention": "1 GB = 1024^3 bytes (GiB)"
+  }
+}
