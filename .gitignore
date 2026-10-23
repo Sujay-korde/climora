@@ -7,16 +7,26 @@
 # ------------------------------------------------------------------------------
 .env
 .env.*
+.env.local
+.env.*.local
 !.env.example
 *.pem
 *.key
 *.pkcs12
 *.pfx
 *.cert
+*.crt
+*.csr
 id_rsa*
+id_ed25519*
 aws_credentials
 credentials.json
 client_secret*.json
+*.token
+*.auth
+*.secret
+secrets/
+*.private
 
 # ------------------------------------------------------------------------------
 # 2. Local Scientific Data Lake & Satellite Rasters
@@ -28,6 +38,11 @@ client_secret*.json
 *.nc
 *.hdf
 *.part
+*.tar
+*.tar.gz
+*.gz
+*.zip
+*.7z
 
 data/raw/
 data/derived/
@@ -36,13 +51,21 @@ data/processed/sentinel2/
 data/processed/modis/
 data/processed/worldpop/
 data/processed/nasa_power/
+data/processed/dem/
+data/processed/hev/
+data/processed/risk/
+data/processed/**/*.csv
 data/processed/*.csv
 
 # ------------------------------------------------------------------------------
-# 3. Canonical Parquets (Cryptographically Ratified & Stored in S3 Data Lake)
+# 3. Canonical Parquets & Scientific Binaries (Ratified & Stored in S3 Data Lake)
 # ------------------------------------------------------------------------------
-# Parquet files are strictly preserved in S3 with SHA-256 digests in manifests
+# Parquet & binary files are strictly preserved in S3 with SHA-256 digests in manifests
 *.parquet
+*.feather
+*.bin
+*.npy
+*.npz
 
 # ------------------------------------------------------------------------------
 # 4. Frontend Dependencies & Build Output
@@ -51,7 +74,7 @@ node_modules/
 frontend/node_modules/
 dist/
 frontend/dist/
-*.zip
+.wireit/
 
 # ------------------------------------------------------------------------------
 # 5. Python & Virtual Environments
@@ -88,18 +111,29 @@ env/
 # ------------------------------------------------------------------------------
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
 .mypy_cache/
 .ruff_cache/
 
 # ------------------------------------------------------------------------------
-# 7. IDE, OS & Temporary Developer Space
+# 7. IDE, OS, Temporary & Junk Files
 # ------------------------------------------------------------------------------
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 .DS_Store
 Thumbs.db
+desktop.ini
 *.log
 *.tmp
 *.cache
+*.bak
+*.swp
+*.swo
+*~
 scratch/
+temp/
+tmp/
+txt
