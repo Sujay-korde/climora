@@ -236,6 +236,21 @@ class AllocationDomainService:
         slack = round(budget_val - tot_cost, 2)
         util_pct = round((tot_cost / budget_val) * 100.0, 2) if budget_val > 0 else 0.0
 
+        # Multi-Objective Metrics (Phase B3)
+        treated_cids = {rec["h3_cell_id"] for rec in alloc_records}
+        treated_eligible = eligible_df.loc[eligible_df.index.isin(treated_cids)]
+        total_pop_protected = round(float(treated_eligible["population_2020"].sum()), 1) if len(treated_eligible) > 0 else 0.0
+        # Disadvantaged/equity cells: Vulnerability V_i in upper half (> 0.5)
+        equity_cells = int((treated_eligible["V_i"] >= 0.50).sum()) if len(treated_eligible) > 0 else 0
+
+        multi_objective = {
+            "modeled_risk_reduction": round(float(solution["optimal_objective_value"]), 6),
+            "population_protected": total_pop_protected,
+            "disadvantaged_equity_cells_count": equity_cells,
+            "budget_slack_inr": slack,
+            "budget_utilization_pct": util_pct,
+        }
+
         return {
             "scenario_id": f"SCEN-PUNE-2025-CUSTOM-{uuid.uuid4().hex[:6].upper()}",
             "project_id": project_id,
@@ -257,5 +272,6 @@ class AllocationDomainService:
             "total_cells_treated": len(alloc_records),
             "allocations": alloc_records,
             "summary_by_intervention": summary_by_int,
+            "multi_objective_metrics": multi_objective,
         }
 

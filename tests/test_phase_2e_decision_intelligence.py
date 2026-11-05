@@ -21,6 +21,7 @@ import pytest
 from api.app import create_app
 from processing.project_mrv import CANONICAL_ALLOCATION_PARQUET
 from services.allocation_service import CANONICAL_ALLOCATION_SHA256
+from services.auth_service import mint_actor_token
 from services.query_layer import CANONICAL_PROJECT_ID
 
 
@@ -83,8 +84,11 @@ def test_scenario_optimize_benchmark_5m(client):
     # Pre-check canonical allocation hash
     hash_before = hashlib.sha256(CANONICAL_ALLOCATION_PARQUET.read_bytes()).hexdigest()
 
+    auth_headers = {"Authorization": f"Bearer {mint_actor_token('urban_planner_lead')}"}
+
     resp = client.post(
         f"/projects/{CANONICAL_PROJECT_ID}/scenarios/optimize",
+        headers=auth_headers,
         json={"budget_inr": 5000000},
     )
     assert resp.status_code == 200
@@ -108,8 +112,10 @@ def test_scenario_optimize_benchmark_5m(client):
 
 def test_scenario_optimize_benchmark_10m(client):
     """Test 5: POST with 10M matches canonical baseline metrics."""
+    auth_headers = {"Authorization": f"Bearer {mint_actor_token('urban_planner_lead')}"}
     resp = client.post(
         f"/projects/{CANONICAL_PROJECT_ID}/scenarios/optimize",
+        headers=auth_headers,
         json={"budget_inr": 10000000},
     )
     assert resp.status_code == 200
@@ -122,9 +128,11 @@ def test_scenario_optimize_benchmark_10m(client):
 
 def test_scenario_optimize_invalid_budgets(client):
     """Test 6: Reject invalid budgets (< 500k, > 25M, non-numeric)."""
+    auth_headers = {"Authorization": f"Bearer {mint_actor_token('urban_planner_lead')}"}
     # Below minimum
     r1 = client.post(
         f"/projects/{CANONICAL_PROJECT_ID}/scenarios/optimize",
+        headers=auth_headers,
         json={"budget_inr": 200000},
     )
     assert r1.status_code == 400
@@ -132,6 +140,7 @@ def test_scenario_optimize_invalid_budgets(client):
     # Above maximum
     r2 = client.post(
         f"/projects/{CANONICAL_PROJECT_ID}/scenarios/optimize",
+        headers=auth_headers,
         json={"budget_inr": 30000000},
     )
     assert r2.status_code == 400
@@ -139,6 +148,7 @@ def test_scenario_optimize_invalid_budgets(client):
     # Non-numeric
     r3 = client.post(
         f"/projects/{CANONICAL_PROJECT_ID}/scenarios/optimize",
+        headers=auth_headers,
         json={"budget_inr": "five_million"},
     )
     assert r3.status_code == 400
@@ -146,6 +156,7 @@ def test_scenario_optimize_invalid_budgets(client):
     # Extra fields rejected by Pydantic forbid
     r4 = client.post(
         f"/projects/{CANONICAL_PROJECT_ID}/scenarios/optimize",
+        headers=auth_headers,
         json={"budget_inr": 5000000, "extra_param": True},
     )
     assert r4.status_code == 400

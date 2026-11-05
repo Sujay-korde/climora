@@ -74,6 +74,58 @@ export const Navigation: React.FC = () => {
           >
             Projects
           </NavLink>
+          <NavLink
+            to="/optimizer"
+            style={({ isActive }) => ({
+              fontFamily: 'var(--font-sans)',
+              fontSize: '13px',
+              color: isActive ? 'var(--ink-primary)' : 'var(--ink-secondary)',
+              transition: 'color 0.15s ease',
+              borderBottom: isActive ? '1px solid var(--ink-primary)' : '1px solid transparent',
+              paddingBottom: '4px',
+            })}
+          >
+            Optimizer
+          </NavLink>
+          <NavLink
+            to="/interventions"
+            style={({ isActive }) => ({
+              fontFamily: 'var(--font-sans)',
+              fontSize: '13px',
+              color: isActive ? 'var(--ink-primary)' : 'var(--ink-secondary)',
+              transition: 'color 0.15s ease',
+              borderBottom: isActive ? '1px solid var(--ink-primary)' : '1px solid transparent',
+              paddingBottom: '4px',
+            })}
+          >
+            Interventions
+          </NavLink>
+          <NavLink
+            to="/mrv"
+            style={({ isActive }) => ({
+              fontFamily: 'var(--font-sans)',
+              fontSize: '13px',
+              color: isActive ? 'var(--ink-primary)' : 'var(--ink-secondary)',
+              transition: 'color 0.15s ease',
+              borderBottom: isActive ? '1px solid var(--ink-primary)' : '1px solid transparent',
+              paddingBottom: '4px',
+            })}
+          >
+            MRV & Impact
+          </NavLink>
+          <NavLink
+            to="/methodology"
+            style={({ isActive }) => ({
+              fontFamily: 'var(--font-sans)',
+              fontSize: '13px',
+              color: isActive ? 'var(--ink-primary)' : 'var(--ink-secondary)',
+              transition: 'color 0.15s ease',
+              borderBottom: isActive ? '1px solid var(--ink-primary)' : '1px solid transparent',
+              paddingBottom: '4px',
+            })}
+          >
+            Methodology
+          </NavLink>
         </nav>
       </div>
 

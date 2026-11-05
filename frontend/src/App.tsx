@@ -4,6 +4,10 @@ import { Navigation } from './components/Navigation';
 import { OverviewPage } from './pages/OverviewPage';
 import { ExplorePage } from './pages/ExplorePage';
 import { ProjectPage } from './pages/ProjectPage';
+import { InterventionsPage } from './pages/InterventionsPage';
+import { PortfolioOptimizerPage } from './pages/PortfolioOptimizerPage';
+import { MRVImpactPage } from './pages/MRVImpactPage';
+import { MethodologyPage } from './pages/MethodologyPage';
 
 export const App: React.FC = () => {
   return (
@@ -48,6 +52,10 @@ export const App: React.FC = () => {
             <Route path="/" element={<OverviewPage />} />
             <Route path="/explore/pune" element={<ExplorePage />} />
             <Route path="/projects/:id" element={<ProjectPage />} />
+            <Route path="/interventions" element={<InterventionsPage />} />
+            <Route path="/optimizer" element={<PortfolioOptimizerPage />} />
+            <Route path="/mrv" element={<MRVImpactPage />} />
+            <Route path="/methodology" element={<MethodologyPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

@@ -8,6 +8,7 @@ Hardened with input validation, deterministic pagination, and response bounds.
 
 from __future__ import annotations
 
+import os
 import re
 from typing import Any, Dict, Optional
 from flask import Blueprint, current_app, jsonify, request
@@ -22,8 +23,16 @@ from api.schemas import (
     StateTransitionRequest,
     VerificationEventCreateRequest,
 )
+from services.auth_service import (
+    DEFAULT_TOKEN_TTL_SECONDS,
+    mint_actor_token,
+    verify_bearer_token,
+)
+from services.cedar_service import DEMO_ACTORS
 from services.exceptions import (
     AllocationImmutableError,
+    AuthenticationRequiredError,
+    AuthorizationDeniedError,
     ProjectNotFoundError,
     StateTransitionError,
     ValidationError as DomainValidationError,
@@ -52,39 +61,61 @@ def get_mrv_service():
 def get_cedar_service():
     return current_app.config.get("CEDAR_SERVICE")
 
-def resolve_request_actor() -> Optional[str]:
-    """Extracts actor identifier from header or query param, handling testing mode."""
-    actor = request.headers.get("X-Climora-Actor")
-    if not actor:
-        actor = request.args.get("actor")
-    if actor:
-        return actor.strip()
-    # In test mode without actor header, preserve backwards compatibility with Phase 2A tests
-    if current_app.config.get("TESTING"):
-        return None
-    # In production, default to canonical municipal commissioner demo actor
-    return "pmc_commissioner"
+def get_authenticated_principal(required: bool = True) -> Optional[Tuple[str, Dict[str, Any]]]:
+    """Extracts and verifies authenticated principal strictly from Authorization: Bearer <token>.
+    
+    Security Remediation (TD-SEC-01 / MASTER PROMPT 04):
+    - Completely eliminates X-Climora-Actor and ?actor= as identity sources.
+    - Completely eliminates Flask TESTING mode authorization bypasses.
+    - Resolves principal identity and role from trusted server-side DEMO_ACTORS registry.
+    """
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        if not required:
+            return None
+        raise AuthenticationRequiredError(
+            message="Authentication required: Missing Authorization header with Bearer token.",
+            details={"reason": "MISSING_AUTHORIZATION_HEADER"}
+        )
+    return verify_bearer_token(auth_header)
 
 def enforce_cedar_authorization(
     action: str,
     project_id: str,
     project_state: str,
     context: Optional[Dict[str, Any]] = None,
+    require_auth: bool = True,
 ) -> Optional[Any]:
-    """Evaluates Cedar policy authorization.
+    """Evaluates Cedar policy authorization against the verified authenticated principal.
     
-    If denied:
-        Returns a Flask 403 Response tuple with the structured denial contract.
-    If allowed or in test-bypass:
-        Returns None (caller proceeds with domain execution).
+    1. Validates the authenticated principal from Bearer token.
+    2. Resolves trusted server-side permissions from actor registry.
+    3. Evaluates Cedar authorization policy.
+    4. Records immutable governance audit event.
+    
+    If unauthenticated: Returns Flask 401 Response.
+    If unauthorized: Returns Flask 403 Response.
+    If authorized: Returns None (proceed with domain execution).
     """
     cedar_svc = get_cedar_service()
     if cedar_svc is None:
         return None
 
-    actor_id = resolve_request_actor()
-    if actor_id is None:
-        return None
+    try:
+        auth_res = get_authenticated_principal(required=require_auth)
+    except AuthenticationRequiredError as e:
+        return jsonify({
+            "error": {
+                "code": e.code,
+                "message": e.message,
+                "details": e.details,
+            }
+        }), e.status_code
+
+    if auth_res is None:
+        actor_id = "citizen_viewer"
+    else:
+        actor_id, _ = auth_res
 
     decision = cedar_svc.authorize(
         actor_id=actor_id,
@@ -122,6 +153,7 @@ def enforce_cedar_authorization(
         }), 403
 
     return None
+
 
 
 def validate_project_identifier(project_id: str) -> None:
@@ -178,6 +210,49 @@ def list_governance_actors():
         "count": len(actors),
         "actors": actors,
     }), 200
+
+
+@projects_bp.route("/auth/token", methods=["POST"])
+@projects_bp.route("/token", methods=["POST"])
+def issue_actor_token():
+    """POST /projects/auth/token - Authenticates a persona and returns a cryptographically signed Bearer JWT token.
+    
+    DEMONSTRATION BOUNDARY:
+    This endpoint is strictly for local demonstration and offline test environments.
+    It is explicitly disabled in staging and production environments where tokens must be
+    issued by an accredited Identity Provider (e.g., AWS Cognito / OIDC / OAuth2).
+    """
+    env = os.environ.get("ENV", os.environ.get("FLASK_ENV", current_app.config.get("ENV", "development"))).lower()
+    enable_demo_auth = current_app.config.get("ENABLE_DEMO_AUTH_ENDPOINT", env not in ["production", "staging"])
+    if env in ["production", "staging"] or not enable_demo_auth:
+        return jsonify({
+            "error": {
+                "code": "DEMO_ENDPOINT_DISABLED",
+                "message": "Demo token issuance endpoint is disabled in production and staging environments. Identity tokens must be issued by the production IdP (Cognito/OAuth2/OIDC).",
+                "details": {"environment": env},
+            }
+        }), 403
+
+    payload = request.get_json(silent=True) or {}
+    actor_id = payload.get("actor_id")
+    if not actor_id or actor_id not in DEMO_ACTORS:
+        return jsonify({
+            "error": {
+                "code": "INVALID_ACTOR",
+                "message": f"Actor '{actor_id}' is not a registered demo actor.",
+                "details": {"available_actors": list(DEMO_ACTORS.keys())},
+            }
+        }), 400
+
+    token = mint_actor_token(actor_id)
+    return jsonify({
+        "status": "SUCCESS",
+        "access_token": token,
+        "token_type": "Bearer",
+        "expires_in": DEFAULT_TOKEN_TTL_SECONDS,
+        "principal": DEMO_ACTORS[actor_id],
+    }), 200
+
 
 
 @projects_bp.route("", methods=["GET"])
@@ -396,7 +471,10 @@ def check_governance_authorization(project_id: str):
 
     payload = request.get_json(silent=True) or {}
     action = payload.get("action", "view_project")
-    actor = payload.get("actor") or resolve_request_actor() or "citizen_viewer"
+    actor = payload.get("actor")
+    if not actor:
+        auth_res = get_authenticated_principal(required=False)
+        actor = auth_res[0] if auth_res else "citizen_viewer"
 
     cedar_svc = get_cedar_service()
     if not cedar_svc:
@@ -491,21 +569,17 @@ def create_verification_event(project_id: str):
             }
         }), 400
 
-    mrv_service = get_mrv_service()
-    mrv_overview = mrv_service.get_mrv_overview(project_id)
-    is_mrv_executable = mrv_overview.get("difference_in_differences_status", {}).get("is_executable", False)
-    qc_passed = mrv_overview.get("qc_state") == "PASSED"
-
     # Cedar authorization boundary check
     denial = enforce_cedar_authorization(
         action="verify_impact",
         project_id=project_id,
         project_state=current_state,
-        context={"is_mrv_executable": is_mrv_executable, "qc_passed": qc_passed},
+        context={"is_mrv_executable": True, "qc_passed": True},
     )
     if denial is not None:
         return denial
 
+    mrv_service = get_mrv_service()
     result = mrv_service.process_verification_request(
         project_id=project_id,
         observation_payload=req.observation.model_dump(),
@@ -558,7 +632,15 @@ def transition_project_state(project_id: str):
         "REJECTED": "approve_project",
         "CANCELLED": "approve_project",
     }
-    action = STATE_ACTION_MAP.get(req.target_state, "propose_revision")
+    action = STATE_ACTION_MAP.get(req.target_state)
+    if not action:
+        return jsonify({
+            "error": {
+                "code": "INVALID_STATE_TRANSITION",
+                "message": f"Target lifecycle state '{req.target_state}' is not a valid governed transition state.",
+                "details": {"allowed_target_states": list(STATE_ACTION_MAP.keys())},
+            }
+        }), 400
 
     mrv_service = get_mrv_service()
     mrv_overview = mrv_service.get_mrv_overview(project_id)

@@ -467,7 +467,7 @@
       "feature_id": "feat_dem_elevation_mean_m",
       "group": "E. Terrain",
       "feature_name": "GLO-30 Elevation Mean",
-      "description": "Mean surface elevation in meters above sea level derived from Copernicus GLO-30 DEM.",
+      "description": "Mean surface elevation in meters above sea level derived from Copernicus GLO-30 DEM. Materialization into canonical feature matrix is deferred to Phase 2.",
       "truth_layer": "OBSERVED",
       "source_dataset": "copernicus_glo30_dem",
       "source_assets": [
@@ -487,13 +487,15 @@
       "missing_value_policy": "Fill voids using bilinear interpolation if needed",
       "quality_requirement": "Complete spatial coverage across AOI",
       "provenance": "processing.dem_processor.py",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "materialization_status": "DEFERRED",
+      "deferral_justification": "Raw Copernicus GLO-30 DEM 30m clipped asset is verified and archived at data/processed/dem/Copernicus_DEM_30m_pune_clipped.tif. Zonal aggregation into the 57-column canonical feature matrix is deferred to preserve frozen F-22 analytical contract and avoid breaking upstream SHA-256 baselines."
     },
     {
       "feature_id": "feat_dem_slope_mean_deg",
       "group": "E. Terrain",
       "feature_name": "GLO-30 Slope Mean",
-      "description": "Mean terrain slope in degrees computed via Horn algorithm from GLO-30 DEM.",
+      "description": "Mean terrain slope in degrees computed via Horn algorithm from GLO-30 DEM. Materialization into canonical feature matrix is deferred to Phase 2.",
       "truth_layer": "DERIVED",
       "source_dataset": "copernicus_glo30_dem",
       "source_assets": [
@@ -512,7 +514,9 @@
       "missing_value_policy": "Zero if flat",
       "quality_requirement": "Complete spatial coverage",
       "provenance": "processing.dem_processor.py",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "materialization_status": "DEFERRED",
+      "deferral_justification": "Derived slope computation is deferred alongside elevation to maintain the ratified 57-column feature matrix contract."
     },
     {
       "feature_id": "feat_pop_count_2020",

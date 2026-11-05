@@ -344,3 +344,51 @@ def test_existing_bootstrap_dataset_integrity(climora_config):
         assert layer_file.exists()
         val = validate_vector(layer_file)
         assert val["valid"] is True
+
+
+def test_phase_c1_osm_road_expansion_and_metrics(climora_config):
+    """Phase C1: Verify expanded Overpass road query definition, deduplication, and metrics generation."""
+    from ingestion.osm import OSM_QUERIES, _osm_elements_to_geojson, compute_road_coverage_metrics
+
+    # 1. Expanded Overpass road query includes secondary and tertiary
+    road_query = OSM_QUERIES["road_network"]
+    assert "secondary" in road_query, "Overpass road query must include secondary roads"
+    assert "tertiary" in road_query, "Overpass road query must include tertiary roads"
+    assert "motorway" in road_query
+    assert "trunk" in road_query
+    assert "primary" in road_query
+
+    # 2. Geometry deduplication and validation logic
+    duplicate_elements = [
+        {
+            "type": "way",
+            "id": 1001,
+            "tags": {"highway": "primary"},
+            "geometry": [{"lat": 18.52, "lon": 73.85}, {"lat": 18.53, "lon": 73.86}],
+        },
+        {
+            "type": "way",
+            "id": 1001,  # Duplicate ID
+            "tags": {"highway": "primary"},
+            "geometry": [{"lat": 18.52, "lon": 73.85}, {"lat": 18.53, "lon": 73.86}],
+        },
+        {
+            "type": "way",
+            "id": 1002,
+            "tags": {"highway": "secondary"},
+            "geometry": [{"lat": 18.54, "lon": 73.87}, {"lat": 18.55, "lon": 73.88}],
+        },
+    ]
+    geojson = _osm_elements_to_geojson(duplicate_elements)
+    assert len(geojson["features"]) == 2, "Deduplication must eliminate duplicate element IDs"
+
+    # 3. Coverage metrics function
+    road_file = climora_config.raw_dir / "osm" / "pune" / "road_network.geojson"
+    if road_file.exists():
+        metrics = compute_road_coverage_metrics(road_file)
+        assert metrics["total_features"] > 0
+        assert "classes_breakdown" in metrics
+        assert "trunk" in metrics["classes_breakdown"]
+        assert "primary" in metrics["classes_breakdown"]
+        assert len(metrics["expanded_query_includes"]) == 5
+

@@ -694,3 +694,39 @@ def test_phase_1h_2_canonical_reconciliation(canonical_proposal_doc, project_con
     assert alloc_sha == "2519473a32a2b4a3a22bc8beb43525c3f21dc404783168f1edd6de7bc4bb5555"
 
 
+def test_phase_e2_satellite_detectability_noise_floor_gate():
+    """Phase E2: Single-cell thermal LST verification must be rejected due to Landsat noise floor (MDE ~6.91°C)."""
+    single_cell_obs = ObservationEvent(
+        observation_id="OBS-SINGLE-CELL",
+        sensor_platform="Landsat-9-TIRS",
+        acquisition_date="2026-04-18",
+        doy=108,
+        spatial_resolution_m=30.0,
+        cloud_cover_aoi_pct=1.0,
+        quality_flags_passed=True,
+        asset_uri="s3://climora/obs/single_cell.tif",
+    )
+
+    # Single treated cell -> Must be rejected by detectability gate
+    qc_single = MRVQualityControlEngine.audit_observation(
+        observation=single_cell_obs,
+        treated_cell_count=1,
+        observed_cell_count=1,
+        target_metric="lst",
+    )
+    assert qc_single.all_passed is False
+    assert qc_single.detectability_noise_floor_passed is False
+    assert any("Detectability gate rejected" in v for v in qc_single.violations)
+
+    # Multi-cell corridor (e.g. 5+ cells) -> Detectability gate passes
+    qc_corridor = MRVQualityControlEngine.audit_observation(
+        observation=single_cell_obs,
+        treated_cell_count=5,
+        observed_cell_count=5,
+        target_metric="lst",
+    )
+    assert qc_corridor.all_passed is True
+    assert qc_corridor.detectability_noise_floor_passed is True
+
+
+

@@ -117,6 +117,33 @@ def test_population_exposure_aggregation_and_conservation():
         assert abs(c["population_density_per_km2"] - expected_density) <= 0.2
 
 
+def test_worldpop_mass_conservation_within_one_percent():
+    """C2 Remediation: Verify mass conservation between WorldPop clipped raster and H3 hexagons is <= 1.0%."""
+    import rasterio
+    import numpy as np
+    clipped_path = PROCESSED_DIR / "worldpop" / "2020" / "worldpop_pune_2020_clipped.tif"
+    pop_json_path = PROCESSED_DIR / "worldpop" / "2020" / "h3_population_exposure.json"
+
+    assert clipped_path.exists(), "Clipped WorldPop GeoTIFF must exist"
+    assert pop_json_path.exists(), "h3_population_exposure.json must exist"
+
+    with rasterio.open(clipped_path) as src:
+        res_deg = src.res[0]
+        # Native resolution: 30 arc-seconds (~0.008333 degrees)
+        assert abs(res_deg - (30.0 / 3600.0)) < 1e-5, f"Expected 30 arc-sec resolution, got {res_deg}"
+
+    with open(pop_json_path, "r", encoding="utf-8") as f:
+        h3_data = json.load(f)
+
+    meta = h3_data["metadata"]
+    h3_pop_sum = sum(c["population_count"] for c in h3_data["cells"])
+    exact_aoi_pop = meta["exact_aoi_population"]
+    delta_pct = abs(h3_pop_sum - exact_aoi_pop) / exact_aoi_pop * 100.0
+
+    assert delta_pct < 1.0, f"Mass conservation delta {delta_pct:.4f}% exceeds 1.0%"
+    assert delta_pct < 0.05, f"High precision conservation failed: {delta_pct:.4f}%"
+
+
 def test_feature_dictionary_schema_and_asset_existence():
     """Verify feature dictionary schema, truth layers, and that 100% of declared assets exist."""
     dict_file = MANIFESTS_DIR / "feature_dictionary.json"

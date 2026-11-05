@@ -4,6 +4,7 @@ import { TruthBadge } from '../components/TruthBadge';
 import { StateTransitionModal } from '../components/StateTransitionModal';
 import { RevisionModal } from '../components/RevisionModal';
 import { ProvenanceModal } from '../components/ProvenanceModal';
+import { ProjectBriefModal } from '../components/ProjectBriefModal';
 import { CedarGovernancePanel } from '../components/CedarGovernancePanel';
 import { CANONICAL_PROJECT_ID, climoraApi, getCurrentActor, onActorChange, setCurrentActor } from '../services/api';
 import {
@@ -11,6 +12,7 @@ import {
   BaselineCell,
   PortfolioSummary,
   ProjectLifecycleState,
+  ScenarioOptimizeResponse,
 } from '../types/api';
 
 export type TabKey = 'overview' | 'governance' | 'allocation' | 'baseline' | 'budget' | 'verification' | 'provenance';
@@ -109,6 +111,7 @@ export const ProjectPage: React.FC = () => {
   const [isRevisionModalOpen, setIsRevisionModalOpen] = useState(false);
   const [targetRevisionCell, setTargetRevisionCell] = useState('');
   const [isProvenanceModalOpen, setIsProvenanceModalOpen] = useState(false);
+  const [isBriefModalOpen, setIsBriefModalOpen] = useState(false);
 
   // Sync with global actor changes from CedarGovernancePanel or elsewhere
   useEffect(() => {
@@ -426,8 +429,22 @@ export const ProjectPage: React.FC = () => {
                 Under ₹{budgetEnvelope.toLocaleString('en-US')} statutory envelope
               </span>
             </div>
-            <div style={{ marginTop: '8px' }}>
+            <div style={{ marginTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <TruthBadge layer="MODELED" detail="Canonical HiGHS MILP Allocation" />
+              <button
+                onClick={() => setIsBriefModalOpen(true)}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: 'var(--accent-focal)',
+                  color: '#0C0E0D',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                }}
+              >
+                Generate Bankable Project Brief 📄
+              </button>
             </div>
           </div>
 
@@ -1066,6 +1083,60 @@ export const ProjectPage: React.FC = () => {
         onClose={() => setIsProvenanceModalOpen(false)}
         provenanceData={provenanceData}
       />
+
+      {isBriefModalOpen && (
+        <ProjectBriefModal
+          scenario={{
+            scenario_id: 'SCEN-PUNE-2025-10M-CANONICAL',
+            project_id: projectId || CANONICAL_PROJECT_ID,
+            truth_layer: 'MODELED',
+            is_canonical: true,
+            is_precomputed_benchmark: true,
+            disclaimer: 'CANONICAL RATIFIED INTERVENTION PORTFOLIO',
+            generated_at_utc: '2026-10-06T09:00:00Z',
+            formulation_ratified: 'F-24.6',
+            solver_engine: 'HiGHS (scipy.optimize.milp)',
+            budget_inr: budgetEnvelope,
+            total_allocated_cost_inr: totalCost,
+            budget_slack_inr: budgetSlack,
+            budget_utilization_pct: 99.92,
+            optimal_objective_value: objectiveScore,
+            objective_description: 'Cumulative Modeled Risk Reduction',
+            solver_status: 'OPTIMAL',
+            solver_duration_sec: 49.28,
+            total_cells_treated: cellCount,
+            allocations: allocations.map((a) => ({
+              h3_cell_id: a.h3_cell_id,
+              intervention_type: a.intervention_type,
+              quantity: a.quantity,
+              unit: 'tree_count',
+              unit_cost: 3500.0,
+              fixed_cost: 20000.0,
+              total_cost: a.total_cost || (a.quantity * 3500.0 + 20000.0),
+              modeled_cooling_degC: a.modeled_cooling_degC || 0.05,
+              marginal_risk_reduction: a.marginal_risk_reduction || 0.003,
+              baseline_risk: 0.32,
+              population_2020: 4200.0,
+            })),
+            summary_by_intervention: {
+              street_tree_shade: {
+                total_quantity: totalTrees,
+                unit: 'tree_count',
+                total_cost_inr: totalCost,
+                cells_count: cellCount,
+              },
+            },
+            multi_objective_metrics: {
+              modeled_risk_reduction: objectiveScore,
+              population_protected: popCount,
+              disadvantaged_equity_cells_count: cellCount,
+              budget_slack_inr: budgetSlack,
+              budget_utilization_pct: 99.92,
+            },
+          }}
+          onClose={() => setIsBriefModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

@@ -23,7 +23,8 @@ import pytest
 from api.app import create_app
 from ingestion.common import calculate_sha256
 from services.allocation_service import CANONICAL_ALLOCATION_SHA256
-from services.cedar_service import CedarGovernanceService
+from services.auth_service import create_auth_headers
+from services.cedar_service import CedarGovernanceService, DEMO_ACTORS
 from services.project_service import CANONICAL_PROJECT_ID
 
 
@@ -38,6 +39,18 @@ def app():
 def client(app):
     """Create test client."""
     return app.test_client()
+
+
+def auth_headers(actor_id: str, extra: dict = None) -> dict:
+    """Helper to generate trusted Bearer token authentication headers for a demo actor."""
+    if actor_id in DEMO_ACTORS:
+        h = create_auth_headers(actor_id)
+    else:
+        h = {"X-Climora-Actor": actor_id}
+    if extra:
+        h.update(extra)
+    return h
+
 
 
 # ==============================================================================
@@ -155,7 +168,7 @@ def test_cedar_service_direct_unit():
 def test_scenario_a_viewer_read_access(client):
     """Scenario A: Viewer can read project evidence under universal permit policy."""
     pid = CANONICAL_PROJECT_ID
-    res = client.get(f"/projects/{pid}", headers={"X-Climora-Actor": "citizen_viewer"})
+    res = client.get(f"/projects/{pid}", headers=auth_headers("citizen_viewer"))
     assert res.status_code == 200
     assert res.json["status"] == "SUCCESS"
     assert res.json["project"]["identity"]["project_id"] == pid
@@ -172,7 +185,7 @@ def test_scenario_b_viewer_attempts_approval_denied_zero_mutation(client):
     # Viewer attempts approval
     res_deny = client.post(
         f"/projects/{pid}/transition",
-        headers={"X-Climora-Actor": "citizen_viewer"},
+        headers=auth_headers("citizen_viewer"),
         json={
             "target_state": "FUNDED",
             "sanction_id": "PMC-SANC-FAKE",
@@ -198,7 +211,7 @@ def test_scenario_c_pm_proposes_revision_allowed(client):
     pid = CANONICAL_PROJECT_ID
     res = client.post(
         f"/projects/{pid}/revisions",
-        headers={"X-Climora-Actor": "urban_planner_lead"},
+        headers=auth_headers("urban_planner_lead"),
         json={
             "h3_cell_id": "89608850003ffff",
             "intervention_code": "street_tree_shade",
@@ -218,7 +231,7 @@ def test_scenario_d_contractor_attempts_approval_denied(client):
 
     res_deny = client.post(
         f"/projects/{pid}/transition",
-        headers={"X-Climora-Actor": "sharma_contractors"},
+        headers=auth_headers("sharma_contractors"),
         json={
             "target_state": "FUNDED",
             "sanction_id": "PMC-SANC-CONTRACTOR",
@@ -241,7 +254,7 @@ def test_scenario_e_contractor_state_aware_implementation(client):
     # 1. In PROPOSED: Contractor recording implementation is DENIED
     res_prop_deny = client.post(
         f"/projects/{pid}/implementation-events",
-        headers={"X-Climora-Actor": "sharma_contractors"},
+        headers=auth_headers("sharma_contractors"),
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "89608850003ffff",
@@ -257,7 +270,7 @@ def test_scenario_e_contractor_state_aware_implementation(client):
     # 2. Municipal Officer sanctions project (PROPOSED -> FUNDED)
     res_sanc = client.post(
         f"/projects/{pid}/transition",
-        headers={"X-Climora-Actor": "pmc_commissioner"},
+        headers=auth_headers("pmc_commissioner"),
         json={
             "target_state": "FUNDED",
             "sanction_id": "PMC-2025-SANC-8801",
@@ -270,7 +283,7 @@ def test_scenario_e_contractor_state_aware_implementation(client):
     # 3. Transition to IMPLEMENTING
     res_impl_trans = client.post(
         f"/projects/{pid}/transition",
-        headers={"X-Climora-Actor": "sharma_contractors"},
+        headers=auth_headers("sharma_contractors"),
         json={"target_state": "IMPLEMENTING"},
     )
     assert res_impl_trans.status_code == 200
@@ -279,7 +292,7 @@ def test_scenario_e_contractor_state_aware_implementation(client):
     # 4. Now Contractor records physical implementation -> ALLOW (201)
     res_impl_ok = client.post(
         f"/projects/{pid}/implementation-events",
-        headers={"X-Climora-Actor": "sharma_contractors"},
+        headers=auth_headers("sharma_contractors"),
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "89608850003ffff",
@@ -300,7 +313,7 @@ def test_scenario_f_mrv_verifier_premature_verification_denied(client):
     # Project is in PROPOSED state and MRV is not executable
     res_verif_deny = client.post(
         f"/projects/{pid}/verification-events",
-        headers={"X-Climora-Actor": "sgs_environmental_auditor"},
+        headers=auth_headers("sgs_environmental_auditor"),
         json={
             "observation": {
                 "sensor_platform": "Landsat-9-TIRS",
@@ -367,7 +380,7 @@ def test_critical_negative_policy_forbid_canonical_mutation(client):
     # Even Municipal Commissioner cannot mutate canonical allocation
     res_put = client.put(
         f"/projects/{pid}/allocation",
-        headers={"X-Climora-Actor": "pmc_commissioner"},
+        headers=auth_headers("pmc_commissioner"),
         json={"quantity": 9999},
     )
     assert res_put.status_code == 403
@@ -430,7 +443,7 @@ def test_governance_audit_trail_endpoint(client):
     pid = CANONICAL_PROJECT_ID
 
     # Trigger an authorization check to ensure records exist
-    client.get(f"/projects/{pid}", headers={"X-Climora-Actor": "citizen_viewer"})
+    client.get(f"/projects/{pid}", headers=auth_headers("citizen_viewer"))
 
     res = client.get(f"/projects/{pid}/governance-audit")
     assert res.status_code == 200
@@ -455,11 +468,10 @@ def test_phase_2d1_test_a_workspace_lens_does_not_grant_authorization(client):
     # A citizen attempting sanction while claiming 'municipal_sanction' workspace/lens
     res = client.post(
         f"/projects/{pid}/transition?lens=municipal_sanction",
-        headers={
-            "X-Climora-Actor": "citizen_viewer",
+        headers=auth_headers("citizen_viewer", {
             "X-Climora-Workspace": "municipal_sanction",
             "X-Climora-Lens": "sanction",
-        },
+        }),
         json={
             "target_state": "FUNDED",
             "sanction_id": "PMC-SANC-ATTACK",
@@ -481,7 +493,7 @@ def test_phase_2d1_test_b_citizen_unable_to_sanction(client):
     pid = CANONICAL_PROJECT_ID
     res = client.post(
         f"/projects/{pid}/transition",
-        headers={"X-Climora-Actor": "citizen_viewer"},
+        headers=auth_headers("citizen_viewer"),
         json={"target_state": "FUNDED", "sanction_id": "PMC-1", "approved_budget_inr": 10000000.0},
     )
     assert res.status_code == 403
@@ -493,7 +505,7 @@ def test_phase_2d1_test_c_planner_retains_permitted_actions(client):
     pid = CANONICAL_PROJECT_ID
     res = client.post(
         f"/projects/{pid}/revisions",
-        headers={"X-Climora-Actor": "urban_planner_lead"},
+        headers=auth_headers("urban_planner_lead"),
         json={
             "h3_cell_id": "89608850003ffff",
             "intervention_code": "street_tree_shade",
@@ -570,7 +582,7 @@ def test_phase_2d1_test_g_no_lens_or_actor_can_mutate_canonical_truth(client):
     for actor in ["pmc_commissioner", "urban_planner_lead", "citizen_viewer", "sharma_contractors", "sgs_environmental_auditor"]:
         res = client.put(
             f"/projects/{pid}/allocation",
-            headers={"X-Climora-Actor": actor, "X-Climora-Lens": "sanction"},
+            headers=auth_headers(actor, {"X-Climora-Lens": "sanction"}),
             json={"quantity": 9999},
         )
         assert res.status_code == 403
@@ -587,16 +599,15 @@ def test_phase_2d1_test_h_workspace_selection_cannot_mutate_state(client):
 
 
 def test_phase_2d1_test_i_arbitrary_actor_defaults_to_least_privilege_viewer(client):
-    """Test I: Arbitrary actor values default to viewer role and are denied privileged actions."""
+    """Test I: Forged header without valid JWT Bearer token is rejected with 401."""
     pid = CANONICAL_PROJECT_ID
     res = client.post(
         f"/projects/{pid}/transition",
         headers={"X-Climora-Actor": "unregistered_external_attacker"},
         json={"target_state": "FUNDED", "sanction_id": "FAKE", "approved_budget_inr": 10000000.0},
     )
-    assert res.status_code == 403
-    assert res.json["decision"] == "DENY"
-    assert "viewer" in res.json["reason"]
+    assert res.status_code == 401
+    assert res.json["error"]["code"] == "AUTHENTICATION_REQUIRED"
 
 
 def test_phase_2d1_test_j_mrv_restrictions_unchanged_synthetic_rejected():
@@ -614,3 +625,56 @@ def test_phase_2d1_test_j_mrv_restrictions_unchanged_synthetic_rejected():
     )
     assert res is False
     assert "Demo fixture" in msg or "REJECTED" in msg
+
+
+def test_phase_1_security_query_param_actor_impersonation_rejected(client):
+    """Verify that ?actor=pmc_commissioner is ignored and cannot elevate privilege."""
+    pid = CANONICAL_PROJECT_ID
+    # When sending authenticated token as citizen_viewer, passing ?actor=pmc_commissioner in query string must NOT elevate
+    res = client.post(
+        f"/projects/{pid}/transition?actor=pmc_commissioner",
+        headers=auth_headers("citizen_viewer"),
+        json={"target_state": "FUNDED", "sanction_id": "FAKE", "approved_budget_inr": 10000000.0},
+    )
+    assert res.status_code == 403
+    assert res.json["decision"] == "DENY"
+    assert "viewer" in res.json["reason"]
+
+
+def test_phase_1_security_unmapped_lifecycle_state_rejected(client):
+    """Verify that unmapped lifecycle states in transition request return 400."""
+    pid = CANONICAL_PROJECT_ID
+    res = client.post(
+        f"/projects/{pid}/transition",
+        headers=auth_headers("pmc_commissioner"),
+        json={"target_state": "NON_EXISTENT_STATE", "sanction_id": "PMC-1", "approved_budget_inr": 10000000.0},
+    )
+    assert res.status_code == 400
+    assert res.json["error"]["code"] == "INVALID_STATE_TRANSITION"
+
+
+def test_phase_1_security_invalid_evidence_uri_rejected(client):
+    """Verify that malicious or non-approved URI schemes are rejected by schema validator."""
+    pid = CANONICAL_PROJECT_ID
+    # Test invalid URI in implementation event
+    res = client.post(
+        f"/projects/{pid}/implementation-events",
+        headers=auth_headers("sharma_contractors"),
+        json={
+            "intervention_code": "street_tree_shade",
+            "h3_cell_id": "89608850003ffff",
+            "implemented_quantity": 50.0,
+            "completion_date": "2026-06-15",
+            "evidence_uri": "javascript:alert('malicious')",
+        },
+    )
+    assert res.status_code == 400
+    assert res.json["error"]["code"] == "VALIDATION_ERROR"
+    errors = res.json["error"]["details"].get("validation_errors", [])
+    assert any(d.get("field") == "evidence_uri" for d in errors)
+
+    assert res.status_code == 400
+    assert res.json["error"]["code"] == "VALIDATION_ERROR"
+    errors = res.json["error"]["details"].get("validation_errors", [])
+    assert any(d.get("field") == "evidence_uri" for d in errors)
+

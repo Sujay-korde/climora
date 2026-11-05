@@ -81,3 +81,28 @@ class ValidationError(ClimoraServiceError):
             details=details or {},
             status_code=400,
         )
+
+
+class AuthenticationRequiredError(ClimoraServiceError):
+    """Raised when an operation requires trusted authentication but credentials are missing or invalid."""
+
+    def __init__(self, message: str = "Authentication required.", details: Optional[Dict[str, Any]] = None):
+        super().__init__(
+            message=message,
+            code="AUTHENTICATION_REQUIRED",
+            details=details or {},
+            status_code=401,
+        )
+
+
+class AuthorizationDeniedError(ClimoraServiceError):
+    """Raised when Cedar governance policy denies authorization for the requested operation."""
+
+    def __init__(self, message: str = "Governance authorization denied.", details: Optional[Dict[str, Any]] = None):
+        super().__init__(
+            message=message,
+            code="GOVERNANCE_AUTHORIZATION_DENIED",
+            details=details or {},
+            status_code=403,
+        )
+

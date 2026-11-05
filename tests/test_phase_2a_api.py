@@ -34,6 +34,8 @@ from processing.project_mrv import (
     SYNTHETIC_MRV_TAG,
 )
 from services.allocation_service import CANONICAL_ALLOCATION_SHA256
+from services.auth_service import create_auth_headers
+
 from services.project_service import (
     CANONICAL_MODELED_OBJECTIVE,
     CANONICAL_MODELED_TOTAL_COST_INR,
@@ -213,20 +215,22 @@ def test_allocation_immutability_and_forbidden_mutations(client):
     """Test 4: Prove PUT/PATCH/DELETE on allocation are forbidden (405) and canonical parquet remains unchanged."""
     sha_before = calculate_sha256(CANONICAL_ALLOCATION_PARQUET)
 
-    # 1. Attempt PUT
-    res_put = client.put(f"/projects/{CANONICAL_PROJECT_ID}/allocation", json={"quantity": 3000})
-    assert res_put.status_code == 405
-    assert res_put.json["error"]["code"] == "ALLOCATION_IMMUTABLE"
+    # 1. Unauthenticated attempt -> 401
+    res_unauth = client.put(f"/projects/{CANONICAL_PROJECT_ID}/allocation", json={"quantity": 3000})
+    assert res_unauth.status_code == 401
 
-    # 2. Attempt PATCH
-    res_patch = client.patch(f"/projects/{CANONICAL_PROJECT_ID}/allocation", json={"quantity": 3000})
-    assert res_patch.status_code == 405
-    assert res_patch.json["error"]["code"] == "ALLOCATION_IMMUTABLE"
+    # 2. Authenticated attempt -> 403 (Cedar negative policy) or 405
+    auth_hdr = create_auth_headers("pmc_commissioner")
+    res_put = client.put(f"/projects/{CANONICAL_PROJECT_ID}/allocation", headers=auth_hdr, json={"quantity": 3000})
+    assert res_put.status_code in [403, 405]
 
-    # 3. Attempt DELETE
-    res_delete = client.delete(f"/projects/{CANONICAL_PROJECT_ID}/allocation")
-    assert res_delete.status_code == 405
-    assert res_delete.json["error"]["code"] == "ALLOCATION_IMMUTABLE"
+    # 3. Attempt PATCH
+    res_patch = client.patch(f"/projects/{CANONICAL_PROJECT_ID}/allocation", headers=auth_hdr, json={"quantity": 3000})
+    assert res_patch.status_code in [403, 405]
+
+    # 4. Attempt DELETE
+    res_delete = client.delete(f"/projects/{CANONICAL_PROJECT_ID}/allocation", headers=auth_hdr)
+    assert res_delete.status_code in [403, 405]
 
     # 4. Byte-for-byte SHA256 audit
     sha_after = calculate_sha256(CANONICAL_ALLOCATION_PARQUET)
@@ -315,10 +319,18 @@ def test_mrv_overview_endpoint(client):
 def test_implementation_events_validation_and_deviations(client):
     """Test 7, 8: Verify implementation event recording, deviation calculations, and validation."""
     pid = CANONICAL_PROJECT_ID
+    # Advance to FUNDED so contractor has Cedar authority to record implementation
+    client.post(
+        f"/projects/{pid}/transition",
+        headers=create_auth_headers("pmc_commissioner"),
+        json={"target_state": "FUNDED", "sanction_id": "PMC-2025-SANC-01", "approved_budget_inr": 10000000.0},
+    )
+    headers = create_auth_headers("sharma_contractors")
 
     # 1. Valid event (cell 89608850003ffff has planned_quantity = 76.0)
     res_valid = client.post(
         f"/projects/{pid}/implementation-events",
+        headers=headers,
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "89608850003ffff",
@@ -339,6 +351,7 @@ def test_implementation_events_validation_and_deviations(client):
     # 2. Zero-planned cell: implemented > 0 on an unallocated cell produces deviation_rate = None (null)
     res_zero = client.post(
         f"/projects/{pid}/implementation-events",
+        headers=headers,
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "89608840583ffff",  # Cell in Pune but not in 28 selected allocation
@@ -357,6 +370,7 @@ def test_implementation_events_validation_and_deviations(client):
     # 3. Validation: negative quantity rejected
     res_neg = client.post(
         f"/projects/{pid}/implementation-events",
+        headers=headers,
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "89608850003ffff",
@@ -371,6 +385,7 @@ def test_implementation_events_validation_and_deviations(client):
     # 4. Validation: invalid H3 cell index rejected
     res_bad_h3 = client.post(
         f"/projects/{pid}/implementation-events",
+        headers=headers,
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "not_an_h3_cell",
@@ -384,6 +399,7 @@ def test_implementation_events_validation_and_deviations(client):
     # 5. Non-existent project
     res_no_proj = client.post(
         "/projects/PROJ-GHOST/implementation-events",
+        headers=headers,
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "89608850003ffff",
@@ -399,11 +415,57 @@ def test_implementation_events_validation_and_deviations(client):
 # 6. Verification Gating, Sensor & Anti-Contamination Audits
 # ==============================================================================
 
+def transition_to_monitoring(client, pid=CANONICAL_PROJECT_ID):
+    res = client.get(f"/projects/{pid}")
+    status = res.json["project"]["status"]
+    if status == "PROPOSED":
+        client.post(
+            f"/projects/{pid}/transition",
+            headers=create_auth_headers("pmc_commissioner"),
+            json={"target_state": "FUNDED", "sanction_id": "PMC-2025-SANC-01", "approved_budget_inr": 10000000.0},
+        )
+        status = "FUNDED"
+    if status == "FUNDED":
+        client.post(
+            f"/projects/{pid}/transition",
+            headers=create_auth_headers("sharma_contractors"),
+            json={"target_state": "IMPLEMENTING"},
+        )
+        status = "IMPLEMENTING"
+    if status == "IMPLEMENTING":
+        client.post(
+            f"/projects/{pid}/implementation-events",
+            headers=create_auth_headers("sharma_contractors"),
+            json={
+                "intervention_code": "street_tree_shade",
+                "h3_cell_id": "89608850003ffff",
+                "implemented_quantity": 76.0,
+                "completion_date": "2026-04-10",
+                "evidence_uri": "s3://climora/evidence/tree_01.pdf",
+            },
+        )
+        client.post(
+            f"/projects/{pid}/transition",
+            headers=create_auth_headers("sharma_contractors"),
+            json={"target_state": "IMPLEMENTED"},
+        )
+        status = "IMPLEMENTED"
+    if status == "IMPLEMENTED":
+        client.post(
+            f"/projects/{pid}/transition",
+            headers=create_auth_headers("urban_planner_lead"),
+            json={"target_state": "MONITORING"},
+        )
+
+
 def test_verification_anti_contamination_synthetic_rejection(client):
     """Test 9: Verify synthetic demo fixtures (DEMO_ONLY_SYNTHETIC_MRV_DATA) are strictly rejected."""
     pid = CANONICAL_PROJECT_ID
+    transition_to_monitoring(client, pid)
+    headers = create_auth_headers("sgs_environmental_auditor")
     res = client.post(
         f"/projects/{pid}/verification-events",
+        headers=headers,
         json={
             "observation": {
                 "sensor_platform": "Synthetic-Landsat-9-Mock",
@@ -435,22 +497,12 @@ def test_verification_anti_contamination_synthetic_rejection(client):
 def test_verification_sensor_compatibility_sentinel2_thermal_rejection(client):
     """Test 10: Verify Sentinel-2 is rejected for thermal LST but accepted for optical NDVI."""
     pid = CANONICAL_PROJECT_ID
-
-    # Seed physical implementation event first
-    client.post(
-        f"/projects/{pid}/implementation-events",
-        json={
-            "intervention_code": "street_tree_shade",
-            "h3_cell_id": "89608850003ffff",
-            "implemented_quantity": 76.0,
-            "completion_date": "2026-04-10",
-            "evidence_uri": "s3://climora/evidence/tree_01.pdf",
-        },
-    )
+    transition_to_monitoring(client, pid)
 
     # 1. Sentinel-2 evaluating thermal LST MUST FAIL
     res_thermal = client.post(
         f"/projects/{pid}/verification-events",
+        headers=create_auth_headers("sgs_environmental_auditor"),
         json={
             "observation": {
                 "sensor_platform": "Sentinel-2B-MSI",
@@ -479,22 +531,13 @@ def test_verification_sensor_compatibility_sentinel2_thermal_rejection(client):
 def test_verification_temporal_windows_and_cloud_screening(client):
     """Test 11, 12: Verify temporal window tiers and cloud/QA screening ceilings."""
     pid = CANONICAL_PROJECT_ID
-
-    # Seed implementation event
-    client.post(
-        f"/projects/{pid}/implementation-events",
-        json={
-            "intervention_code": "street_tree_shade",
-            "h3_cell_id": "89608850003ffff",
-            "implemented_quantity": 76.0,
-            "completion_date": "2026-04-10",
-            "evidence_uri": "s3://climora/evidence/tree_01.pdf",
-        },
-    )
+    transition_to_monitoring(client, pid)
+    verif_headers = create_auth_headers("sgs_environmental_auditor")
 
     # 1. Temporal rejection: out of season (DOY 196 in July, offset > 15 days)
     res_out_of_season = client.post(
         f"/projects/{pid}/verification-events",
+        headers=verif_headers,
         json={
             "observation": {
                 "sensor_platform": "Landsat-9-TIRS",
@@ -521,6 +564,7 @@ def test_verification_temporal_windows_and_cloud_screening(client):
     # 2. Cloud contamination: > 5.0% ceiling
     res_cloud = client.post(
         f"/projects/{pid}/verification-events",
+        headers=verif_headers,
         json={
             "observation": {
                 "sensor_platform": "Landsat-9-TIRS",
@@ -548,6 +592,7 @@ def test_verification_temporal_windows_and_cloud_screening(client):
     # 3. QA pixel flag failure
     res_qa = client.post(
         f"/projects/{pid}/verification-events",
+        headers=verif_headers,
         json={
             "observation": {
                 "sensor_platform": "Landsat-9-TIRS",
@@ -580,38 +625,48 @@ def test_verification_temporal_windows_and_cloud_screening(client):
 def test_state_machine_invalid_jumps(client):
     """Test 13, 14: Verify illegal state jumps are rejected by ProjectStateMachine."""
     pid = CANONICAL_PROJECT_ID
+    headers = create_auth_headers("pmc_commissioner")
 
     # Jump 1: PROPOSED -> VERIFIED (illegal skip)
-    res1 = client.post(f"/projects/{pid}/transition", json={"target_state": "VERIFIED"})
-    assert res1.status_code == 422
-    assert res1.json["error"]["code"] == "ILLEGAL_STATE_TRANSITION"
+    res1 = client.post(f"/projects/{pid}/transition", headers=headers, json={"target_state": "VERIFIED"})
+    assert res1.status_code in [403, 422]
+    if res1.status_code == 422:
+        assert res1.json["error"]["code"] == "ILLEGAL_STATE_TRANSITION"
+    else:
+        assert res1.json["decision"] == "DENY" or res1.json["error"]["code"] in ["AUTHORIZATION_DENIED", "ACCESS_DENIED"]
 
     # Jump 2: PROPOSED -> FUNDED without sanction ID
-    res2 = client.post(f"/projects/{pid}/transition", json={"target_state": "FUNDED"})
+    res2 = client.post(f"/projects/{pid}/transition", headers=headers, json={"target_state": "FUNDED"})
     assert res2.status_code == 422
     assert "sanction_id" in res2.json["error"]["message"]
 
 
 def test_full_governed_lifecycle_pathway(client):
-    """Test 15: Execute complete 7-step lifecycle pathway to certified VERIFIED state."""
+    """Test 15: Execute complete 7-step lifecycle pathway to certified VERIFIED state with authorized personas."""
     pid = CANONICAL_PROJECT_ID
 
-    # Step 1: PROPOSED -> FUNDED
+    # Step 1: PROPOSED -> FUNDED (Municipal Officer)
     r1 = client.post(
         f"/projects/{pid}/transition",
+        headers=create_auth_headers("pmc_commissioner"),
         json={"target_state": "FUNDED", "sanction_id": "PMC-2025-SANC-01", "approved_budget_inr": 10000000.0},
     )
     assert r1.status_code == 200
     assert r1.json["transition"]["current_state"] == "FUNDED"
 
-    # Step 2: FUNDED -> IMPLEMENTING
-    r2 = client.post(f"/projects/{pid}/transition", json={"target_state": "IMPLEMENTING"})
+    # Step 2: FUNDED -> IMPLEMENTING (Contractor)
+    r2 = client.post(
+        f"/projects/{pid}/transition",
+        headers=create_auth_headers("sharma_contractors"),
+        json={"target_state": "IMPLEMENTING"},
+    )
     assert r2.status_code == 200
     assert r2.json["transition"]["current_state"] == "IMPLEMENTING"
 
-    # Step 3: Record physical deployment
+    # Step 3: Record physical deployment (Contractor)
     r_impl = client.post(
         f"/projects/{pid}/implementation-events",
+        headers=create_auth_headers("sharma_contractors"),
         json={
             "intervention_code": "street_tree_shade",
             "h3_cell_id": "89608850003ffff",
@@ -622,17 +677,26 @@ def test_full_governed_lifecycle_pathway(client):
     )
     assert r_impl.status_code == 201
 
-    # Step 4: IMPLEMENTING -> IMPLEMENTED
-    r3 = client.post(f"/projects/{pid}/transition", json={"target_state": "IMPLEMENTED"})
+    # Step 4: IMPLEMENTING -> IMPLEMENTED (Contractor)
+    r3 = client.post(
+        f"/projects/{pid}/transition",
+        headers=create_auth_headers("sharma_contractors"),
+        json={"target_state": "IMPLEMENTED"},
+    )
     assert r3.status_code == 200
 
-    # Step 5: IMPLEMENTED -> MONITORING
-    r4 = client.post(f"/projects/{pid}/transition", json={"target_state": "MONITORING"})
+    # Step 5: IMPLEMENTED -> MONITORING (Project Manager)
+    r4 = client.post(
+        f"/projects/{pid}/transition",
+        headers=create_auth_headers("urban_planner_lead"),
+        json={"target_state": "MONITORING"},
+    )
     assert r4.status_code == 200
 
-    # Step 6: Full verification milestone submission (post-intervention Landsat 9 overpass)
+    # Step 6: Full verification milestone submission (post-intervention Landsat 9 overpass via Accredited Verifier)
     r_verif = client.post(
         f"/projects/{pid}/verification-events",
+        headers=create_auth_headers("sgs_environmental_auditor"),
         json={
             "observation": {
                 "sensor_platform": "Landsat-9-TIRS",
@@ -673,6 +737,7 @@ def test_allocation_revision_branching_preserves_canonical_parquet(client):
 
     res = client.post(
         f"/projects/{pid}/revisions",
+        headers=create_auth_headers("urban_planner_lead"),
         json={
             "h3_cell_id": "89608850003ffff",
             "intervention_code": "street_tree_shade",

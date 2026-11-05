@@ -136,6 +136,7 @@ class MRVQualityControlResult:
     all_passed: bool
     violations: List[str]
     temporal_tier: str = "PREFERRED"  # PREFERRED (DOY 95-115), FALLBACK (DOY 90-120), or REJECTED
+    detectability_noise_floor_passed: bool = True
 
 
 @dataclass
@@ -390,7 +391,19 @@ class MRVQualityControlEngine:
         if not geo_ok:
             violations.append(f"Spatial resolution {observation.spatial_resolution_m}m too coarse for H3 Res9 alignment.")
 
-        all_ok = spatial_ok and temporal_ok and cloud_ok and sensor_ok and geo_ok
+        # 6. Detectability & Sensor Noise Floor Gate (Phase E2)
+        # Single-cell Landsat thermal measurement noise (sigma ~ 2.45°C, MDE ~ 6.91°C) exceeds
+        # modeled cooling (0.07°C). Verification requires spatial corridor aggregation (treated_cell_count > 1).
+        detectability_ok = True
+        if target_metric_lower in {"lst", "temperature", "thermal"} and treated_cell_count <= 1:
+            detectability_ok = False
+            violations.append(
+                "Detectability gate rejected: Single-cell Landsat thermal sensor noise floor (MDE ~ 6.91°C at 80% power) "
+                "precludes direct single-cell satellite detection of sub-degree microclimate interventions (~0.07°C). "
+                "Satellite verification requires spatial corridor aggregation (minimum 2+ contiguous cells) or multi-year compositing."
+            )
+
+        all_ok = spatial_ok and temporal_ok and cloud_ok and sensor_ok and geo_ok and detectability_ok
 
         return MRVQualityControlResult(
             spatial_coverage_passed=spatial_ok,
@@ -401,6 +414,7 @@ class MRVQualityControlEngine:
             all_passed=all_ok,
             violations=violations,
             temporal_tier=temporal_tier,
+            detectability_noise_floor_passed=detectability_ok,
         )
 
 

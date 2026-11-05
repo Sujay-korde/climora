@@ -25,6 +25,7 @@ import pytest
 
 from api.app import create_app
 from ingestion.common import calculate_sha256
+from services.auth_service import mint_actor_token
 from processing.project_mrv import (
     CANONICAL_ALLOCATION_PARQUET,
     CANONICAL_FEATURE_MATRIX,
@@ -182,8 +183,10 @@ def test_cache_invalidation_on_revision(client, app):
     assert engine.cache.stats["cached_entries_count"] >= 1
 
     # Propose revision
+    auth_headers = {"Authorization": f"Bearer {mint_actor_token('urban_planner_lead')}"}
     rev_res = client.post(
         f"/projects/{CANONICAL_PROJECT_ID}/revisions",
+        headers=auth_headers,
         json={
             "h3_cell_id": "89608850003ffff",
             "intervention_code": "street_tree_shade",
@@ -324,13 +327,18 @@ def test_nan_infinity_negative_rejection_in_payloads(client):
 # ==============================================================================
 
 def test_allocation_immutability(client):
-    """Verifies PUT/PATCH/DELETE are rejected (405) and canonical parquet SHA is preserved."""
+    """Verifies PUT/PATCH/DELETE are rejected (401/403/405) and canonical parquet SHA is preserved."""
     pid = CANONICAL_PROJECT_ID
     sha_orig = calculate_sha256(CANONICAL_ALLOCATION_PARQUET)
 
-    assert client.put(f"/projects/{pid}/allocation", json={"val": 1}).status_code == 405
-    assert client.patch(f"/projects/{pid}/allocation", json={"val": 1}).status_code == 405
-    assert client.delete(f"/projects/{pid}/allocation").status_code == 405
+    # Unauthenticated attempt -> 401
+    assert client.put(f"/projects/{pid}/allocation", json={"val": 1}).status_code == 401
+
+    # Authenticated attempt -> 403 or 405
+    auth_hdr = {"Authorization": f"Bearer {mint_actor_token('pmc_commissioner')}"}
+    assert client.put(f"/projects/{pid}/allocation", headers=auth_hdr, json={"val": 1}).status_code in [403, 405]
+    assert client.patch(f"/projects/{pid}/allocation", headers=auth_hdr, json={"val": 1}).status_code in [403, 405]
+    assert client.delete(f"/projects/{pid}/allocation", headers=auth_hdr).status_code in [403, 405]
 
     # Parquet hash must be 100% byte-for-byte identical
     sha_after = calculate_sha256(CANONICAL_ALLOCATION_PARQUET)
@@ -373,9 +381,54 @@ def test_mrv_safety_rules(client):
     """Verifies synthetic data rejection and Sentinel-2 thermal rejection."""
     pid = CANONICAL_PROJECT_ID
 
+    # Helper transition to MONITORING state
+    res = client.get(f"/projects/{pid}")
+    status = res.json["project"]["status"]
+    if status == "PROPOSED":
+        client.post(
+            f"/projects/{pid}/transition",
+            headers={"Authorization": f"Bearer {mint_actor_token('pmc_commissioner')}"},
+            json={"target_state": "FUNDED", "sanction_id": "PMC-SANC-01", "approved_budget_inr": 10000000.0},
+        )
+        status = "FUNDED"
+    if status == "FUNDED":
+        client.post(
+            f"/projects/{pid}/transition",
+            headers={"Authorization": f"Bearer {mint_actor_token('sharma_contractors')}"},
+            json={"target_state": "IMPLEMENTING"},
+        )
+        status = "IMPLEMENTING"
+    if status == "IMPLEMENTING":
+        client.post(
+            f"/projects/{pid}/implementation-events",
+            headers={"Authorization": f"Bearer {mint_actor_token('sharma_contractors')}"},
+            json={
+                "intervention_code": "street_tree_shade",
+                "h3_cell_id": "89608850003ffff",
+                "implemented_quantity": 76.0,
+                "completion_date": "2026-04-10",
+                "evidence_uri": "s3://climora/evidence/tree_01.pdf",
+            },
+        )
+        client.post(
+            f"/projects/{pid}/transition",
+            headers={"Authorization": f"Bearer {mint_actor_token('sharma_contractors')}"},
+            json={"target_state": "IMPLEMENTED"},
+        )
+        status = "IMPLEMENTED"
+    if status == "IMPLEMENTED":
+        client.post(
+            f"/projects/{pid}/transition",
+            headers={"Authorization": f"Bearer {mint_actor_token('urban_planner_lead')}"},
+            json={"target_state": "MONITORING"},
+        )
+
+    verif_headers = {"Authorization": f"Bearer {mint_actor_token('sgs_environmental_auditor')}"}
+
     # 1. Synthetic MRV rejection
     r_synth = client.post(
         f"/projects/{pid}/verification-events",
+        headers=verif_headers,
         json={
             "observation": {
                 "sensor_platform": "Synthetic-Sensor",
@@ -402,21 +455,10 @@ def test_mrv_safety_rules(client):
     assert r_synth.json["error"]["code"] == "VERIFICATION_NOT_ELIGIBLE"
     assert SYNTHETIC_MRV_TAG in r_synth.json["error"]["message"]
 
-    # 2. Seed physical implementation event first so verification eligibility passes to sensor inspection
-    client.post(
-        f"/projects/{pid}/implementation-events",
-        json={
-            "intervention_code": "street_tree_shade",
-            "h3_cell_id": "89608850003ffff",
-            "implemented_quantity": 76.0,
-            "completion_date": "2026-04-10",
-            "evidence_uri": "s3://climora/evidence/tree_01.pdf",
-        },
-    )
-
-    # 3. Sentinel-2 Thermal Rejection
+    # 2. Sentinel-2 Thermal Rejection
     r_s2_thermal = client.post(
         f"/projects/{pid}/verification-events",
+        headers=verif_headers,
         json={
             "observation": {
                 "sensor_platform": "Sentinel-2B-MSI",

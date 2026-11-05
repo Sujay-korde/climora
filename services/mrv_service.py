@@ -7,6 +7,7 @@ Prohibits synthetic fixture leakage into verified states.
 
 from __future__ import annotations
 
+import os
 import uuid
 from typing import Any, Dict, List, Optional
 
@@ -85,6 +86,15 @@ class MRVDomainService:
             raise ValidationError(
                 f"Invalid H3 cell identifier '{h3_cell_id}'. Must be a valid H3 hexadecimal index.",
                 details={"h3_cell_id": h3_cell_id},
+            )
+
+        # 2b. Validation: Evidence URI must use approved storage references (s3://, mock://)
+        evidence_uri = str(evidence_uri).strip()
+        if not (evidence_uri.startswith("s3://") or evidence_uri.startswith("mock://")):
+            raise ValidationError(
+                f"Invalid evidence storage reference '{evidence_uri}'. "
+                f"Must use an approved storage reference (s3:// or mock://). Arbitrary HTTP/HTTPS/FILE schemes forbidden to prevent SSRF.",
+                details={"evidence_uri": evidence_uri},
             )
 
         # 3. Retrieve planned quantity from canonical allocation
@@ -227,6 +237,20 @@ class MRVDomainService:
                     "synthetic, or modeled data."
                 ),
             },
+            "scientific_foundation": {
+                "hazard_formulation": "H_i = 0.40 * norm_lst_2025 + 0.35 * norm_lst_anomaly + 0.15 * norm_persistence + 0.10 * norm_recurrence_ge45",
+                "exposure_formulation": "E_i = 0.60 * norm_population + 0.40 * norm_population_density",
+                "vulnerability_formulation": "V_i = 0.50 * norm_ndvi_deficit + 0.50 * norm_ndbi",
+                "risk_formulation": "R_i = H_i * E_i * V_i (dimensionless normalized composite index in [0, 1])",
+                "statistical_nature": "Cross-sectional spatial association. NOT a causal guarantee of post-intervention microclimate change.",
+                "detectability_limits": {
+                    "landsat_st_uncertainty_k": 2.2,
+                    "single_cell_mde_degc": 6.91,
+                    "modeled_cooling_degc": 0.07,
+                    "spatial_aggregation_required": True,
+                    "aggregation_threshold_cells": 2,
+                },
+            },
             "truth_layer": "VERIFIED (Unobserved at proposal phase)",
         }
 
@@ -313,6 +337,20 @@ class MRVDomainService:
             raise VerificationNotEligibleError(
                 message=f"Verification event must have status 'PASSED', received '{verif_status}'.",
                 details={"verification_status": verif_status},
+            )
+
+        artifact_uri = verification_payload.get("evidence_artifact_uri", "").strip()
+        env = os.environ.get("ENV", os.environ.get("FLASK_ENV", "development")).lower()
+        if env in ["production", "staging"]:
+            if not artifact_uri.startswith("s3://"):
+                raise VerificationNotEligibleError(
+                    message=f"Invalid evidence artifact URI '{artifact_uri}'. In {env} environments, only verified 's3://' artifacts are permitted. Mock references ('mock://') are strictly rejected.",
+                    details={"evidence_artifact_uri": artifact_uri, "environment": env},
+                )
+        elif not (artifact_uri.startswith("s3://") or artifact_uri.startswith("mock://")):
+            raise VerificationNotEligibleError(
+                message=f"Invalid evidence artifact URI '{artifact_uri}'. Must use an authorized protocol (s3://, mock://). Arbitrary HTTP/HTTPS/FILE schemes are strictly forbidden to prevent SSRF.",
+                details={"evidence_artifact_uri": artifact_uri},
             )
 
         verif_id = verification_payload.get("verification_id") or f"VERIF-{uuid.uuid4().hex[:8].upper()}"

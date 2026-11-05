@@ -139,6 +139,128 @@ export const OverviewPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Decision-Support & Intelligence Suite */}
+      <section style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 500, color: 'var(--ink-primary)' }}>
+            Decision-Support & Intelligence Suite
+          </h2>
+          <span style={{ fontSize: '12px', color: 'var(--ink-secondary)' }}>
+            Integrated geospatial intelligence, operations research, and empirical audit
+          </span>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+          <Link
+            to="/explore/pune"
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              border: '1px solid var(--border-hairline)',
+              borderRadius: '6px',
+              padding: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              transition: 'border-color 0.15s ease',
+            }}
+          >
+            <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--domain-thermal)', fontWeight: 600 }}>
+              01 · Geospatial Explorer
+            </span>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink-primary)' }}>
+              Risk & Heat Mesh
+            </h3>
+            <p style={{ fontSize: '12px', color: 'var(--ink-secondary)', lineHeight: 1.5 }}>
+              Explore 3,113 H3 Res-9 cells across thermal, vegetation, built mass, and composite IPCC risk surfaces.
+            </p>
+            <span style={{ fontSize: '12px', color: 'var(--accent-focal)', marginTop: '4px' }}>
+              Launch Explorer →
+            </span>
+          </Link>
+
+          <Link
+            to="/optimizer"
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              border: '1px solid var(--border-hairline)',
+              borderRadius: '6px',
+              padding: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              transition: 'border-color 0.15s ease',
+            }}
+          >
+            <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--accent-focal)', fontWeight: 600 }}>
+              02 · Operations Research
+            </span>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink-primary)' }}>
+              Portfolio Optimizer
+            </h3>
+            <p style={{ fontSize: '12px', color: 'var(--ink-secondary)', lineHeight: 1.5 }}>
+              Simulate budget allocations (₹5L - ₹2.5Cr) using HiGHS MILP with strict discrete integer tree counts.
+            </p>
+            <span style={{ fontSize: '12px', color: 'var(--accent-focal)', marginTop: '4px' }}>
+              Run Solver →
+            </span>
+          </Link>
+
+          <Link
+            to="/interventions"
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              border: '1px solid var(--border-hairline)',
+              borderRadius: '6px',
+              padding: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              transition: 'border-color 0.15s ease',
+            }}
+          >
+            <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--domain-canopy)', fontWeight: 600 }}>
+              03 · Biophysical Catalog
+            </span>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink-primary)' }}>
+              Intervention Library
+            </h3>
+            <p style={{ fontSize: '12px', color: 'var(--ink-secondary)', lineHeight: 1.5 }}>
+              Inspect 5 ratified nature-based and engineered measures with costs, cooling rates, and capacity limits.
+            </p>
+            <span style={{ fontSize: '12px', color: 'var(--accent-focal)', marginTop: '4px' }}>
+              Browse Catalog →
+            </span>
+          </Link>
+
+          <Link
+            to="/mrv"
+            style={{
+              backgroundColor: 'var(--bg-panel)',
+              border: '1px solid var(--border-hairline)',
+              borderRadius: '6px',
+              padding: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              transition: 'border-color 0.15s ease',
+            }}
+          >
+            <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--domain-hydrology)', fontWeight: 600 }}>
+              04 · Audit & Evidence
+            </span>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink-primary)' }}>
+              MRV & Impact
+            </h3>
+            <p style={{ fontSize: '12px', color: 'var(--ink-secondary)', lineHeight: 1.5 }}>
+              Evidence-first tripartite tracking separating Predicted, Observed, and Verified states with noise floor limits.
+            </p>
+            <span style={{ fontSize: '12px', color: 'var(--accent-focal)', marginTop: '4px' }}>
+              Inspect MRV →
+            </span>
+          </Link>
+        </div>
+      </section>
+
       {/* The Decision Process */}
       <section style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <h2 style={{ fontSize: '18px', fontWeight: 500, color: 'var(--ink-primary)' }}>

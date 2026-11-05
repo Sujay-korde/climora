@@ -234,5 +234,12 @@
       "total_cost_inr": 4950500.0,
       "cells_count": 16
     }
+  },
+  "multi_objective_metrics": {
+    "modeled_risk_reduction": 0.055865,
+    "population_protected": 67853.9,
+    "disadvantaged_equity_cells_count": 16,
+    "budget_slack_inr": 49500.0,
+    "budget_utilization_pct": 99.01
   }
 }

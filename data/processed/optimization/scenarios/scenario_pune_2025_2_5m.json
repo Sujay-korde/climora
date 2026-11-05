@@ -9,10 +9,10 @@
   "formulation_ratified": "F-24.6",
   "solver_engine": "HiGHS (scipy.optimize.milp)",
   "budget_inr": 2500000.0,
-  "total_allocated_cost_inr": 2500000.0,
-  "budget_slack_inr": 0.0,
-  "budget_utilization_pct": 100.0,
-  "optimal_objective_value": 0.029691,
+  "total_allocated_cost_inr": 2498000.0,
+  "budget_slack_inr": 2000.0,
+  "budget_utilization_pct": 99.92,
+  "optimal_objective_value": 0.029666,
   "objective_description": "Modeled optimization objective (dimensionless sum of marginal risk responses)",
   "solver_status": "OPTIMAL",
   "solver_duration_sec": 59.68,
@@ -21,13 +21,13 @@
     {
       "h3_cell_id": "89608850003ffff",
       "intervention_type": "street_tree_shade",
-      "quantity": 56.57,
+      "quantity": 56,
       "unit": "tree_count",
       "unit_cost": 3500.0,
       "fixed_cost": 20000.0,
-      "total_cost": 218000.0,
-      "modeled_cooling_degC": 0.0404,
-      "marginal_risk_reduction": 0.002378,
+      "total_cost": 216000.0,
+      "modeled_cooling_degC": 0.04,
+      "marginal_risk_reduction": 0.002354,
       "baseline_risk": 0.2222,
       "population_2020": 4756.9
     },
@@ -125,10 +125,17 @@
   ],
   "summary_by_intervention": {
     "street_tree_shade": {
-      "total_quantity": 668.57,
+      "total_quantity": 668,
       "unit": "tree_count",
-      "total_cost_inr": 2500000.0,
+      "total_cost_inr": 2498000.0,
       "cells_count": 8
     }
+  },
+  "multi_objective_metrics": {
+    "modeled_risk_reduction": 0.029666,
+    "population_protected": 35205.2,
+    "disadvantaged_equity_cells_count": 8,
+    "budget_slack_inr": 2000.0,
+    "budget_utilization_pct": 99.92
   }
 }

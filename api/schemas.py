@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from enum import Enum
 import math
+import os
 import re
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -70,6 +71,47 @@ def validate_h3_cell_string(cell_str: str) -> str:
     return s
 
 
+def validate_evidence_uri(uri_str: str, field_name: str) -> str:
+    """Validates that evidence artifact URI uses an approved, auditable storage scheme (s3://, mock://).
+    
+    Security Guard:
+    Strictly forbids http://, https://, file://, and arbitrary external schemas to prevent SSRF and unverified remote references.
+    In production and staging environments, mock:// is strictly rejected to prevent synthetic evidence contamination.
+    """
+    if not isinstance(uri_str, str):
+        raise ValueError(f"Field '{field_name}' must be a string URI.")
+    s = uri_str.strip()
+    
+    env = os.environ.get("ENV", os.environ.get("FLASK_ENV", "development")).lower()
+    if env in ["production", "staging"]:
+        if not s.startswith("s3://"):
+            raise ValueError(
+                f"Field '{field_name}' must use an approved production S3 storage reference (s3://). "
+                f"Mock schemes ('mock://') and arbitrary external schemes are strictly prohibited in {env} environments."
+            )
+        return s
+
+    if not s or not (s.startswith("s3://") or s.startswith("mock://")):
+        raise ValueError(
+            f"Field '{field_name}' must use an approved storage reference scheme (s3:// or mock://). "
+            f"External HTTP/HTTPS/FILE schemes are strictly forbidden to prevent SSRF (received '{uri_str}')."
+        )
+    return s
+
+
+def validate_sha256_hex(checksum: Optional[str], field_name: str) -> Optional[str]:
+    """Validates that a cryptographic checksum is a valid 64-character lowercase hex SHA-256 digest."""
+    if checksum is None:
+        return None
+    s = str(checksum).strip().lower()
+    if len(s) != 64 or not all(c in "0123456789abcdef" for c in s):
+        raise ValueError(
+            f"Field '{field_name}' must be a valid 64-character hexadecimal SHA-256 digest (received '{checksum}')."
+        )
+    return s
+
+
+
 # ==============================================================================
 # Query & Request Schemas
 # ==============================================================================
@@ -101,6 +143,7 @@ class ImplementationEventCreateRequest(BaseModel):
     completion_date: str = Field(..., description="ISO 8601 completion date YYYY-MM-DD")
     contractor_id: str = Field("PMC-CONTRACTOR", description="Contractor identity")
     evidence_uri: str = Field(..., description="Auditable URI to signed field delivery report")
+    evidence_sha256: Optional[str] = Field(None, description="SHA-256 cryptographic checksum of evidence artifact")
     is_synthetic_demo: bool = Field(False, description="Flag indicating mock fixture data")
     notes: Optional[str] = Field(None, description="Optional engineering notes")
 
@@ -113,6 +156,16 @@ class ImplementationEventCreateRequest(BaseModel):
     @classmethod
     def check_cell(cls, v: str) -> str:
         return validate_h3_cell_string(v)
+
+    @field_validator("evidence_uri")
+    @classmethod
+    def check_evidence(cls, v: str) -> str:
+        return validate_evidence_uri(v, "evidence_uri")
+
+    @field_validator("evidence_sha256")
+    @classmethod
+    def check_sha(cls, v: Optional[str]) -> Optional[str]:
+        return validate_sha256_hex(v, "evidence_sha256")
 
 
 class ObservationData(BaseModel):
@@ -146,8 +199,19 @@ class VerificationAuditData(BaseModel):
     verifier_identity: str = Field(..., description="Accredited third-party verifier identity")
     methodology_standard: str = Field(..., description="Standard evaluated (e.g. ISO 14064-2 / F-26)")
     evidence_artifact_uri: str = Field(..., description="URI to signed audit report")
+    evidence_artifact_sha256: Optional[str] = Field(None, description="SHA-256 checksum of verification report")
     findings_summary: Optional[str] = Field("Passed third-party MRV audit.", description="Auditor findings summary")
     is_synthetic_demo: bool = Field(False, description="Flag indicating mock fixture data")
+
+    @field_validator("evidence_artifact_uri")
+    @classmethod
+    def check_artifact_uri(cls, v: str) -> str:
+        return validate_evidence_uri(v, "evidence_artifact_uri")
+
+    @field_validator("evidence_artifact_sha256")
+    @classmethod
+    def check_artifact_sha(cls, v: Optional[str]) -> Optional[str]:
+        return validate_sha256_hex(v, "evidence_artifact_sha256")
 
 
 class VerificationEventCreateRequest(BaseModel):

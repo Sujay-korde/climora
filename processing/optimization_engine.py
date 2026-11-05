@@ -259,7 +259,13 @@ def build_candidate_matrix(
             cap = 0.40 * norm_ndbi * A_cell
         elif code == "street_tree_shade":
             elig = (road_length > 0)
-            cap = np.minimum(800.0, np.floor(2.0 * road_length / 15.0))
+            # Physical carrying capacity policy under unmeasured physical canopy:
+            # Satellite NDVI deficit represents an aggregate vegetation index proxy, NOT measured canopy crown fraction.
+            # Direct physical canopy classification is marked UNKNOWN/UNMEASURED.
+            # Conservative carrying capacity is bounded strictly by bilateral road geometry (minimum 15m tree spacing),
+            # utility clearance boundaries, and a physical cell ceiling of 800 trees.
+            # Strict floor truncation ensures discrete physical integer capacity bounds.
+            cap = np.maximum(0.0, np.minimum(800.0, np.floor(2.0 * road_length / 15.0)))
         elif code == "green_corridor":
             elig = (norm_ndvi_def > 0.15)
             cap = 0.10 * open_area
@@ -326,14 +332,17 @@ def build_milp_model(
             "budget_inr": budget_inr,
         }
 
-    # Variables: y = [x_0..x_{K-1} (binary), q_0..q_{K-1} (continuous)] -> 2 * n_cands
+    # Variables: y = [x_0..x_{K-1} (binary), q_0..q_{K-1} (discrete integer for trees, continuous for areas)]
     n_vars = 2 * n_cands
 
     # Objective: max sum r_k q_k => min -sum r_k q_k
     r_vec = cand_df["marginal_risk_r"].values
     c_obj = np.concatenate([np.zeros(n_cands), -r_vec])
 
-    integrality = np.concatenate([np.ones(n_cands), np.zeros(n_cands)])
+    q_integrality = np.zeros(n_cands)
+    tree_mask = (cand_df["intervention_code"] == "street_tree_shade").values
+    q_integrality[tree_mask] = 1.0
+    integrality = np.concatenate([np.ones(n_cands), q_integrality])
     bounds = Bounds(
         np.zeros(n_vars),
         np.concatenate([np.ones(n_cands), np.full(n_cands, np.inf)])
@@ -459,13 +468,37 @@ def solve_milp_model(
     n_cands = len(cand_df)
     status_map = {
         0: "OPTIMAL",
-        1: "FEASIBLE",
+        1: "FEASIBLE_LIMIT",
         2: "INFEASIBLE",
         3: "UNBOUNDED",
     }
     solve_status = status_map.get(res.status, "SOLVER_ERROR")
-    is_feasible = res.success or res.status in (0, 1)
 
+    # HiGHS Timeout & Solution Vector Validation Guard (B1 Remediation)
+    has_solution = (
+        getattr(res, "x", None) is not None
+        and len(res.x) == n_vars
+        and np.all(np.isfinite(res.x))
+    )
+
+    if not has_solution:
+        if res.status == 1:
+            solve_status = "NO_FEASIBLE_INCUMBENT"
+        return {
+            "solver_name": "HiGHS (scipy.optimize.milp)",
+            "solve_status": solve_status,
+            "is_feasible": False,
+            "optimal_objective_value": 0.0,
+            "total_allocated_cost_inr": 0.0,
+            "budget_slack_inr": max(0.0, budget_inr),
+            "execution_duration_sec": duration,
+            "x_solution": np.zeros(n_cands),
+            "q_solution": np.zeros(n_cands),
+            "allocation_df": pd.DataFrame(),
+            "termination_message": getattr(res, "message", "No feasible integer solution found before solver termination."),
+        }
+
+    is_feasible = (res.status == 0) or (res.status == 1 and has_solution)
     if not is_feasible:
         return {
             "solver_name": "HiGHS (scipy.optimize.milp)",
@@ -473,12 +506,12 @@ def solve_milp_model(
             "is_feasible": False,
             "optimal_objective_value": 0.0,
             "total_allocated_cost_inr": 0.0,
-            "budget_slack_inr": budget_inr,
+            "budget_slack_inr": max(0.0, budget_inr),
             "execution_duration_sec": duration,
             "x_solution": np.zeros(n_cands),
             "q_solution": np.zeros(n_cands),
             "allocation_df": pd.DataFrame(),
-            "termination_message": res.message,
+            "termination_message": getattr(res, "message", "Infeasible scenario allocation."),
         }
 
     x_sol = res.x[:n_cands]
@@ -755,7 +788,12 @@ def execute_production_optimization_pipeline(
 
     output_manifest_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_manifest_path, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2)
+        json.dump(
+            manifest,
+            f,
+            indent=2,
+            default=lambda o: int(o) if isinstance(o, np.integer) else float(o) if isinstance(o, np.floating) else bool(o) if isinstance(o, (bool, np.bool_)) else str(o),
+        )
 
     logger.info(f"Optimization run completed successfully. Allocation saved to {output_parquet_path}")
 

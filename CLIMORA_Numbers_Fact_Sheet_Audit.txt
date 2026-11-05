@@ -1,0 +1,397 @@
+========================================================================================
+CLIMORA: NOVEX 2026 (ROUND 2) PITCH DECK — COMPREHENSIVE NUMERICAL AUDIT & LINEAGE
+========================================================================================
+Project: CLIMORA — A Decision Layer for Urban Heat Risk
+Team: Sujay Korde, Kimaya Kolhe (UG CSE-AIML, VIT Pune)
+Deck Format: 16:9 Widescreen (13.333" x 7.500") | Dark Navy Visual Identity
+Generated Deliverables:
+  1. CLIMORA_Pitch_Deck_Novex_2026.pptx
+  2. CLIMORA_Pitch_Deck_Novex_2026.pdf
+  3. CLIMORA_Numbers_Fact_Sheet_Audit.txt (This document)
+
+----------------------------------------------------------------------------------------
+GOVERNING CONSTRAINTS & EVIDENCE BADGES
+----------------------------------------------------------------------------------------
+Every numerical value in the pitch deck strictly adheres to the project Fact Sheet and
+the underlying committed repository data. No numbers are invented, rounded up, or 
+fictitiously illustrated. All slide text has been curated to maintain high signal density
+and executive scannability while eliminating superfluous verbiage.
+
+Evidence Badge Classifications:
+  • [OBSERVED]: Directly recorded physical sensor measurements (Landsat LST, weather).
+  • [DERIVED]: Deterministically computed metrics (IPCC AR6 risk formula, zonal population).
+  • [MODELED]: Simulation and mathematical optimization outputs (HiGHS MILP, cooling physics).
+  • [PLANNED] / [CONCEPT]: Architectural roadmaps and future designs not yet operational.
+
+========================================================================================
+SLIDE-BY-SLIDE NUMERICAL INVENTORY & SOURCE VERIFICATION
+========================================================================================
+
+----------------------------------------------------------------------------------------
+SLIDE 1: TITLE — CLIMORA: A Decision Layer for Urban Heat Risk
+----------------------------------------------------------------------------------------
+1. "3,181 Cells Analysed"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet & `data/processed/risk/canonical_risk_surface.parquet`.
+   - Lineage: Citywide Uber H3 Resolution-9 hexagonal tessellation within official PMC boundary.
+2. "28 Cells Selected"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet & `data/processed/optimization/scenarios/scenario_10000000.json`.
+   - Lineage: Selected by HiGHS Mixed-Integer Linear Programme under canonical ₹1 Crore preset.
+3. "₹1 Crore Budget"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet (Canonical project budget ₹10,000,000).
+4. "312.11 km²"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet & `data/aoi/pune.geojson`.
+   - Lineage: Total land area of Pune Municipal Corporation (PMC) boundary.
+5. "5,011,229 residents"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet & `data/raw/worldpop/pune_pop_2020.tif` aggregated over H3 grid.
+   - Lineage: WorldPop 2020 UN-adjusted dasymetric population baseline for PMC.
+6. "Novex 2026 (Round 2)"
+   - Evidence Badge: Metadata
+   - Source: Competition brief.
+
+----------------------------------------------------------------------------------------
+SLIDE 2: PROBLEM — Climate Action is Fragmented. Climate Risk is Not.
+----------------------------------------------------------------------------------------
+1. "Pune: 5.0M residents"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (5,011,229 baseline residents rounded per prompt specification).
+2. "312 km²"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (312.11 km² truncated per prompt specification).
+3. "3,181 analysis cells"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (3,181 H3 Resolution-9 hexagons).
+4. "3 stakeholder groups" (Cities & Planners, Funders & Capital, Field Implementers)
+   - Evidence Badge: Structural
+   - Source: Problem definition brief (tightened to concise, high-impact statements).
+
+----------------------------------------------------------------------------------------
+SLIDE 3: THE GAP — Bridging the Gap from Detection to Allocation
+----------------------------------------------------------------------------------------
+1. "300+ sq km"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (PMC 312.11 km² boundary).
+2. "Landsat 8/9 & Sentinel-2"
+   - Evidence Badge: Metadata
+   - Source: Fact Sheet (Surface temperature observation sources).
+3. "H3 Res-9"
+   - Evidence Badge: Metadata
+   - Source: Fact Sheet (Uber H3 Resolution-9 index).
+4. "5 candidate interventions"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet (Cool roof, street-tree shade, green corridor, permeable surface, bioswale).
+5. "IPCC AR6"
+   - Evidence Badge: Metadata
+   - Source: IPCC Assessment Report 6 Risk framework structure.
+
+----------------------------------------------------------------------------------------
+SLIDE 4: WHAT CLIMORA IS — Four Disciplined Moves from Vulnerability to Action
+----------------------------------------------------------------------------------------
+1. "3,181 H3 Res-9 cells (~0.0986 km² each)"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (Exact cell count and average cell area).
+2. "312.11 km²"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (PMC official boundary area).
+3. "5 interventions per cell"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet (Candidate intervention library).
+4. "5% optimality gap"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet (HiGHS solver convergence threshold).
+5. "PROJ-PUNE-2025-BA225D6A"
+   - Evidence Badge: Identifier
+   - Source: Fact Sheet & `data/processed/projects/project_pune_2025_tree_shade_10m.json`.
+6. "5 demo personas"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet & `docs/architecture/aws/phase-aws-5-cedar-governance.md`.
+7. "7 ratified policies"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet & Amazon Cedar policy store.
+
+----------------------------------------------------------------------------------------
+SLIDE 5: PIPELINE & AI — A Transparent, Deterministic Analytical Lineage
+----------------------------------------------------------------------------------------
+1. "6 analytical stages" (1. Ingestion -> 2. Features -> 3. Risk -> 4. Interventions -> 5. Decision -> 6. Action)
+   - Evidence Badge: Structural
+   - Source: System architectural pipeline.
+2. "Landsat 8/9 C2 L2"
+   - Evidence Badge: [OBSERVED]
+   - Source: Fact Sheet (USGS Landsat thermal and surface reflectance scenes).
+3. "WorldPop 2020"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (Dasymetric population).
+4. "NASA POWER"
+   - Evidence Badge: [OBSERVED]
+   - Source: Fact Sheet & repo data manifest.
+5. "Copernicus DEM"
+   - Evidence Badge: [OBSERVED]
+   - Source: Fact Sheet & repo data manifest.
+6. "OpenStreetMap"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet & repo vector data.
+7. "5 interventions"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet.
+8. "5% optimality gap"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet.
+9. "5 verified roles"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet.
+
+----------------------------------------------------------------------------------------
+SLIDE 6: PUNE PROTOTYPE — Canonical Validation on Pune Municipal Corporation
+----------------------------------------------------------------------------------------
+1. "3,181 Cells Analysed"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (Total H3 Resolution-9 hexagons).
+2. "312.11 km²"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (`data/aoi/pune.geojson`).
+3. "5,011,229 residents"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (`data/processed/risk/canonical_risk_surface.parquet`).
+4. "28 Cells Selected"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet & `data/processed/optimization/scenarios/scenario_10000000.json`.
+5. "0.88% of city's area (2.76 km²)"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet: 28 / 3,181 cells = 0.8802% (28 × 0.0986 km² = 2.7608 km²).
+6. "₹1 Crore canonical budget"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet.
+7. "118,941 Residents in Treated Cells"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet & `scenario_10000000.json` (exact population living within treated cells).
+8. "2.37% of Pune population"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet: 118,941 / 5,011,229 = 2.3735%.
+9. "Selected cells average ~4,200 residents"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet: 118,941 / 28 cells = 4,247.9 residents/cell.
+10. "~1,575 citywide mean"
+    - Evidence Badge: [DERIVED]
+    - Source: Fact Sheet: 5,011,229 / 3,181 cells = 1,575.36 residents/cell.
+11. "Mean ~0.07 °C modeled cooling"
+    - Evidence Badge: [MODELED]
+    - Source: Fact Sheet (Average expected cooling across treated cells).
+12. "Max ~0.17 °C modeled cooling"
+    - Evidence Badge: [MODELED]
+    - Source: Fact Sheet (Maximum expected cooling across treated cells).
+
+----------------------------------------------------------------------------------------
+SLIDE 7: DECISION ENGINE — More Budget Extends a Ranked Rollout
+----------------------------------------------------------------------------------------
+1. "5 Committed Budget Presets"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet & `data/processed/optimization/scenarios/*.json`.
+2. "5% Optimality Gap"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet (HiGHS MILP preset termination criteria).
+3. "Preset 1: ₹5 Lakh (₹5,00,000)"
+   - Cells: 2 cells [MODELED]
+   - Trees: ~131 trees (131.43 in raw scenario) [MODELED]
+   - Allocated: ₹5,00,000 [MODELED]
+   - Residents: 7,754 residents in scope [DERIVED]
+   - Source: Fact Sheet & `scenario_500000.json`.
+4. "Preset 2: ₹25 Lakh (₹25,00,000)"
+   - Cells: 8 cells [MODELED]
+   - Trees: ~669 trees (668.57 in raw scenario) [MODELED]
+   - Allocated: ₹25,00,000 [MODELED]
+   - Residents: 35,205 residents in scope [DERIVED]
+   - Source: Fact Sheet & `scenario_2500000.json`.
+5. "Preset 3: ₹50 Lakh (₹50,00,000)"
+   - Cells: 16 cells [MODELED]
+   - Trees: 1,323 trees [MODELED]
+   - Allocated: ₹49,50,500 [MODELED]
+   - Residents: 67,854 residents in scope [DERIVED]
+   - Source: Fact Sheet & `scenario_5000000.json`.
+6. "Preset 4: ₹75 Lakh (₹75,00,000)"
+   - Cells: 22 cells [MODELED]
+   - Trees: 1,947 trees [MODELED]
+   - Allocated: ₹72,54,500 [MODELED]
+   - Residents: 92,188 residents in scope [DERIVED]
+   - Source: Fact Sheet & `scenario_7500000.json`.
+7. "Preset 5: ₹1 Crore (₹10,000,000)"
+   - Cells: 28 cells [MODELED]
+   - Trees: 2,695 trees [MODELED]
+   - Allocated: ₹99,92,500 [MODELED]
+   - Unallocated Slack: ₹7,500 [MODELED]
+   - Residents: 118,941 residents in scope [DERIVED]
+   - Source: Fact Sheet & `scenario_10000000.json`.
+8. "0.88% PMC Area"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (28 cells / 3,181 total cells).
+9. "2.37% Residents in Scope"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (118,941 / 5,011,229).
+10. "5 Candidate Interventions Evaluated"
+    - Evidence Badge: [MODELED]
+    - Source: Fact Sheet (Street-tree shade ranks highest per rupee at all budgets up to ₹1 Cr).
+
+----------------------------------------------------------------------------------------
+SLIDE 8: ACTION LAYER & GOVERNANCE — Cryptographic Governance and Accountable Execution
+----------------------------------------------------------------------------------------
+1. "5 Personas" (Municipal Commissioner, Urban Planner, Field Contractor, Independent Auditor, Citizen Viewer)
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet & `docs/architecture/aws/phase-aws-5-cedar-governance.md`.
+2. "7 Ratified Policies"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet & Amazon Cedar policy repository.
+3. "22 Automated Governance Tests"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet & `tests/governance/test_cedar_policies.py`.
+4. "Canonical Project: PROJ-PUNE-2025-BA225D6A"
+   - Evidence Badge: Identifier
+   - Source: Fact Sheet & `data/processed/projects/project_pune_2025_tree_shade_10m.json`.
+5. "Cell ID: 89608850003ffff"
+   - Evidence Badge: Identifier
+   - Source: Committed row in `scenario_10000000.json`.
+6. "76 Trees in Cell"
+   - Evidence Badge: [MODELED]
+   - Source: Committed row in `scenario_10000000.json`.
+7. "₹2,86,000 Cell Total Cost"
+   - Evidence Badge: [MODELED]
+   - Source: Committed cost breakdown (₹20,000 mobilization + 76 × ₹3,500 = ₹2,86,000).
+8. "₹20,000 Mobilization Cost"
+   - Evidence Badge: [MODELED]
+   - Source: Repo engineering cost schedule.
+9. "₹3,500 Cost Per Tree"
+   - Evidence Badge: [MODELED]
+   - Source: Repo engineering cost schedule.
+10. "4,757 Residents in Cell"
+    - Evidence Badge: [DERIVED]
+    - Source: Committed row in `scenario_10000000.json`.
+11. "Baseline Risk: 0.2222 (Hazard: 0.81, Exposure: 0.92)"
+    - Evidence Badge: [DERIVED]
+    - Source: Committed row in `scenario_10000000.json`.
+12. "0.0543 °C Modeled Cooling (~0.05 °C)"
+    - Evidence Badge: [MODELED]
+    - Source: Committed row in `scenario_10000000.json`.
+13. "AWS 4 Core Components" (Amplify, ECS Fargate, S3, Cedar)
+    - Evidence Badge: [BUILT]
+    - Source: Fact Sheet (Infrastructure deployed; services paused to control cost).
+
+----------------------------------------------------------------------------------------
+SLIDE 9: MEASUREMENT (PLANNED) — Don't Stop at Funding. Plan to Measure.
+----------------------------------------------------------------------------------------
+1. "Mean ~0.07 °C per treated cell"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet (Too small for direct satellite thermal detection).
+2. "3 MRV Protocol Pillars" (In-Situ Loggers, Matched Controls, Difference-in-Differences)
+   - Evidence Badge: [PLANNED]
+   - Source: Empirical MRV design specification.
+3. "April 2026 vs April 2027"
+   - Evidence Badge: [PLANNED]
+   - Source: Pre-monsoon baseline vs 1-year post-treatment monitoring window.
+4. "April–May peak summer window"
+   - Evidence Badge: [DERIVED]
+   - Source: Pune climatological peak thermal stress period.
+5. "ISO 14064-2 & IPCC AR6"
+   - Evidence Badge: Standards
+   - Source: International carbon and climate adaptation measurement standards.
+
+----------------------------------------------------------------------------------------
+SLIDE 10: BUILT VS PLANNED — Engineering Integrity: Separating Reality from Roadmap
+----------------------------------------------------------------------------------------
+1. "3,181 cells"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (Full PMC canonical risk pipeline).
+2. "5-year Landsat composite (2021–2025)"
+   - Evidence Badge: [OBSERVED]
+   - Source: Fact Sheet (April pre-monsoon scenes).
+3. "5 committed presets (₹5L to ₹1 Cr)"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet.
+4. "5 interventions evaluated per cell"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet.
+5. "5% optimality gap"
+   - Evidence Badge: [MODELED]
+   - Source: Fact Sheet.
+6. "7 ratified policies"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet.
+7. "5 demo personas"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet.
+8. "188 backend automated tests"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet & `pytest` suite in repo.
+9. "25 frontend automated tests"
+   - Evidence Badge: [BUILT]
+   - Source: Fact Sheet & Jest/Playwright tests in repo.
+10. "22 dedicated Cedar governance tests"
+    - Evidence Badge: [BUILT]
+    - Source: Fact Sheet & `tests/governance/test_cedar_policies.py`.
+11. "4 Evidence Badges" (OBSERVED, DERIVED, MODELED, PLANNED)
+    - Evidence Badge: Metadata
+    - Source: Deck evidentiary legend.
+
+----------------------------------------------------------------------------------------
+SLIDE 11: CLOSING — Risk is Everywhere. Capital Isn't.
+----------------------------------------------------------------------------------------
+1. "Project Authors" (Sujay Korde, Kimaya Kolhe)
+   - Source: UG CSE-AIML, Vishwakarma Institute of Technology (VIT Pune).
+   - Removed external links and non-author names per user instruction.
+2. "312.11 km²"
+   - Evidence Badge: [DERIVED]
+   - Source: Fact Sheet (PMC municipal scope).
+3. "Novex 2026 (Round 2)"
+   - Source: Event brief.
+
+========================================================================================
+HERO VISUALS AUDIT: REAL DATA GENERATION VS FALLBACK
+========================================================================================
+Hero Visual A (Citywide Risk Map & 28-Cell Footprint):
+  • Status: 100% REAL DATA (0% fallback).
+  • Data Inputs:
+    - GeoJSON: `data/aoi/pune.geojson` (official PMC 312.11 km² multipolygon).
+    - Risk Grid: `data/processed/risk/canonical_risk_surface.parquet` (all 3,181 H3 cells).
+    - Scenario: `data/processed/optimization/scenarios/scenario_10000000.json` (28 selected cells).
+  • Rendered Files: `hero_a_citywide_risk_map.png` (Slides 1 & 6) and `hero_a_thumb.png` (Slide 3).
+
+Hero Visual B (Rollout Map Across Budget Tiers):
+  • Status: 100% REAL DATA (0% fallback).
+  • Data Inputs:
+    - GeoJSON: `data/aoi/pune.geojson`.
+    - Scenario JSONs: `scenario_500000.json` (2 cells), `scenario_2500000.json` (8 cells),
+      `scenario_5000000.json` (16 cells), `scenario_7500000.json` (22 cells),
+      `scenario_10000000.json` (28 cells).
+  • Visual Encoding: Real polygon coordinates colored by tier of first appearance.
+  • Rendered File: `hero_b_rollout_map.png` (Slide 7).
+
+Hero Visual C (Budget Scaling Chart):
+  • Status: 100% REAL DATA (0% fallback).
+  • Data Inputs: Real committed values from the five scenario JSON files:
+    - ₹5L: 2 cells, 7,754 residents
+    - ₹25L: 8 cells, 35,205 residents
+    - ₹50L: 16 cells, 67,854 residents
+    - ₹75L: 22 cells, 92,188 residents
+    - ₹1 Cr: 28 cells, 118,941 residents
+  • Visual Encoding: Dual-axis plot (bar chart for residents, step curve for cell count).
+  • Rendered File: `hero_c_budget_chart.png` (Slide 7).
+
+SUMMARY: ZERO FALLBACKS. ALL HERO VISUALS WERE COMPUTED DETERMINISTICALLY FROM THE 
+CANONICAL REPOSITORY FILES.
+
+========================================================================================
+REPO FACT-SHEET CROSS-EXAMINATION & CONFIRMATION
+========================================================================================
+All fact-sheet items were cross-referenced against the `climora` repository:
+1. Boundary area (312.11 km²) & WorldPop baseline (5,011,229) confirmed in `pune.geojson`
+   and `canonical_risk_surface.parquet`.
+2. Analysis grid of 3,181 H3 Resolution-9 hexagons confirmed via PyArrow parquet inspect.
+3. 5 Budget scenarios confirmed in `data/processed/optimization/scenarios/*.json`.
+4. Monotonic nested property confirmed:
+   Tier 1 (2 cells) ⊂ Tier 2 (8 cells) ⊂ Tier 3 (16 cells) ⊂ Tier 4 (22 cells) ⊂ Tier 5 (28 cells).
+5. Canonical project `PROJ-PUNE-2025-BA225D6A` confirmed in `data/processed/projects/`.
+6. Cedar authorization suite (7 policies, 5 personas, 22 tests) confirmed in architecture docs.
+7. Automated tests count confirmed: 188 backend tests and 25 frontend tests in repository.
+8. AWS Amplify frontend confirmed live (HTTP 200); ECS Fargate backend confirmed paused (HTTP 503).
+========================================================================================
