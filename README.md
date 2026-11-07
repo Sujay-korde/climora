@@ -18,7 +18,8 @@
 
 > **Launch Video Master:** Produced 100% inside this workspace via Remotion, FFmpeg, and Playwright.  
 > **Narrator:** Brian (`en-US-BrianMultilingualNeural`) · **Exact Runtime:** 240.00s (7,200 frames @ 30 FPS).  
-> **Master Renders:** [`out/climora_4k.mp4`](out/climora_4k.mp4) (3840×2160 UHD) · [`out/climora_1080p.mp4`](out/climora_1080p.mp4) · [`out/climora_1080p_captions.mp4`](out/climora_1080p_captions.mp4) · [`out/climora_captions.srt`](out/climora_captions.srt)
+> **Master Renders:** [`out/climora_4k.mp4`](out/climora_4k.mp4) (3840×2160 UHD) · [`out/climora_1080p.mp4`](out/climora_1080p.mp4)  
+> **Portal Submission Ready (<50MB):** [`out/climora_1080p_submission_50mb.mp4`](out/climora_1080p_submission_50mb.mp4) (44.29 MB) · [`out/climora_1080p_captions_submission_50mb.mp4`](out/climora_1080p_captions_submission_50mb.mp4) (44.02 MB) · [`out/climora_captions.srt`](out/climora_captions.srt)
 
 ---
 
