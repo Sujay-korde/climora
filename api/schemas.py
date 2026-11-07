@@ -144,6 +144,10 @@ class ImplementationEventCreateRequest(BaseModel):
     contractor_id: str = Field("PMC-CONTRACTOR", description="Contractor identity")
     evidence_uri: str = Field(..., description="Auditable URI to signed field delivery report")
     evidence_sha256: Optional[str] = Field(None, description="SHA-256 cryptographic checksum of evidence artifact")
+    nursery_invoice_ref: Optional[str] = Field(None, description="Storage URI for certified nursery delivery invoice")
+    nursery_batch_id: Optional[str] = Field(None, description="Certified nursery sapling batch/lot identifier")
+    tree_guards_installed: Optional[bool] = Field(True, description="Verification that physical tree guards were erected")
+    tree_guards_count: Optional[float] = Field(None, description="Count of physical tree guards installed")
     is_synthetic_demo: bool = Field(False, description="Flag indicating mock fixture data")
     notes: Optional[str] = Field(None, description="Optional engineering notes")
 
@@ -161,6 +165,13 @@ class ImplementationEventCreateRequest(BaseModel):
     @classmethod
     def check_evidence(cls, v: str) -> str:
         return validate_evidence_uri(v, "evidence_uri")
+
+    @field_validator("nursery_invoice_ref")
+    @classmethod
+    def check_nursery_invoice(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            return validate_evidence_uri(v, "nursery_invoice_ref")
+        return v
 
     @field_validator("evidence_sha256")
     @classmethod
@@ -181,6 +192,7 @@ class ObservationData(BaseModel):
     quality_flags_passed: bool = Field(..., description="QA pixel screening passed status")
     asset_uri: str = Field(..., description="URI to sensor data asset")
     observed_cell_count: Optional[int] = Field(None, ge=1, description="Count of observed treated cells")
+    corridor_cells: Optional[List[str]] = Field(None, description="H3 cell identifiers forming the evaluated multi-cell corridor")
     is_synthetic_demo: bool = Field(False, description="Flag indicating mock fixture data")
 
     @field_validator("cloud_cover_aoi_pct", "spatial_resolution_m")

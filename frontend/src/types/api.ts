@@ -46,12 +46,16 @@ export interface AllocationItem {
   intervention_type: string;
   activation: number;
   planned_quantity: number;
+  quantity?: number;
   unit: string;
   unit_cost: number;
   mobilization_fixed_cost: number;
+  fixed_cost?: number;
   total_modeled_cost: number;
+  total_cost?: number;
   modeled_cooling_degC: number;
   modeled_risk_reduction: number;
+  marginal_risk_reduction?: number;
   baseline_cell_risk: number;
   population_in_cell: number;
   truth_layer: TruthLayer;
@@ -294,6 +298,7 @@ export interface ScenarioOptimizeResponse {
     solver_status: string;
     solver_duration_sec: number;
     total_cells_treated: number;
+    multi_objective_metrics?: Record<string, any>;
     allocations: ScenarioAllocationItem[];
     summary_by_intervention: Record<string, {
       total_quantity: number;

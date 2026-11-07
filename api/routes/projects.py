@@ -25,10 +25,15 @@ from api.schemas import (
 )
 from services.auth_service import (
     DEFAULT_TOKEN_TTL_SECONDS,
+    get_auth_mode,
+    get_oidc_provider,
     mint_actor_token,
     verify_bearer_token,
 )
 from services.cedar_service import DEMO_ACTORS
+from services.evidence_vault import evidence_vault
+from services.ground_sensors import get_hybrid_mrv_engine
+from services.persistence import get_persistence_service
 from services.exceptions import (
     AllocationImmutableError,
     AuthenticationRequiredError,
@@ -212,6 +217,24 @@ def list_governance_actors():
     }), 200
 
 
+@projects_bp.route("/auth/oidc/config", methods=["GET"])
+def get_oidc_configuration():
+    """GET /projects/auth/oidc/config - Exposes enterprise OIDC federation and discovery parameters."""
+    provider = get_oidc_provider()
+    auth_mode = get_auth_mode()
+    return jsonify({
+        "status": "SUCCESS",
+        "auth_mode": auth_mode,
+        "oidc_enabled": auth_mode == "OIDC",
+        "issuer": provider.issuer,
+        "audience": provider.audience,
+        "token_endpoint_auth_methods_supported": ["client_secret_jwt", "private_key_jwt"],
+        "response_types_supported": ["code", "token", "id_token"],
+        "idp_role_mappings": provider.role_mappings,
+        "environment": os.environ.get("ENV", "development"),
+    }), 200
+
+
 @projects_bp.route("/auth/token", methods=["POST"])
 @projects_bp.route("/token", methods=["POST"])
 def issue_actor_token():
@@ -219,17 +242,19 @@ def issue_actor_token():
     
     DEMONSTRATION BOUNDARY:
     This endpoint is strictly for local demonstration and offline test environments.
-    It is explicitly disabled in staging and production environments where tokens must be
+    It is explicitly disabled in enterprise OIDC mode, staging, and production environments where tokens must be
     issued by an accredited Identity Provider (e.g., AWS Cognito / OIDC / OAuth2).
     """
     env = os.environ.get("ENV", os.environ.get("FLASK_ENV", current_app.config.get("ENV", "development"))).lower()
     enable_demo_auth = current_app.config.get("ENABLE_DEMO_AUTH_ENDPOINT", env not in ["production", "staging"])
-    if env in ["production", "staging"] or not enable_demo_auth:
+    auth_mode = get_auth_mode()
+
+    if auth_mode == "OIDC" or env in ["production", "staging"] or not enable_demo_auth:
         return jsonify({
             "error": {
                 "code": "DEMO_ENDPOINT_DISABLED",
-                "message": "Demo token issuance endpoint is disabled in production and staging environments. Identity tokens must be issued by the production IdP (Cognito/OAuth2/OIDC).",
-                "details": {"environment": env},
+                "message": "Demo token issuance endpoint is disabled. In enterprise OIDC mode, staging, and production environments, identity tokens must be issued by the production IdP (AWS Cognito/OIDC).",
+                "details": {"environment": env, "auth_mode": auth_mode},
             }
         }), 403
 
@@ -539,6 +564,10 @@ def create_implementation_event(project_id: str):
         contractor_id=req.contractor_id,
         completion_date=req.completion_date,
         evidence_uri=req.evidence_uri,
+        nursery_invoice_ref=req.nursery_invoice_ref,
+        nursery_batch_id=req.nursery_batch_id,
+        tree_guards_installed=req.tree_guards_installed,
+        tree_guards_count=req.tree_guards_count,
         is_synthetic_demo=req.is_synthetic_demo,
         notes=req.notes,
     )
@@ -725,4 +754,81 @@ def propose_allocation_revision(project_id: str):
         "status": "SUCCESS",
         "revision": rev,
     }), 201
+
+
+@projects_bp.route("/cluster/health", methods=["GET"])
+def get_cluster_health():
+    """GET /projects/cluster/health - Inspects Aurora PostgreSQL Multi-AZ cluster status."""
+    persistence = get_persistence_service()
+    health = persistence.check_cluster_health()
+    return jsonify(health), 200
+
+
+@projects_bp.route("/<project_id>/evidence/presigned-url", methods=["POST"])
+def get_evidence_presigned_url(project_id: str):
+    """POST /projects/{project_id}/evidence/presigned-url - Generates KMS-encrypted direct S3 upload URL."""
+    validate_project_identifier(project_id)
+    # Require authenticated principal
+    auth_res = get_authenticated_principal(required=True)
+    if isinstance(auth_res, tuple) and len(auth_res) == 2 and hasattr(auth_res[0], 'status_code'):
+        return auth_res
+
+    payload = request.get_json(silent=True) or {}
+    filename = payload.get("filename", "evidence.pdf")
+    content_type = payload.get("content_type", "application/pdf")
+    artifact_category = payload.get("artifact_category", "field_verification")
+
+    url_meta = evidence_vault.generate_presigned_upload_url(
+        project_id=project_id,
+        filename=filename,
+        content_type=content_type,
+        artifact_category=artifact_category,
+    )
+    return jsonify({
+        "status": "SUCCESS",
+        "upload": url_meta,
+    }), 200
+
+
+@projects_bp.route("/<project_id>/ground-telemetry", methods=["POST"])
+def ingest_ground_telemetry(project_id: str):
+    """POST /projects/{project_id}/ground-telemetry - Ingests micro-meteorological logger readings."""
+    validate_project_identifier(project_id)
+    auth_res = get_authenticated_principal(required=True)
+    if isinstance(auth_res, tuple) and len(auth_res) == 2 and hasattr(auth_res[0], 'status_code'):
+        return auth_res
+
+    payload = request.get_json(silent=True) or {}
+    readings = payload.get("readings", [])
+    if not readings or not isinstance(readings, list):
+        return jsonify({
+            "error": {
+                "code": "VALIDATION_ERROR",
+                "message": "Field 'readings' must be a non-empty list of sensor reading objects.",
+            }
+        }), 400
+
+    hybrid_engine = get_hybrid_mrv_engine()
+    try:
+        res = hybrid_engine.ingest_telemetry_batch(project_id, readings)
+    except DomainValidationError as e:
+        return jsonify({
+            "error": {
+                "code": e.code,
+                "message": e.message,
+                "details": e.details,
+            }
+        }), 400
+
+    return jsonify(res), 201
+
+
+@projects_bp.route("/<project_id>/mrv/hybrid-audit", methods=["GET"])
+def get_hybrid_mrv_audit(project_id: str):
+    """GET /projects/{project_id}/mrv/hybrid-audit - Fuses satellite corridor LST with empirical ground telemetry."""
+    validate_project_identifier(project_id)
+    hybrid_engine = get_hybrid_mrv_engine()
+    res = hybrid_engine.perform_hybrid_mrv_audit(project_id=project_id)
+    return jsonify(res), 200
+
 

@@ -12,7 +12,6 @@ import {
   BaselineCell,
   PortfolioSummary,
   ProjectLifecycleState,
-  ScenarioOptimizeResponse,
 } from '../types/api';
 
 export type TabKey = 'overview' | 'governance' | 'allocation' | 'baseline' | 'budget' | 'verification' | 'provenance';
@@ -1105,19 +1104,24 @@ export const ProjectPage: React.FC = () => {
             solver_status: 'OPTIMAL',
             solver_duration_sec: 49.28,
             total_cells_treated: cellCount,
-            allocations: allocations.map((a) => ({
-              h3_cell_id: a.h3_cell_id,
-              intervention_type: a.intervention_type,
-              quantity: a.quantity,
-              unit: 'tree_count',
-              unit_cost: 3500.0,
-              fixed_cost: 20000.0,
-              total_cost: a.total_cost || (a.quantity * 3500.0 + 20000.0),
-              modeled_cooling_degC: a.modeled_cooling_degC || 0.05,
-              marginal_risk_reduction: a.marginal_risk_reduction || 0.003,
-              baseline_risk: 0.32,
-              population_2020: 4200.0,
-            })),
+            allocations: allocations.map((a) => {
+              const q = a.planned_quantity ?? a.quantity ?? 0;
+              const tc = a.total_cost ?? a.total_modeled_cost ?? (q * 3500.0 + 20000.0);
+              const mrr = a.marginal_risk_reduction ?? a.modeled_risk_reduction ?? 0.003;
+              return {
+                h3_cell_id: a.h3_cell_id,
+                intervention_type: a.intervention_type,
+                quantity: q,
+                unit: 'tree_count',
+                unit_cost: 3500.0,
+                fixed_cost: 20000.0,
+                total_cost: tc,
+                modeled_cooling_degC: a.modeled_cooling_degC || 0.05,
+                marginal_risk_reduction: mrr,
+                baseline_risk: 0.32,
+                population_2020: 4200.0,
+              };
+            }),
             summary_by_intervention: {
               street_tree_shade: {
                 total_quantity: totalTrees,

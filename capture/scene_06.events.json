@@ -1,0 +1,46 @@
+{
+  "scene": "scene_06",
+  "duration_ms": 29131,
+  "events": [
+    {
+      "time_ms": 126,
+      "name": "navigate_start",
+      "url": "http://127.0.0.1:3000/optimizer"
+    },
+    {
+      "time_ms": 9100,
+      "name": "hover_formulation_badge",
+      "formulation": "F-24.6 HIGHS MILP"
+    },
+    {
+      "time_ms": 11490,
+      "name": "select_budget_preset",
+      "budget": "₹1 Crore (Benchmark)"
+    },
+    {
+      "time_ms": 14237,
+      "name": "execute_highs_solver",
+      "solver": "HiGHS (scipy.optimize.milp)"
+    },
+    {
+      "time_ms": 16249,
+      "name": "scroll_to_results"
+    },
+    {
+      "time_ms": 18339,
+      "name": "highlight_result_cells",
+      "cells_count": 28,
+      "pct_of_city": "0.88%"
+    },
+    {
+      "time_ms": 20089,
+      "name": "highlight_result_trees",
+      "planned_trees": 2695
+    },
+    {
+      "time_ms": 21911,
+      "name": "highlight_result_citizens",
+      "citizens_protected": 118941
+    }
+  ]
+}

@@ -25,6 +25,7 @@ from processing.project_mrv import (
     ProjectStateMachine,
 )
 from services.exceptions import ProjectNotFoundError, StateTransitionError
+from services.persistence import get_persistence_service
 
 logger = get_logger()
 
@@ -73,6 +74,10 @@ class ProjectDomainService:
             "lifecycle_state", ProjectLifecycleState.PROPOSED.value
         )
         self._current_states[project_id] = ProjectLifecycleState(initial_state_str)
+        try:
+            get_persistence_service().save_project(doc)
+        except Exception as e:
+            logger.warning(f"Persistence save_project warning: {e}")
 
     def list_projects(self) -> List[Dict[str, Any]]:
         """Returns high-level project summaries for all registered projects."""
@@ -308,6 +313,10 @@ class ProjectDomainService:
             )
 
         self._current_states[project_id] = target_state
+        try:
+            get_persistence_service().update_project_state(project_id, target_state.value)
+        except Exception as e:
+            logger.warning(f"Persistence update_project_state warning: {e}")
         logger.info(f"Project '{project_id}' transitioned: {current_state.value} -> {target_state.value}")
 
         return {

@@ -180,7 +180,7 @@ export const MRVImpactPage: React.FC = () => {
             <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--truth-unverified-ink)' }}>
               Layer 3: Certification
             </span>
-            <TruthBadge layer="UNVERIFIED" detail="Awaiting Post-Deployment Audit" />
+            <TruthBadge layer={(mrvData?.qc_state === 'PASSED' ? 'VERIFIED' : 'UNVERIFIED') as any} detail={isLoading ? 'Auditing...' : (mrvData?.qc_state || "Awaiting Post-Deployment Audit")} />
           </div>
           <h2 style={{ fontSize: '20px', fontWeight: 600, color: 'var(--ink-primary)' }}>
             VERIFIED
@@ -191,7 +191,7 @@ export const MRVImpactPage: React.FC = () => {
           <div style={{ backgroundColor: 'var(--bg-panel)', padding: '14px', borderRadius: '6px', fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <div>
               <span style={{ color: 'var(--ink-tertiary)', display: 'block' }}>Status:</span>
-              <strong style={{ color: 'var(--truth-unverified-ink)' }}>AWAITING PHYSICAL DEPLOYMENT</strong>
+              <strong style={{ color: 'var(--truth-unverified-ink)' }}>{mrvData?.difference_in_differences_status?.current_operational_status || 'AWAITING PHYSICAL DEPLOYMENT'}</strong>
             </div>
             <div>
               <span style={{ color: 'var(--ink-tertiary)', display: 'block' }}>Certification Body:</span>

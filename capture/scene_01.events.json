@@ -1,0 +1,47 @@
+{
+  "scene": "scene_01",
+  "duration_ms": 30804,
+  "events": [
+    {
+      "time_ms": 188,
+      "name": "navigate_start",
+      "url": "http://127.0.0.1:3000/"
+    },
+    {
+      "time_ms": 1652,
+      "name": "page_loaded"
+    },
+    {
+      "time_ms": 4765,
+      "name": "hover_hero_title"
+    },
+    {
+      "time_ms": 4825,
+      "name": "scroll_to_metric_strip"
+    },
+    {
+      "time_ms": 7290,
+      "name": "hover_metric_baseline",
+      "value": "46.36°C"
+    },
+    {
+      "time_ms": 10057,
+      "name": "hover_metric_cells",
+      "value": "28 H3 cells"
+    },
+    {
+      "time_ms": 12239,
+      "name": "hover_metric_trees",
+      "value": "2,695 trees"
+    },
+    {
+      "time_ms": 14954,
+      "name": "hover_metric_capital",
+      "value": "₹9.99M"
+    },
+    {
+      "time_ms": 22939,
+      "name": "click_explore_pune_card"
+    }
+  ]
+}

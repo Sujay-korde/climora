@@ -1,0 +1,32 @@
+{
+  "scene": "scene_07",
+  "duration_ms": 21019,
+  "events": [
+    {
+      "time_ms": 2678,
+      "name": "click_nav_project"
+    },
+    {
+      "time_ms": 5486,
+      "name": "hover_cedar_persona_banner"
+    },
+    {
+      "time_ms": 7653,
+      "name": "select_actor_commissioner",
+      "actor_id": "pmc_commissioner"
+    },
+    {
+      "time_ms": 9158,
+      "name": "scroll_project_actions"
+    },
+    {
+      "time_ms": 11552,
+      "name": "open_tender_brief_modal"
+    },
+    {
+      "time_ms": 14654,
+      "name": "highlight_sha256_provenance",
+      "hash_prefix": "BA225D6A"
+    }
+  ]
+}

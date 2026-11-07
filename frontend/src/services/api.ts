@@ -22,6 +22,7 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 export const CANONICAL_PROJECT_ID = 'PROJ-PUNE-2025-BA225D6A';
 
 let currentActorId = 'pmc_commissioner';
+const actorTokenCache: Record<string, string> = {};
 
 type ActorChangeListener = (actorId: string) => void;
 const actorListeners: Set<ActorChangeListener> = new Set();
@@ -33,8 +34,32 @@ export function onActorChange(listener: ActorChangeListener): () => void {
   };
 }
 
+export async function getAuthToken(actorId: string = currentActorId): Promise<string> {
+  if (actorTokenCache[actorId]) {
+    return actorTokenCache[actorId];
+  }
+  try {
+    const res = await fetch(`${API_BASE}/projects/auth/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ actor_id: actorId }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data?.access_token) {
+        actorTokenCache[actorId] = data.access_token;
+        return data.access_token;
+      }
+    }
+  } catch (err) {
+    console.warn(`[CLIMORA Auth] Failed to fetch Bearer token for actor '${actorId}':`, err);
+  }
+  return '';
+}
+
 export function setCurrentActor(actorId: string): void {
   currentActorId = actorId;
+  getAuthToken(actorId).catch(() => {});
   actorListeners.forEach((fn) => fn(actorId));
 }
 
@@ -42,11 +67,16 @@ export function getCurrentActor(): string {
   return currentActorId;
 }
 
-function getAuthHeaders(additionalHeaders: Record<string, string> = {}): Record<string, string> {
-  return {
+async function getAuthHeaders(additionalHeaders: Record<string, string> = {}): Promise<Record<string, string>> {
+  const token = await getAuthToken(currentActorId);
+  const headers: Record<string, string> = {
     'X-Climora-Actor': currentActorId,
     ...additionalHeaders,
   };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
 }
 
 export class ApiError extends Error {
@@ -84,7 +114,7 @@ export const climoraApi = {
    */
   async getGovernanceActors(): Promise<GovernanceActor[]> {
     const res = await fetch(`${API_BASE}/projects/governance/actors`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<{ status: string; count: number; actors: GovernanceActor[] }>(res);
     return json.actors;
@@ -96,7 +126,7 @@ export const climoraApi = {
    */
   async getGovernanceAudit(projectId = CANONICAL_PROJECT_ID): Promise<GovernanceAuditRecord[]> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/governance-audit`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<{ status: string; audit_trail: GovernanceAuditRecord[] }>(res);
     return json.audit_trail;
@@ -113,7 +143,7 @@ export const climoraApi = {
   ): Promise<GovernanceCheckResult> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/governance-check`, {
       method: 'POST',
-      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      headers: await getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         action,
         actor: actor || currentActorId,
@@ -129,7 +159,7 @@ export const climoraApi = {
    */
   async listProjects(): Promise<ProjectSummary[]> {
     const res = await fetch(`${API_BASE}/projects`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<{ status: string; projects: ProjectSummary[] }>(res);
     return json.projects;
@@ -140,7 +170,7 @@ export const climoraApi = {
    */
   async getProjectDetail(projectId = CANONICAL_PROJECT_ID): Promise<any> {
     const res = await fetch(`${API_BASE}/projects/${projectId}`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<{ status: string; project: any }>(res);
     return json.project;
@@ -164,7 +194,7 @@ export const climoraApi = {
       params.append('h3_cell_id', h3CellId);
     }
     const res = await fetch(`${API_BASE}/projects/${projectId}/allocation?${params.toString()}`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<AllocationResponse>(res);
     return json.data;
@@ -177,7 +207,7 @@ export const climoraApi = {
   async attemptAllocationMutation(projectId = CANONICAL_PROJECT_ID, payload = { quantity: 9999 }): Promise<any> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/allocation`, {
       method: 'PUT',
-      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      headers: await getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(payload),
     });
     return handleResponse(res);
@@ -201,7 +231,7 @@ export const climoraApi = {
       params.append('h3_cell_id', h3CellId);
     }
     const res = await fetch(`${API_BASE}/projects/${projectId}/baseline?${params.toString()}`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<BaselineResponse>(res);
     return json.data;
@@ -213,7 +243,7 @@ export const climoraApi = {
    */
   async getMRV(projectId = CANONICAL_PROJECT_ID): Promise<MRVOverviewResponse['data']> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/mrv`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<MRVOverviewResponse>(res);
     return json.data;
@@ -232,7 +262,7 @@ export const climoraApi = {
   ): Promise<any> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/transition`, {
       method: 'POST',
-      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      headers: await getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         target_state: targetState,
         sanction_id: sanctionId,
@@ -257,7 +287,7 @@ export const climoraApi = {
   ): Promise<any> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/revisions`, {
       method: 'POST',
-      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      headers: await getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         h3_cell_id: h3CellId,
         intervention_code: interventionCode,
@@ -276,7 +306,7 @@ export const climoraApi = {
   async recordImplementationEvent(projectId: string, payload: any): Promise<any> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/implementation-events`, {
       method: 'POST',
-      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      headers: await getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(payload),
     });
     return handleResponse(res);
@@ -288,7 +318,7 @@ export const climoraApi = {
    */
   async getRiskSurface(projectId = CANONICAL_PROJECT_ID): Promise<RiskSurfaceResponse['data']> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/risk-surface`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<RiskSurfaceResponse>(res);
     return json.data;
@@ -300,7 +330,7 @@ export const climoraApi = {
    */
   async getPuneBoundary(projectId = CANONICAL_PROJECT_ID): Promise<any> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/boundary`, {
-      headers: getAuthHeaders(),
+      headers: await getAuthHeaders(),
     });
     const json = await handleResponse<{ status: string; boundary: any }>(res);
     return json.boundary;
@@ -316,7 +346,7 @@ export const climoraApi = {
   ): Promise<ScenarioOptimizeResponse['data']> {
     const res = await fetch(`${API_BASE}/projects/${projectId}/scenarios/optimize`, {
       method: 'POST',
-      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+      headers: await getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ budget_inr: budgetInr }),
     });
     const json = await handleResponse<ScenarioOptimizeResponse>(res);

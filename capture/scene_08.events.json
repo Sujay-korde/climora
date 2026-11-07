@@ -1,0 +1,45 @@
+{
+  "scene": "scene_08",
+  "duration_ms": 21805,
+  "events": [
+    {
+      "time_ms": 112,
+      "name": "navigate_start",
+      "url": "http://127.0.0.1:3000/mrv"
+    },
+    {
+      "time_ms": 3947,
+      "name": "hover_tripartite_header",
+      "status": "Pending Post-Deployment Observation"
+    },
+    {
+      "time_ms": 5155,
+      "name": "scroll_to_did_status"
+    },
+    {
+      "time_ms": 7315,
+      "name": "hover_predicted_card",
+      "quantity": "2,695 trees"
+    },
+    {
+      "time_ms": 9065,
+      "name": "hover_observed_card",
+      "status": "Satellite Scheduled"
+    },
+    {
+      "time_ms": 10915,
+      "name": "hover_verified_card",
+      "status": "NOT_STARTED (Honest Limit)"
+    },
+    {
+      "time_ms": 12432,
+      "name": "scroll_to_detectability_limits"
+    },
+    {
+      "time_ms": 15213,
+      "name": "highlight_mde_limits",
+      "single_cell_mde": "6.91°C",
+      "cluster_threshold": "2 cells"
+    }
+  ]
+}

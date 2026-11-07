@@ -117,6 +117,22 @@ htmlcov/
 .ruff_cache/
 
 # ------------------------------------------------------------------------------
+# 8. Video Production Renders & Heavy Media (Preserved Locally / Distributed via CDN/Drive)
+# ------------------------------------------------------------------------------
+# High-bitrate video renders (> 100MB rejected by GitHub) and local scratch stills
+out/*.mp4
+out/*.png
+capture/*.mp4
+video/public/*.mp4
+video/public/*.wav
+video/build/
+video/node_modules/
+video/.remotion/
+audio/*.wav
+!audio/samples/
+!out/*.srt
+
+# ------------------------------------------------------------------------------
 # 7. IDE, OS, Temporary & Junk Files
 # ------------------------------------------------------------------------------
 .vscode/

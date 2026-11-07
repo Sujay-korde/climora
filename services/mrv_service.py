@@ -31,6 +31,8 @@ from services.exceptions import (
     ValidationError,
     VerificationNotEligibleError,
 )
+from services.evidence_vault import evidence_vault
+from services.persistence import get_persistence_service
 
 logger = get_logger()
 
@@ -69,6 +71,10 @@ class MRVDomainService:
         contractor_id: str = "PMC-FORESTRY-CONTRACTOR",
         completion_date: str = "2026-04-15",
         evidence_uri: str = "s3://climora/evidence/default.pdf",
+        nursery_invoice_ref: Optional[str] = None,
+        nursery_batch_id: Optional[str] = None,
+        tree_guards_installed: Optional[bool] = None,
+        tree_guards_count: Optional[float] = None,
         is_synthetic_demo: bool = False,
         notes: Optional[str] = None,
     ) -> Dict[str, Any]:
@@ -90,12 +96,43 @@ class MRVDomainService:
 
         # 2b. Validation: Evidence URI must use approved storage references (s3://, mock://)
         evidence_uri = str(evidence_uri).strip()
-        if not (evidence_uri.startswith("s3://") or evidence_uri.startswith("mock://")):
+        if not (evidence_uri.startswith("s3://") or evidence_uri.startswith("mock://") or evidence_uri.startswith("climora-evidence://")):
             raise ValidationError(
                 f"Invalid evidence storage reference '{evidence_uri}'. "
-                f"Must use an approved storage reference (s3:// or mock://). Arbitrary HTTP/HTTPS/FILE schemes forbidden to prevent SSRF.",
+                f"Must use an approved storage reference (s3://, climora-evidence://, or mock://). Arbitrary HTTP/HTTPS/FILE schemes forbidden to prevent SSRF.",
                 details={"evidence_uri": evidence_uri},
             )
+
+        # S3 KMS Object Existence and CMK Encryption Validation (Production Blocker 2)
+        if evidence_uri.startswith("s3://"):
+            vault_meta = evidence_vault.validate_evidence_object(evidence_uri)
+            logger.info(f"Verified S3 KMS implementation artifact: {evidence_uri} (CMK: {vault_meta.get('kms_key_id')})")
+
+        # 2c. Ground Nursery & Tree Guard Audit Validation (Pilot Precondition 3)
+        nursery_audit_record = None
+        if intervention_code in {"street_tree_shade", "urban_forest"}:
+            if nursery_invoice_ref:
+                n_ref = str(nursery_invoice_ref).strip()
+                if not (n_ref.startswith("s3://") or n_ref.startswith("mock://") or n_ref.startswith("climora-evidence://")):
+                    raise ValidationError(
+                        f"Invalid nursery invoice reference '{nursery_invoice_ref}'. Must use an approved storage reference.",
+                        details={"nursery_invoice_ref": nursery_invoice_ref},
+                    )
+                if n_ref.startswith("s3://"):
+                    evidence_vault.validate_evidence_object(n_ref)
+                    logger.info(f"Verified S3 KMS nursery invoice: {n_ref}")
+            
+            guards_ok = tree_guards_installed if tree_guards_installed is not None else True
+            guards_num = float(tree_guards_count) if tree_guards_count is not None else (implemented_quantity if guards_ok else 0.0)
+            
+            nursery_audit_record = {
+                "nursery_invoice_ref": nursery_invoice_ref,
+                "nursery_batch_id": nursery_batch_id,
+                "tree_guards_installed": bool(guards_ok),
+                "tree_guards_count": guards_num,
+                "audit_protocol": "PMC-GROUND-NURSERY-GUARD-V1",
+                "audit_status": "AUDITED" if (nursery_invoice_ref or nursery_batch_id or guards_ok) else "PENDING",
+            }
 
         # 3. Retrieve planned quantity from canonical allocation
         planned_quantity = self._get_planned_quantity(h3_str, intervention_code)
@@ -120,6 +157,24 @@ class MRVDomainService:
             self._implementation_events[project_id] = []
         self._implementation_events[project_id].append(event)
 
+        try:
+            get_persistence_service().save_implementation_event({
+                "event_id": event.event_id,
+                "project_id": event.project_id,
+                "h3_cell_id": event.h3_cell_id,
+                "intervention_code": event.intervention_code,
+                "planned_quantity": planned_quantity,
+                "implemented_quantity": float(implemented_quantity),
+                "quantity_unit": quantity_unit,
+                "contractor_id": contractor_id,
+                "completion_date": completion_date,
+                "evidence_uri": evidence_uri,
+                "tree_guards_installed": bool(guards_ok) if 'guards_ok' in locals() else True,
+                "nursery_invoice_ref": nursery_invoice_ref,
+            })
+        except Exception as e:
+            logger.warning(f"Persistence save_implementation_event warning: {e}")
+
         logger.info(
             f"Logged implementation event {event_id} for {project_id}: "
             f"planned={planned_quantity}, implemented={implemented_quantity}, dev={event.deviation}"
@@ -138,6 +193,7 @@ class MRVDomainService:
             "contractor_id": event.contractor_id,
             "completion_date": event.completion_date,
             "evidence_uri": event.evidence_uri,
+            "nursery_audit": nursery_audit_record,
             "is_synthetic_demo": event.is_synthetic_demo,
             "notes": notes,
         }
@@ -303,10 +359,37 @@ class MRVDomainService:
             is_synthetic_demo=False,
         )
 
-        # Check 4: Execute 5 mandatory MRV QC checks
+        # Check 4: Execute mandatory MRV QC checks
         treated_cell_count = len(self._df_alloc["h3_cell_id"].unique())
         raw_count = observation_payload.get("observed_cell_count")
-        observed_cell_count = int(raw_count) if raw_count is not None else treated_cell_count
+        corridor_cells = observation_payload.get("corridor_cells") or verification_payload.get("corridor_cells")
+        if corridor_cells is not None:
+            observed_cell_count = len(corridor_cells)
+        elif raw_count is not None:
+            observed_cell_count = int(raw_count)
+        else:
+            observed_cell_count = treated_cell_count
+
+        # Sensor Noise Floor & Multi-Cell Corridor Aggregation Gate (Pilot Precondition 2)
+        # Landsat thermal infrared sensor noise (sigma ~ 2.45°C, MDE ~ 6.91°C) precludes direct
+        # single-cell satellite detection of microclimatic cooling (~0.07°C).
+        # Third-party verification must strictly bind to multi-cell corridor aggregations (>= 2 cells).
+        if target_metric.lower() in {"lst", "temperature", "thermal"} and observed_cell_count < 2:
+            raise VerificationNotEligibleError(
+                message=(
+                    f"Third-party verification rejected: Observed spatial scale ({observed_cell_count} cell) "
+                    "violates sensor noise floor limits. Landsat thermal infrared sensor noise (MDE ~ 6.91°C at 80% power) "
+                    "precludes direct single-cell detection of microclimatic cooling (~0.07°C). "
+                    "Third-party verification must be bound to multi-cell corridor aggregations (minimum >= 2 contiguous cells)."
+                ),
+                details={
+                    "observed_cell_count": observed_cell_count,
+                    "required_aggregation_minimum": 2,
+                    "sensor_noise_floor_mde_degc": 6.91,
+                    "target_metric": target_metric,
+                    "governance_rule": "CORRIDOR_AGGREGATION_BINDING",
+                },
+            )
 
         qc_result = MRVQualityControlEngine.audit_observation(
             observation=obs_event,
@@ -353,6 +436,10 @@ class MRVDomainService:
                 details={"evidence_artifact_uri": artifact_uri},
             )
 
+        if artifact_uri.startswith("s3://"):
+            vault_meta = evidence_vault.validate_evidence_object(artifact_uri)
+            logger.info(f"Verified S3 KMS verification report: {artifact_uri} (CMK: {vault_meta.get('kms_key_id')})")
+
         verif_id = verification_payload.get("verification_id") or f"VERIF-{uuid.uuid4().hex[:8].upper()}"
         verif_event = VerificationEvent(
             verification_id=verif_id,
@@ -374,6 +461,20 @@ class MRVDomainService:
         if project_id not in self._verification_events:
             self._verification_events[project_id] = []
         self._verification_events[project_id].append(verif_event)
+
+        try:
+            get_persistence_service().save_verification_event({
+                "verification_id": verif_event.verification_id,
+                "project_id": verif_event.project_id,
+                "verification_status": verif_event.verification_status,
+                "verifier_identity": verif_event.verifier_identity,
+                "methodology_standard": verif_event.methodology_standard,
+                "evidence_artifact_uri": verif_event.evidence_artifact_uri,
+                "findings_summary": verif_event.findings_summary,
+                "verification_date": verif_event.verification_date,
+            })
+        except Exception as e:
+            logger.warning(f"Persistence save_verification_event warning: {e}")
 
         # Check 6: State machine transition check
         can_trans, reason = ProjectStateMachine.can_transition(
@@ -408,5 +509,10 @@ class MRVDomainService:
                 "violations_count": 0,
             },
             "observation_id": obs_event.observation_id,
+            "corridor_cell_count": len(corridor_cells) if corridor_cells else observed_cell_count,
+            "aggregation_status": "CORRIDOR_AGGREGATED_VALID" if observed_cell_count >= 2 else "UNAGGREGATED",
             "truth_layer": "VERIFIED",
         }
+
+    # Alias for API and test consistency
+    record_verification_event = process_verification_request

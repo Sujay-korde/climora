@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-11-07T15:58:47.190Z",
+  "pages": {
+    "overview": {
+      "load_time_s": 9.237,
+      "url": "http://127.0.0.1:3000/",
+      "title": "CLIMORA — Municipal Climate Decision Instrument | Pune",
+      "has_hero": true,
+      "metric_baseline": "46.36°C",
+      "metric_cells": "28 H3 cells",
+      "metric_trees": "2,695 trees",
+      "metric_cost": "₹9.99M"
+    },
+    "explore": {
+      "load_time_s": 1.224,
+      "url": "http://127.0.0.1:3000/explore/pune",
+      "buttons": [
+        "—",
+        "₹2.5M",
+        "₹5.0M",
+        "₹7.5M",
+        "₹10.0M",
+        "Run",
+        "Alt+T: Table"
+      ],
+      "text_sample": "Skip to main content\nCLIMORA\nOverview\nExplore\nProjects\nOptimizer\nInterventions\nMRV & Impact\nMethodology\nPune · H3 Res-9\n+\n−\nThermal (LST 2025)\n°C\n≤40°C\n46°C\n≥52°C\nDECISION INTELLIGENCE\nScenario Optimization\n—\nSelect Scenario Budget (INR)\n₹2.5M\n₹5.0M\n₹7.5M\n₹10.0M\nRun\nSimulation only. Does not modify canonical municipal project or allocation truth.\nACTIVE METRIC\nAlt+T: Table\nThermal (LST 2025)\nExpos"
+    },
+    "optimizer": {
+      "load_time_s": 0.604,
+      "url": "http://127.0.0.1:3000/optimizer",
+      "buttons": [
+        "₹5 Lakh (Pilot)\nHyper-local microclimate test\n₹5.0L",
+        "₹25 Lakh\nWard-level priority corridors\n₹25.0L",
+        "₹50 Lakh\nMulti-corridor canopy deployment\n₹50.0L",
+        "₹75 Lakh\nZonal heat mitigation network\n₹75.0L",
+        "₹1 Crore (Benchmark)\nCanonical municipal investment\n₹100.0L",
+        "Execute HiGHS Optimization →",
+        "Trees-Only (Street Canopy)",
+        "Full 5-Catalog Mix",
+        "Generate Bankable Project Brief 📄"
+      ],
+      "text_sample": "Skip to main content\nCLIMORA\nOverview\nExplore\nProjects\nOptimizer\nInterventions\nMRV & Impact\nMethodology\nPune · H3 Res-9\nOPERATIONS RESEARCH ENGINE · HIGHS MILP FORMULATION F-24.6\nModeled\nExact Integer Branch-and-Cut\nSpatial Portfolio Optimizer\n\nCLIMORA mathematically constructs optimal climate adaptation portfolios under municipal budget constraints. Unlike heuristic scorecards, the engine solves a Mixed-Integer Linear Program (MILP) maximizing cumulative risk reduction subject to discrete physi"
+    },
+    "project": {
+      "load_time_s": 0.521,
+      "url": "http://127.0.0.1:3000/projects/PROJ-PUNE-2025-BA225D6A",
+      "buttons": [],
+      "text_sample": "{\"project\":{\"allocation_summary\":{\"allocations_table\":[{\"cells_count\":28,\"direct_cost\":9432500.0,\"intervention_type\":\"street_tree_shade\",\"mobilization_cost\":560000.0,\"modeled_cooling_sum\":1.9249999615,\"modeled_risk_reduction_sum\":0.10604830270054796,\"quantity\":2695.0,\"total_cost\":9992500.0}],\"quantity_unit\":\"tree_count\",\"total_physical_units\":2695.0,\"truth_layer\":\"MODELED\"},\"baseline_reference\":{\"baseline_mean_climate_risk\":{\"truth_layer\":\"MODELED\",\"unit\":\"composite_risk_score\",\"value\":0.2345},\""
+    },
+    "mrv": {
+      "load_time_s": 0.58,
+      "url": "http://127.0.0.1:3000/mrv",
+      "buttons": [],
+      "text_sample": "Skip to main content\nCLIMORA\nOverview\nExplore\nProjects\nOptimizer\nInterventions\nMRV & Impact\nMethodology\nPune · H3 Res-9\nEMPIRICAL EVIDENCE & AUDIT FRAMEWORK\nNot yet verified\nPending Post-Deployment Observation\nMRV, Empirical Impact & Verification Architecture\n\nCLIMORA enforces a strict tripartite separation across PREDICTED, OBSERVED, and VERIFIED states. Model predictions are never conflated with observed real-world outcomes, and unverified projects never receive deceptive green certification b"
+    }
+  },
+  "console_errors": []
+}

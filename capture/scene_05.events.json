@@ -1,0 +1,31 @@
+{
+  "scene": "scene_05",
+  "duration_ms": 22826,
+  "events": [
+    {
+      "time_ms": 181,
+      "name": "navigate_start",
+      "url": "http://127.0.0.1:3000/explore/pune"
+    },
+    {
+      "time_ms": 4075,
+      "name": "map_initialized"
+    },
+    {
+      "time_ms": 6135,
+      "name": "hover_thermal_legend"
+    },
+    {
+      "time_ms": 10401,
+      "name": "click_priority_cell",
+      "target_cell": "89608850003ffff"
+    },
+    {
+      "time_ms": 14768,
+      "name": "inspect_cell_metrics",
+      "lst_degc": 47.06,
+      "population": 4757,
+      "planned_trees": 76
+    }
+  ]
+}
