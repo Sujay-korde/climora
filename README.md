@@ -2,11 +2,11 @@
 ### Planetary Earth Observation · Operations Research (HiGHS MILP) · Cryptographic Governance (Cedar)
 **Novex 2026 Climate Tech Competition & Municipal Innovation Benchmark**
 
-[![Status: Production Ready](https://img.shields.io/badge/Status-Production%20Ready-emerald.svg)]()
-[![Optimization: HiGHS MILP](https://img.shields.io/badge/Solver-HiGHS%20MILP%20%3C200ms-blue.svg)]()
-[![Policy Engine: Open-Source Cedar](https://img.shields.io/badge/Governance-Cedar%20Policy%20v4.12-purple.svg)]()
-[![Discretization: Uber H3 Res-9](https://img.shields.io/badge/Mesh-3%2C181%20H3%20Hexagons-orange.svg)]()
-[![UI: React + Vite + Deck.gl](https://img.shields.io/badge/Stack-React%20%2B%20Deck.gl%20%2B%20Tailwind-cyan.svg)]()
+[![Status: Production Ready](https://img.shields.io/badge/Status-Production%20Ready-emerald.svg)](#)
+[![Optimization: HiGHS MILP](https://img.shields.io/badge/Solver-HiGHS%20MILP%20%3C200ms-blue.svg)](#)
+[![Policy Engine: Open-Source Cedar](https://img.shields.io/badge/Governance-Cedar%20Policy%20v4.12-purple.svg)](#)
+[![Discretization: Uber H3 Res-9](https://img.shields.io/badge/Mesh-3%2C181%20H3%20Hexagons-orange.svg)](#)
+[![UI: React + Vite + Deck.gl](https://img.shields.io/badge/Stack-React%20%2B%20Deck.gl%20%2B%20Tailwind-cyan.svg)](#)
 
 ---
 
@@ -37,15 +37,22 @@ Yet, while Earth Observation (EO) constellations capture petabytes of multi-spec
 
 ## 2. The 6-Stage Closed-Loop Architecture
 
+![CLIMORA 6-Stage System Architecture](docs/assets/climora_system_architecture.jpg)
+
+<details open>
+<summary><b>Click to expand Interactive Architecture Pipeline (Mermaid)</b></summary>
+
 ```mermaid
 flowchart LR
-    A["🛰️ 01. Ingestion\nLandsat 8/9 · Sentinel-2\nWorldPop · Copernicus DEM"] --> B["⬡ 02. Spatial Mesh\n3,181 H3 Res-9 Cells\nZero Gerrymandering"]
-    B --> C["🌡️ 03. IPCC AR6 Risk\nRisk = H × E × V\nZero-Exposure Axiom"]
-    C --> D["⚡ 04. HiGHS MILP\nDiscrete Optimization\n₹1 Cr Cap → 28 Cells"]
-    D --> E["🛡️ 05. Cedar Governance\n5 Institutional Roles\nSHA-256 Audit Locking"]
-    E --> F["📊 06. Tripartite MRV\nPredicted · Observed · Verified\nHonest DiD Noise Floor"]
-    F -.->|"Feedback Loop"| A
+    A["Stage 1: Multi-Spectral Ingestion<br/>Landsat 8/9, Sentinel-2<br/>WorldPop, Copernicus DEM"] --> B["Stage 2: Spatial Mesh<br/>3,181 H3 Res-9 Cells<br/>Zero Gerrymandering"]
+    B --> C["Stage 3: IPCC AR6 Risk<br/>Risk = Hazard x Exposure x Vulnerability<br/>Zero-Exposure Axiom"]
+    C --> D["Stage 4: Operations Research<br/>HiGHS MILP Discrete Optimization<br/>INR 1 Cr Cap to 28 Priority Cells"]
+    D --> E["Stage 5: Cryptographic Governance<br/>Cedar Policy Engine v4.12<br/>SHA-256 Audit Seal"]
+    E --> F["Stage 6: Tripartite MRV<br/>Predicted vs Observed vs Verified<br/>Honest DiD Noise Floor"]
+    F -.->|Continuous Calibration Feedback| A
 ```
+
+</details>
 
 ### Stage 1: Planetary Multi-Spectral Ingestion
 - **Thermal Baseline:** 5-year pre-monsoon peak summer Landsat 8/9 Level-2 Collection-2 Thermal Infrared sensors (`ST_B10`, 30m resolution).
@@ -93,15 +100,19 @@ Climora enforces rigorous tripartite state separation:
 
 ## 3. Interactive Web Application
 
-The live platform provides four fully functional modules:
+**Live Production Deployment:** [https://main.dipd0dx7w10zl.amplifyapp.com](https://main.dipd0dx7w10zl.amplifyapp.com)
+
+The live platform provides seven fully functional modules:
 
 | Route | View | Description |
 | :--- | :--- | :--- |
 | **`/`** | Overview | Citywide macro KPIs (3,181 cells, 5.01M pop, 46.36°C peak LST, 4-tier risk split). |
 | **`/explore/pune`** | Geospatial Explorer | Deck.gl 3D hex layer, multi-layer toggles (LST, NDVI, Pop, Risk), and Cell Inspector (e.g. priority cell `89608850003ffff`). |
-| **`/optimizer`** | Portfolio Optimizer | Interactive budget presets (₹1 Cr, ₹2.5 Cr, ₹5 Cr, ₹10 Cr), Pareto exposure frontier, and HiGHS MILP solve trigger. |
 | **`/projects`** | Cedar Governance | Tender brief compiler, 5-actor role switcher, and SHA-256 state transition modal. |
+| **`/optimizer`** | Portfolio Optimizer | Interactive budget presets (₹1 Cr, ₹2.5 Cr, ₹5 Cr, ₹10 Cr), Pareto exposure frontier, and HiGHS MILP solve trigger. |
+| **`/interventions`** | Interventions Catalog | Physical cooling interventions, unit capex/opex benchmarks, and urban typology suitability. |
 | **`/mrv`** | Impact Verification | Tripartite status cards, DiD regression charts, and MDE noise floor disclosures. |
+| **`/methodology`** | Scientific Methodology | Mathematical formulations, satellite processing pipeline, and algorithmic proofs. |
 
 ---
 
