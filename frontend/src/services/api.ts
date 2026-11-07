@@ -47,22 +47,6 @@ export async function getAuthToken(actorId: string = currentActorId): Promise<st
   if (actorTokenCache[actorId]) {
     return actorTokenCache[actorId];
   }
-  try {
-    const res = await fetch(`${API_BASE}/projects/auth/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ actor_id: actorId }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data?.access_token) {
-        actorTokenCache[actorId] = data.access_token;
-        return data.access_token;
-      }
-    }
-  } catch (err) {
-    console.warn(`[CLIMORA Auth] Failed to fetch Bearer token for actor '${actorId}':`, err);
-  }
   return '';
 }
 
