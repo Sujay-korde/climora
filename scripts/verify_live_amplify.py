@@ -20,3 +20,4 @@ if js_match:
         print("  Contains 'Methodology':", "Methodology" in js_code)
 else:
     print("No JS bundle match found in HTML!")
+

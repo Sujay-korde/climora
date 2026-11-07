@@ -91,3 +91,4 @@ if current_status == "SUCCEED":
     print(f"Live URL: https://{BRANCH_NAME}.{APP_ID}.amplifyapp.com")
 else:
     print(f"\nDeployment finished with status: {current_status}")
+

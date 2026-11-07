@@ -17,7 +17,16 @@ import {
   ScenarioOptimizeResponse,
 } from '../types/api';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+const RAW_API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
+// Production resolution: If on Amplify or relative path used, target canonical ECS Fargate endpoint
+export const API_BASE = (
+  RAW_API_BASE && !RAW_API_BASE.startsWith('/')
+    ? RAW_API_BASE
+    : (typeof window !== 'undefined' && window.location.hostname.includes('amplifyapp.com'))
+      ? 'https://cl-c5ee1706dbd84bc3b8a4bb176ff0afba.ecs.ap-south-1.on.aws'
+      : (RAW_API_BASE || '')
+);
 
 export const CANONICAL_PROJECT_ID = 'PROJ-PUNE-2025-BA225D6A';
 
@@ -92,18 +101,45 @@ export class ApiError extends Error {
 }
 
 async function handleResponse<T>(res: Response): Promise<T> {
+  const contentType = res.headers.get('content-type') || '';
   if (!res.ok) {
     let errBody: any = {};
-    try {
-      errBody = await res.json();
-    } catch {
-      // Body not JSON
+    if (contentType.includes('application/json')) {
+      try {
+        errBody = await res.json();
+      } catch {
+        // Body not JSON
+      }
     }
     const code = errBody?.error?.code || `HTTP_${res.status}`;
     const message = errBody?.error?.message || errBody?.reason || res.statusText || 'An error occurred while fetching data.';
     const details = errBody?.error?.details || errBody || {};
     throw new ApiError(res.status, code, message, details);
   }
+
+  // Guard against HTML returned on HTTP 200 (e.g. Amplify SPA rewrite falling back to index.html)
+  if (!contentType.includes('application/json')) {
+    const rawText = await res.text();
+    if (rawText.trim().startsWith('<')) {
+      throw new ApiError(
+        res.status,
+        'INVALID_RESPONSE_FORMAT',
+        'Backend returned HTML instead of expected JSON payload. Ensure ECS API gateway is reached.',
+        { preview: rawText.slice(0, 150) }
+      );
+    }
+    try {
+      return JSON.parse(rawText);
+    } catch {
+      throw new ApiError(
+        res.status,
+        'JSON_PARSE_ERROR',
+        'Failed to parse backend response as JSON.',
+        { preview: rawText.slice(0, 150) }
+      );
+    }
+  }
+
   return res.json();
 }
 
